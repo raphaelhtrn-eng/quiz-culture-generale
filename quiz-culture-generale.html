@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Culture Générale</title>
+<style>
+:root {
+  --cream: #FFF8F0;
+  --cream2: #F0E6D3;
+  --border: #E0D0BC;
+  --text: #2C2C2C;
+  --muted: #888;
+  --white: #FFFFFF;
+  --shadow: rgba(0,0,0,0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; line-height: 1.5; }
+
+/* NAV */
+nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 8px var(--shadow); }
+.logo { font-size: 1.25rem; font-weight: 800; margin-right: 2rem; padding: 1rem 0; }
+.nav-btn { padding: 1.1rem 1.2rem; border: none; background: none; cursor: pointer; font-size: 0.95rem; color: var(--muted); border-bottom: 3px solid transparent; transition: all .2s; margin-bottom: -1px; font-weight: 500; }
+.nav-btn.active { color: var(--text); font-weight: 700; border-bottom-color: var(--text); }
+
+/* LAYOUT */
+#app { padding: 2rem; max-width: 1000px; margin: 0 auto; }
+.hidden { display: none !important; }
+
+/* THEMES */
+.page-title { font-size: 1.7rem; font-weight: 800; margin-bottom: .4rem; }
+.page-sub { color: var(--muted); margin-bottom: 1.5rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 1rem; }
+.theme-card { border: none; border-radius: 18px; padding: 1.8rem 1rem; cursor: pointer; font-size: 1rem; font-weight: 700; color: white; display: flex; flex-direction: column; align-items: center; gap: .6rem; transition: transform .18s, box-shadow .18s; box-shadow: 0 4px 15px rgba(0,0,0,.12); text-shadow: 0 1px 3px rgba(0,0,0,.2); }
+.theme-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,.2); }
+.theme-card .icon { font-size: 2rem; }
+
+/* PANEL (setup) */
+.panel { max-width: 480px; margin: 2rem auto; background: var(--white); border-radius: 20px; padding: 2rem; box-shadow: 0 4px 24px var(--shadow); }
+.panel-title { font-size: 1.4rem; font-weight: 800; text-align: center; margin-bottom: .3rem; }
+.panel-sub { color: var(--muted); text-align: center; margin-bottom: 1.8rem; font-size: .9rem; }
+.form-group { margin-bottom: 1.4rem; }
+.form-label { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: .6rem; display: block; }
+.toggle-row { display: flex; gap: .5rem; }
+.toggle-btn { flex: 1; padding: .7rem .5rem; border: 2px solid var(--border); border-radius: 10px; background: var(--white); cursor: pointer; font-size: .88rem; transition: all .15s; font-weight: 500; }
+.toggle-btn.active { background: var(--text); border-color: var(--text); color: white; font-weight: 700; }
+.btn-primary { width: 100%; padding: .9rem; background: var(--text); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background .15s; }
+.btn-primary:hover { background: #444; }
+.btn-back { width: 100%; padding: .7rem; background: none; border: 2px solid var(--border); border-radius: 12px; font-size: .95rem; cursor: pointer; margin-top: .5rem; transition: border-color .15s; font-weight: 500; }
+.btn-back:hover { border-color: #999; }
+
+/* QUIZ */
+.quiz-wrap { max-width: 650px; margin: 0 auto; }
+.quiz-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+.q-label { font-size: .85rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.prog-track { flex: 1; background: var(--cream2); height: 7px; border-radius: 99px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 99px; background: var(--text); transition: width .3s ease; }
+.timer-circle { width: 42px; height: 42px; border-radius: 50%; background: var(--cream2); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; flex-shrink: 0; transition: background .3s; }
+.timer-circle.warn { background: #FFF3CD; color: #856404; }
+.timer-circle.danger { background: #FDEDEC; color: #C0392B; }
+.question-card { background: var(--white); border-radius: 20px; padding: 2rem; box-shadow: 0 3px 20px var(--shadow); }
+.q-num { font-size: .8rem; color: var(--muted); font-weight: 600; margin-bottom: .5rem; }
+.q-text { font-size: 1.2rem; font-weight: 700; margin-bottom: .4rem; line-height: 1.4; }
+.q-hint { font-size: .82rem; color: var(--muted); margin-bottom: 1.3rem; font-style: italic; }
+.options { display: flex; flex-direction: column; gap: .6rem; }
+.option { display: flex; align-items: center; gap: .75rem; padding: .85rem 1.1rem; border: 2px solid var(--border); border-radius: 12px; cursor: pointer; transition: all .15s; user-select: none; }
+.option:hover:not(.locked) { border-color: #bbb; background: var(--cream); }
+.option.chosen:not(.locked) { border-color: var(--text); background: #f5f5f5; }
+.option.correct { border-color: #27AE60; background: #EAFAF1; }
+.option.wrong { border-color: #E74C3C; background: #FDEDEC; }
+.option.missed { border-color: #E67E22; background: #FEF9E7; }
+.option.locked { cursor: default; }
+.opt-box { width: 24px; height: 24px; border: 2px solid #CCC; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; transition: all .15s; }
+.option.chosen .opt-box { background: var(--text); border-color: var(--text); color: white; }
+.option.correct .opt-box { background: #27AE60; border-color: #27AE60; color: white; }
+.option.wrong .opt-box { background: #E74C3C; border-color: #E74C3C; color: white; }
+.option.missed .opt-box { background: #E67E22; border-color: #E67E22; color: white; }
+.opt-text { font-size: .95rem; }
+.validate-btn { margin-top: 1.2rem; }
+
+/* RESULTS */
+.res-wrap { max-width: 650px; margin: 0 auto; }
+.score-hero { background: var(--white); border-radius: 20px; padding: 2.5rem; text-align: center; box-shadow: 0 3px 20px var(--shadow); margin-bottom: 1.5rem; }
+.score-big { font-size: 5rem; font-weight: 900; line-height: 1; }
+.score-sub { color: var(--muted); font-size: 1rem; margin-top: .3rem; }
+.score-msg { font-size: 1.1rem; font-weight: 600; margin-top: 1rem; }
+.recap-title { font-size: 1.05rem; font-weight: 700; margin: 1.5rem 0 .75rem; }
+.recap-item { background: var(--white); border-radius: 14px; padding: 1.1rem 1.3rem; margin-bottom: .7rem; box-shadow: 0 2px 8px var(--shadow); border-left: 4px solid; }
+.recap-item.ko { border-left-color: #E74C3C; }
+.recap-q { font-weight: 600; margin-bottom: .35rem; font-size: .95rem; }
+.recap-user { font-size: .83rem; color: var(--muted); }
+.recap-ok { font-size: .83rem; color: #27AE60; font-weight: 600; margin-top: .2rem; }
+.btn-row { display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+.btn-row .btn-primary { width: auto; padding: .75rem 1.5rem; }
+.btn-row .btn-back { width: auto; padding: .75rem 1.5rem; }
+
+/* PROFILE */
+.prof-wrap { max-width: 700px; margin: 0 auto; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.stat-card { background: var(--white); border-radius: 16px; padding: 1.4rem; box-shadow: 0 2px 10px var(--shadow); }
+.stat-val { font-size: 2.2rem; font-weight: 900; line-height: 1; }
+.stat-val.sm { font-size: 1.1rem; padding-top: .4rem; }
+.stat-lbl { color: var(--muted); font-size: .82rem; margin-top: .3rem; }
+.radar-card { background: var(--white); border-radius: 16px; padding: 1.5rem; box-shadow: 0 2px 10px var(--shadow); text-align: center; }
+.radar-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+canvas { display: block; margin: 0 auto; max-width: 100%; }
+.no-data { color: var(--muted); font-style: italic; padding: 2rem; }
+
+@media(max-width:580px){
+  #app { padding: 1rem; }
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .score-big { font-size: 3.5rem; }
+  nav { padding: 0 1rem; }
+  .toggle-row { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">🎓 Culture Générale</span>
+  <button class="nav-btn active" id="nav-home" onclick="showPage('home')">Accueil</button>
+  <button class="nav-btn" id="nav-profile" onclick="showPage('profile')">Mon Profil</button>
+</nav>
+
+<div id="app">
+
+  <!-- ========== HOME PAGE ========== -->
+  <div id="page-home">
+
+    <!-- THEMES VIEW -->
+    <div id="view-themes">
+      <h1 class="page-title">Quiz Culture Générale</h1>
+      <p class="page-sub">Choisissez une thématique pour commencer</p>
+      <div class="grid" id="themes-grid"></div>
+    </div>
+
+    <!-- SETUP VIEW -->
+    <div id="view-setup" class="hidden">
+      <div class="panel">
+        <div class="panel-title" id="setup-name"></div>
+        <div class="panel-sub">Configurez votre partie</div>
+        <div class="form-group">
+          <label class="form-label">Difficulté</label>
+          <div class="toggle-row" id="diff-row">
+            <button class="toggle-btn active" onclick="selectDiff('Facile',this)">Facile</button>
+            <button class="toggle-btn" onclick="selectDiff('Moyen',this)">Moyen</button>
+            <button class="toggle-btn" onclick="selectDiff('Difficile',this)">Difficile</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Chronomètre (15 s / question)</label>
+          <div class="toggle-row" id="timer-row">
+            <button class="toggle-btn active" onclick="selectTimer(false,this)">Sans timer</button>
+            <button class="toggle-btn" onclick="selectTimer(true,this)">Avec timer ⏱</button>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="startQuiz()">▶ Démarrer</button>
+        <button class="btn-back" onclick="showView('themes')">← Retour</button>
+      </div>
+    </div>
+
+    <!-- QUIZ VIEW -->
+    <div id="view-quiz" class="hidden">
+      <div class="quiz-wrap">
+        <div class="quiz-header">
+          <span class="q-label" id="q-counter">Q 1/10</span>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <div class="timer-circle hidden" id="timer-el">15</div>
+        </div>
+        <div class="question-card" id="question-card"></div>
+      </div>
+    </div>
+
+    <!-- RESULTS VIEW -->
+    <div id="view-results" class="hidden">
+      <div class="res-wrap" id="results-content"></div>
+    </div>
+
+  </div>
+
+  <!-- ========== PROFILE PAGE ========== -->
+  <div id="page-profile" class="hidden">
+    <div class="prof-wrap">
+      <h2 class="page-title" style="margin-bottom:1.5rem">Mon Profil</h2>
+      <div class="stats-grid" id="stats-grid"></div>
+      <div class="radar-card">
+        <h3>Performance par thématique</h3>
+        <canvas id="radar-canvas" width="520" height="520"></canvas>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// QUESTIONS — 10 thèmes × 3 niveaux × 20 questions = 600
+// q: question, o: options (4), c: indices correctes (array)
+// ============================================================
+const QUESTIONS = {
+
+"Histoire": {
+"Facile": [
+{q:"En quelle année a eu lieu la Révolution française ?",o:["1789","1799","1776","1815"],c:[0]},
+{q:"Qui était le premier président des États-Unis ?",o:["George Washington","Abraham Lincoln","Thomas Jefferson","Benjamin Franklin"],c:[0]},
+{q:"Quelle guerre s'est terminée en 1945 ?",o:["La Seconde Guerre mondiale","La Première Guerre mondiale","La Guerre de Corée","La Guerre du Vietnam"],c:[0]},
+{q:"Qui a construit les pyramides de Gizeh ?",o:["Les Égyptiens de l'Antiquité","Les Romains","Les Grecs","Les Perses"],c:[0]},
+{q:"En quelle année le mur de Berlin est-il tombé ?",o:["1989","1991","1985","1979"],c:[0]},
+{q:"Qui dirigeait l'Allemagne nazie ?",o:["Adolf Hitler","Heinrich Himmler","Joseph Goebbels","Hermann Göring"],c:[0]},
+{q:"Quelle bataille Napoléon a-t-il perdue en 1815 ?",o:["Waterloo","Trafalgar","Leipzig","Borodino"],c:[0]},
+{q:"En quelle année a été signé l'armistice de la Première Guerre mondiale ?",o:["1918","1914","1916","1920"],c:[0]},
+{q:"En quelle année Christophe Colomb a-t-il découvert l'Amérique ?",o:["1492","1482","1502","1512"],c:[0]},
+{q:"Quel pharaon est associé au masque funéraire en or le plus célèbre ?",o:["Toutânkhamon","Ramsès II","Akhenaton","Thoutmosis III"],c:[0]},
+{q:"Quelle était la capitale de l'Empire romain ?",o:["Rome","Carthage","Athènes","Alexandrie"],c:[0]},
+{q:"En quelle année Louis XVI a-t-il été guillotiné ?",o:["1793","1789","1791","1795"],c:[0]},
+{q:"Quel événement a directement déclenché la Première Guerre mondiale ?",o:["L'assassinat de l'archiduc François-Ferdinand","L'invasion de la Belgique","La mobilisation de la Russie","La déclaration de guerre austro-hongroise"],c:[0]},
+{q:"Jeanne d'Arc était originaire de quelle localité ?",o:["Domrémy","Orléans","Reims","Rouen"],c:[0]},
+{q:"Quel pays a utilisé la première bombe atomique sur une ville ?",o:["Les États-Unis","L'URSS","Le Royaume-Uni","L'Allemagne"],c:[0]},
+{q:"En quelle année a eu lieu le Débarquement allié en Normandie ?",o:["1944","1943","1945","1942"],c:[0]},
+{q:"Quel général a fondé la Ve République française ?",o:["Charles de Gaulle","Philippe Pétain","Georges Clemenceau","Ferdinand Foch"],c:[0]},
+{q:"Quel empire a construit le Colisée de Rome ?",o:["L'Empire romain","L'Empire grec","L'Empire byzantin","L'Empire perse"],c:[0]},
+{q:"En quelle date a eu lieu la prise de la Bastille ?",o:["14 juillet 1789","4 août 1789","14 juillet 1790","14 juillet 1788"],c:[0]},
+{q:"Lesquelles de ces affirmations sur Napoléon Bonaparte sont vraies ?",o:["Il est né en Corse","Il a perdu la bataille de Waterloo","Il est mort en exil à Sainte-Hélène","Il a été roi de France"],c:[0,1,2]},
+],
+"Moyen": [
+{q:"Quel traité a officiellement mis fin à la Première Guerre mondiale ?",o:["Le traité de Versailles","Le traité de Paris","Le traité de Vienne","Le traité de Berlin"],c:[0]},
+{q:"En quelle année a eu lieu la Commune de Paris ?",o:["1871","1848","1789","1830"],c:[0]},
+{q:"Qui était Vercingétorix ?",o:["Un chef gaulois qui combattit Jules César","Un général romain victorieux","Un roi des Wisigoths","Un chef breton"],c:[0]},
+{q:"Quelle civilisation précolombienne a construit le Machu Picchu ?",o:["Les Incas","Les Mayas","Les Aztèques","Les Olmèques"],c:[0]},
+{q:"En quelle année Jeanne d'Arc a-t-elle été brûlée vive à Rouen ?",o:["1431","1429","1415","1453"],c:[0]},
+{q:"Qui était Spartacus ?",o:["Un esclave thrace qui mena une grande révolte contre Rome","Un général romain célèbre","Un philosophe stoïcien","Un roi de Macédoine"],c:[0]},
+{q:"En quelle année la France a-t-elle aboli la peine de mort ?",o:["1981","1968","1974","1995"],c:[0]},
+{q:"Quelle était la capitale de l'Empire ottoman ?",o:["Constantinople (Istanbul)","Ankara","Bagdad","Le Caire"],c:[0]},
+{q:"Qui a fondé l'Empire carolingien et a été couronné empereur en 800 ?",o:["Charlemagne","Charles Martel","Pépin le Bref","Clovis"],c:[0]},
+{q:"En quelle année a eu lieu la bataille d'Azincourt (victoire anglaise) ?",o:["1415","1431","1453","1337"],c:[0]},
+{q:"Quel roi de France était surnommé « le Roi-Soleil » ?",o:["Louis XIV","Louis XV","Louis XIII","François Ier"],c:[0]},
+{q:"En quelle année la Tour Eiffel a-t-elle été inaugurée ?",o:["1889","1900","1875","1885"],c:[0]},
+{q:"En quelle année a eu lieu la Révolution bolchevique en Russie ?",o:["1917","1905","1921","1914"],c:[0]},
+{q:"Qui était l'amiral britannique qui a vaincu la flotte de Napoléon à Trafalgar ?",o:["Lord Nelson","Wellington","Cornwallis","Hood"],c:[0]},
+{q:"En quelle année l'esclavage a-t-il été définitivement aboli en France ?",o:["1848","1794","1789","1870"],c:[0]},
+{q:"Quel empire était dirigé par Gengis Khan au XIIIe siècle ?",o:["L'Empire mongol","L'Empire chinois","L'Empire turc","L'Empire tatar"],c:[0]},
+{q:"En quelle année a eu lieu la Nuit de Cristal en Allemagne nazie ?",o:["1938","1933","1935","1942"],c:[0]},
+{q:"Qui dirigeait le gouvernement de Vichy pendant la Seconde Guerre mondiale ?",o:["Philippe Pétain","Pierre Laval","Charles de Gaulle","Édouard Daladier"],c:[0]},
+{q:"En quelle année a été signé le traité de Westphalie, mettant fin à la guerre de Trente Ans ?",o:["1648","1618","1683","1713"],c:[0]},
+{q:"Lesquels de ces personnages ont participé à la Révolution française ?",o:["Robespierre","Danton","Marat","Wellington"],c:[0,1,2]},
+],
+"Difficile": [
+{q:"Quel pharaon a tenté d'imposer un monothéisme solaire en Égypte ?",o:["Akhenaton","Toutânkhamon","Ramsès II","Thoutmosis III"],c:[0]},
+{q:"En quelle année s'est tenue la Diète de Worms où Luther fut mis au ban de l'Empire ?",o:["1521","1517","1555","1618"],c:[0]},
+{q:"Qui était Oliver Cromwell ?",o:["Un chef parlementaire devenu Lord Protecteur d'Angleterre","Un roi d'Angleterre","Un général de la guerre de Cent Ans","Un amiral de la Navy"],c:[0]},
+{q:"En quelle année la Russie a-t-elle vendu l'Alaska aux États-Unis ?",o:["1867","1848","1889","1903"],c:[0]},
+{q:"Qui a assassiné Jean Jaurès en juillet 1914 ?",o:["Raoul Villain","Gavrilo Princip","Léon Blum","Charles Maurras"],c:[0]},
+{q:"En quelle année Constantin Ier a-t-il fondé Constantinople ?",o:["330 ap. J.-C.","286 ap. J.-C.","395 ap. J.-C.","476 ap. J.-C."],c:[0]},
+{q:"Quel sultan ottoman a conquis Constantinople en 1453 ?",o:["Mehmed II","Soliman le Magnifique","Murad II","Bajazet Ier"],c:[0]},
+{q:"Quel roi de France a ordonné le massacre de la Saint-Barthélemy en 1572 ?",o:["Charles IX","Henri III","Henri IV","François II"],c:[0]},
+{q:"En quelle année a été adopté le Code civil français dit « Code Napoléon » ?",o:["1804","1800","1807","1810"],c:[0]},
+{q:"Quelle était la fonction de Klemens von Metternich au Congrès de Vienne ?",o:["Chancelier autrichien, architecte de l'ordre européen","Représentant de la Prusse","Délégué de la France","Ambassadeur de Russie"],c:[0]},
+{q:"En quelle année a eu lieu la révolution des Œillets au Portugal ?",o:["1974","1968","1976","1970"],c:[0]},
+{q:"Quelle bataille a mis fin à la guerre de Cent Ans en 1453 ?",o:["La bataille de Castillon","La bataille d'Azincourt","La bataille de Crécy","La bataille de Poitiers"],c:[0]},
+{q:"Qui était Tamerlan (Timur) ?",o:["Un conquérant turco-mongol du XIVe-XVe siècle","Un roi perse","Un chef ottoman","Un souverain indien"],c:[0]},
+{q:"En quelle année a eu lieu la bataille de Marathon entre Grecs et Perses ?",o:["490 av. J.-C.","480 av. J.-C.","431 av. J.-C.","338 av. J.-C."],c:[0]},
+{q:"Qui était Maximilien Robespierre ?",o:["Un révolutionnaire jacobin renversé lors du 9 Thermidor","Un général de Napoléon","Un député royaliste","Un ministre de Louis XVI"],c:[0]},
+{q:"En quelle année a eu lieu la Semaine sanglante réprimant la Commune de Paris ?",o:["1871","1870","1848","1872"],c:[0]},
+{q:"Quel est le nom du cardinal qui fut le principal ministre de Louis XIII ?",o:["Richelieu","Mazarin","Colbert","Fouquet"],c:[0]},
+{q:"Lors de quelle bataille Vercingétorix s'est-il rendu à Jules César ?",o:["Alésia","Gergovie","Bibracte","Agendicum"],c:[0]},
+{q:"Quel roi mérovingien a unifié les Francs et s'est converti au christianisme ?",o:["Clovis Ier","Mérovée","Childéric Ier","Dagobert Ier"],c:[0]},
+{q:"La bataille de Lépante (1571) a opposé la Sainte Ligue à quel empire ?",o:["L'Empire ottoman","L'Empire espagnol","L'Empire byzantin","L'Empire perse"],c:[0]},
+],
+},
+
+"Géographie": {
+"Facile": [
+{q:"Quelle est la capitale de la France ?",o:["Paris","Lyon","Marseille","Bordeaux"],c:[0]},
+{q:"Quel est le plus grand océan du monde ?",o:["L'océan Pacifique","L'océan Atlantique","L'océan Indien","L'océan Arctique"],c:[0]},
+{q:"Quel est le plus haut sommet du monde ?",o:["L'Everest","Le K2","Le Mont Blanc","L'Aconcagua"],c:[0]},
+{q:"Quelle est la capitale de l'Allemagne ?",o:["Berlin","Munich","Hambourg","Francfort"],c:[0]},
+{q:"Quel est le plus grand pays du monde en superficie ?",o:["La Russie","Le Canada","La Chine","Les États-Unis"],c:[0]},
+{q:"Quelle est la capitale du Brésil ?",o:["Brasília","São Paulo","Rio de Janeiro","Salvador"],c:[0]},
+{q:"Quel pays est surnommé « le pays du Soleil Levant » ?",o:["Le Japon","La Chine","La Corée du Sud","La Thaïlande"],c:[0]},
+{q:"Quelle mer sépare l'Europe de l'Afrique au niveau du détroit de Gibraltar ?",o:["La mer Méditerranée","La mer du Nord","La mer Noire","La mer Rouge"],c:[0]},
+{q:"Quelle est la capitale de l'Italie ?",o:["Rome","Milan","Naples","Turin"],c:[0]},
+{q:"Quel est le plus grand désert chaud du monde ?",o:["Le Sahara","Le désert d'Arabie","Le désert du Gobi","Le désert d'Atacama"],c:[0]},
+{q:"Quelle est la capitale du Royaume-Uni ?",o:["Londres","Édimbourg","Cardiff","Manchester"],c:[0]},
+{q:"Quel continent est le plus grand en superficie ?",o:["L'Asie","L'Afrique","L'Amérique du Nord","L'Europe"],c:[0]},
+{q:"Quelle est la capitale de la Chine ?",o:["Pékin (Beijing)","Shanghai","Hong Kong","Canton"],c:[0]},
+{q:"Quel fleuve traverse Paris ?",o:["La Seine","La Loire","Le Rhône","La Garonne"],c:[0]},
+{q:"Quelle est la plus grande île du monde ?",o:["Le Groenland","La Nouvelle-Guinée","Bornéo","Madagascar"],c:[0]},
+{q:"Dans quel pays se trouve la Tour de Pise ?",o:["L'Italie","L'Espagne","Le Portugal","La Grèce"],c:[0]},
+{q:"Quelle est la capitale de l'Australie ?",o:["Canberra","Sydney","Melbourne","Brisbane"],c:[0]},
+{q:"Quelle est la capitale de l'Espagne ?",o:["Madrid","Barcelone","Séville","Valence"],c:[0]},
+{q:"Sur quel continent se trouve l'Égypte ?",o:["L'Afrique","L'Asie","Le Moyen-Orient","L'Europe"],c:[0]},
+{q:"Quelle est la capitale du Japon ?",o:["Tokyo","Osaka","Kyoto","Hiroshima"],c:[0]},
+],
+"Moyen": [
+{q:"Quelle est la capitale du Canada ?",o:["Ottawa","Toronto","Montréal","Vancouver"],c:[0]},
+{q:"Quel est le lac le plus profond du monde ?",o:["Le lac Baïkal","Le lac Titicaca","Le lac Victoria","Le lac Supérieur"],c:[0]},
+{q:"Quelle chaîne de montagnes constitue la frontière naturelle entre l'Europe et l'Asie ?",o:["L'Oural","Le Caucase","Les Alpes","Les Carpates"],c:[0]},
+{q:"Dans quel pays se trouve le Machu Picchu ?",o:["Le Pérou","La Bolivie","L'Équateur","La Colombie"],c:[0]},
+{q:"Quelle est la capitale de l'Inde ?",o:["New Delhi","Mumbai (Bombay)","Calcutta","Chennai"],c:[0]},
+{q:"Quel pays est le plus peuplé du monde en 2024 ?",o:["L'Inde","La Chine","Les États-Unis","L'Indonésie"],c:[0]},
+{q:"Quel est le plus long fleuve d'Amérique du Sud ?",o:["L'Amazone","Le Paraná","L'Orénoque","Le São Francisco"],c:[0]},
+{q:"Dans quel pays se trouve le mont Kilimandjaro ?",o:["La Tanzanie","Le Kenya","L'Éthiopie","L'Ouganda"],c:[0]},
+{q:"Quelle est la capitale de la Turquie ?",o:["Ankara","Istanbul","Izmir","Antalya"],c:[0]},
+{q:"Quelle est la plus grande ville d'Afrique par sa population ?",o:["Lagos","Le Caire","Kinshasa","Johannesburg"],c:[0]},
+{q:"Entre quels deux pays le lac Titicaca est-il partagé ?",o:["Le Pérou et la Bolivie","Le Pérou et l'Équateur","La Bolivie et le Chili","L'Équateur et la Colombie"],c:[0]},
+{q:"Quel est le point culminant de l'Afrique ?",o:["Le Kilimandjaro","Le mont Kenya","Le Ras Dashen","Le mont Cameroun"],c:[0]},
+{q:"Quelle est la capitale du Mexique ?",o:["Mexico","Guadalajara","Monterrey","Puebla"],c:[0]},
+{q:"Quelle est la capitale de l'Argentine ?",o:["Buenos Aires","Montevideo","Santiago","Lima"],c:[0]},
+{q:"Quel est le plus long fleuve d'Europe ?",o:["La Volga","Le Danube","Le Rhin","Le Rhône"],c:[0]},
+{q:"Quel est le plus grand lac d'eau douce du monde par superficie ?",o:["Le lac Supérieur","Le lac Baïkal","Le lac Victoria","Le lac Huron"],c:[0]},
+{q:"Quelle frontière terrestre est la plus longue du monde ?",o:["États-Unis / Canada","Russie / Kazakhstan","Argentine / Chili","Chine / Russie"],c:[0]},
+{q:"Quels pays sont traversés par le tropique du Cancer ?",o:["Le Mexique, la Chine et l'Inde","La France, l'Espagne et le Maroc","Le Brésil, l'Angola et la Zambie","La Norvège, la Suède et la Finlande"],c:[0]},
+{q:"Quel détroit sépare l'Amérique du Nord de l'Asie ?",o:["Le détroit de Béring","Le détroit de Magellan","Le détroit de Gibraltar","Le canal de Panama"],c:[0]},
+{q:"Quelle est la capitale de la Corée du Sud ?",o:["Séoul","Busan","Incheon","Daegu"],c:[0]},
+],
+"Difficile": [
+{q:"Combien de pays la Russie et la Chine ont-elles chacune en commun comme plus grand nombre de voisins terrestres ?",o:["14 pays voisins chacune","12 pays voisins chacune","16 pays voisins chacune","10 pays voisins chacune"],c:[0]},
+{q:"Quelle est la capitale du Kazakhstan depuis 2022 (après avoir été Nur-Sultan) ?",o:["Astana","Almaty","Shymkent","Aktobe"],c:[0]},
+{q:"Quel est le plus petit État souverain du monde ?",o:["Le Vatican","Monaco","Saint-Marin","Liechtenstein"],c:[0]},
+{q:"Quel est le point le plus bas de la surface terrestre ?",o:["La mer Morte (–430 m)","Le lac Assal","La fosse des Mariannes","Le lac Baïkal"],c:[0]},
+{q:"La mer Caspienne est-elle techniquement un lac ou une mer ?",o:["Un lac (entouré de terres)","Une mer (reliée à l'océan)","Un estuaire","Une lagune"],c:[0]},
+{q:"Quelle est la capitale du Népal ?",o:["Katmandou","Pokhara","Lalitpur","Bhaktapur"],c:[0]},
+{q:"Quel pays possède la plus forte densité de population en excluant les micro-États ?",o:["Le Bangladesh","Les Pays-Bas","La Corée du Sud","Le Rwanda"],c:[0]},
+{q:"Quelle est la capitale du Myanmar (Birmanie) ?",o:["Naypyidaw","Rangoun (Yangon)","Mandalay","Bago"],c:[0]},
+{q:"Quel est le plus grand delta du monde en superficie ?",o:["Le delta du Gange-Brahmapoutre (Sundarbans)","Le delta du Nil","Le delta de l'Amazone","Le delta du Mississippi"],c:[0]},
+{q:"À quelle latitude approximative se situe Paris ?",o:["48° Nord","51° Nord","45° Nord","43° Nord"],c:[0]},
+{q:"Quel canal relie la mer Rouge à la Méditerranée ?",o:["Le canal de Suez","Le canal de Panama","Le canal du Mozambique","Le canal de Corinthe"],c:[0]},
+{q:"Quel fleuve forme en grande partie la frontière entre l'Argentine et l'Uruguay ?",o:["Le Río de la Plata","Le Paraná","L'Uruguay","Le Negro"],c:[0]},
+{q:"Dans quel pays se trouve l'isthme de Panama ?",o:["Au Panama","Au Costa Rica","En Colombie","Au Nicaragua"],c:[0]},
+{q:"Quel archipel est à la fois le plus à l'est et au centre du fuseau international de changement de date ?",o:["Les îles Kiribati","Les îles Fidji","La Nouvelle-Zélande","Les îles Samoa"],c:[0]},
+{q:"Quel pays d'Afrique australe est entièrement enclavé dans l'Afrique du Sud ?",o:["Le Lesotho","Le Swaziland (Eswatini)","Le Botswana","Le Zimbabwe"],c:[0]},
+{q:"Combien de pays partagent une frontière avec la France métropolitaine ?",o:["8 pays","6 pays","7 pays","9 pays"],c:[0]},
+{q:"Quel est le plus long tunnel ferroviaire sous-marin du monde ?",o:["Le tunnel du Seikan (Japon)","Le tunnel sous la Manche","Le tunnel du Saint-Gothard","Le tunnel de l'Øresund"],c:[0]},
+{q:"Quelle ville est la capitale administrative du Sri Lanka ?",o:["Sri Jayawardenepura Kotte","Colombo","Kandy","Galle"],c:[0]},
+{q:"Dans quelle chaîne de montagnes se trouve le mont Blanc ?",o:["Les Alpes","Les Pyrénées","Les Apennins","Le Massif Central"],c:[0]},
+{q:"Quelle est la capitale de la Mongolie ?",o:["Oulan-Bator","Darkhan","Erdenet","Choibalsan"],c:[0]},
+],
+},
+
+"Sciences": {
+"Facile": [
+{q:"Quel est l'élément le plus abondant dans l'atmosphère terrestre ?",o:["L'azote (N₂)","L'oxygène (O₂)","Le dioxyde de carbone","L'argon"],c:[0]},
+{q:"Quelle est la vitesse approximative de la lumière dans le vide ?",o:["300 000 km/s","150 000 km/s","500 000 km/s","100 000 km/s"],c:[0]},
+{q:"À qui attribue-t-on l'invention du téléphone ?",o:["Alexander Graham Bell","Thomas Edison","Nikola Tesla","Guglielmo Marconi"],c:[0]},
+{q:"Qui a formulé la loi de la gravitation universelle ?",o:["Isaac Newton","Albert Einstein","Galileo Galilei","Johannes Kepler"],c:[0]},
+{q:"Qui a classé les éléments chimiques dans le premier tableau périodique ?",o:["Dmitri Mendeleïev","Antoine Lavoisier","Marie Curie","John Dalton"],c:[0]},
+{q:"Qui a proposé la théorie de l'évolution des espèces par sélection naturelle ?",o:["Charles Darwin","Jean-Baptiste Lamarck","Louis Pasteur","Gregor Mendel"],c:[0]},
+{q:"Quelle est la formule chimique de l'eau ?",o:["H₂O","CO₂","NaCl","H₂SO₄"],c:[0]},
+{q:"Quel processus permet aux plantes de produire leur nourriture grâce à la lumière ?",o:["La photosynthèse","La respiration","La fermentation","L'osmose"],c:[0]},
+{q:"Combien de planètes compte notre système solaire ?",o:["8","9","7","10"],c:[0]},
+{q:"Qui a découvert la pénicilline ?",o:["Alexander Fleming","Louis Pasteur","Robert Koch","Joseph Lister"],c:[0]},
+{q:"Quelle célèbre équation Albert Einstein a-t-il formulée ?",o:["E = mc²","F = ma","PV = nRT","E = hν"],c:[0]},
+{q:"Quelle est la formule chimique du sel de table ?",o:["NaCl","KCl","MgCl₂","CaCl₂"],c:[0]},
+{q:"Quel organe pompe le sang dans le corps humain ?",o:["Le cœur","Le poumon","Le foie","Le rein"],c:[0]},
+{q:"En combien de minutes environ la lumière du Soleil met-elle pour atteindre la Terre ?",o:["8 minutes","2 minutes","20 minutes","1 heure"],c:[0]},
+{q:"Quelle est la planète rouge de notre système solaire ?",o:["Mars","Jupiter","Vénus","Saturne"],c:[0]},
+{q:"Qu'est-ce qu'un virus par rapport à une bactérie ?",o:["Il est plus petit et nécessite une cellule hôte","Il est plus grand et se reproduit seul","Il a un noyau","Il est une cellule vivante autonome"],c:[0]},
+{q:"Quel scientifique est lié à la théorie de la relativité restreinte et générale ?",o:["Albert Einstein","Max Planck","Niels Bohr","Werner Heisenberg"],c:[0]},
+{q:"Quel est le numéro atomique de l'oxygène ?",o:["8","6","16","7"],c:[0]},
+{q:"Combien de bases azotées constituent l'ADN ?",o:["4 (A, T, G, C)","3","5","2"],c:[0]},
+{q:"Quelles affirmations sur l'ADN sont correctes ?",o:["Il est en double hélice","Il contient l'information génétique","Il se trouve dans le noyau cellulaire","Il produit directement les protéines"],c:[0,1,2]},
+],
+"Moyen": [
+{q:"De quoi est composé le noyau atomique ?",o:["De protons et de neutrons","De protons et d'électrons","D'électrons et de neutrons","Uniquement de protons"],c:[0]},
+{q:"Combien de chromosomes une cellule humaine diploïde normale possède-t-elle ?",o:["46","23","48","44"],c:[0]},
+{q:"Quelle est la vitesse approximative du son dans l'air à 20 °C ?",o:["340 m/s","1 500 m/s","150 m/s","700 m/s"],c:[0]},
+{q:"Quelle valeur de pH est considérée comme neutre ?",o:["7","0","14","5"],c:[0]},
+{q:"Comment appelle-t-on la division cellulaire qui produit deux cellules filles identiques ?",o:["La mitose","La méiose","La fission","L'endocytose"],c:[0]},
+{q:"Qu'est-ce qu'une enzyme ?",o:["Un catalyseur biologique accélérant les réactions chimiques","Un type de sucre complexe","Un acide aminé essentiel","Un lipide membranaire"],c:[0]},
+{q:"Quelle est la pression atmosphérique standard au niveau de la mer ?",o:["1 013 hPa","760 hPa","1 013 Pa","101 300 hPa"],c:[0]},
+{q:"Quelle couche de l'atmosphère contient la couche d'ozone ?",o:["La stratosphère","La troposphère","La mésosphère","La thermosphère"],c:[0]},
+{q:"De quoi les protéines sont-elles constituées ?",o:["D'acides aminés","De sucres simples","De nucléotides","D'acides gras"],c:[0]},
+{q:"Quelle est la masse volumique de l'eau liquide à 4 °C ?",o:["1 000 kg/m³","800 kg/m³","1 200 kg/m³","500 kg/m³"],c:[0]},
+{q:"Comment s'appelle la réaction entre un acide et une base ?",o:["Une neutralisation","Une oxydation","Une précipitation","Une hydrolyse"],c:[0]},
+{q:"Quelle est la formule de l'énergie cinétique ?",o:["Ec = ½mv²","Ep = mgh","E = mc²","P = UI"],c:[0]},
+{q:"Environ combien de neurones compte le cerveau humain ?",o:["86 milliards","10 milliards","1 million","1 000 milliards"],c:[0]},
+{q:"Quelle loi décrit la relation entre pression et volume d'un gaz à température constante ?",o:["La loi de Boyle-Mariotte (P×V = constante)","La loi de Charles","La loi de Gay-Lussac","La loi d'Avogadro"],c:[0]},
+{q:"Quels sont les quatre groupes sanguins du système ABO ?",o:["A, B, AB, O","A, B, C, O","A, B, AB, R","A, B, C, D"],c:[0]},
+{q:"Qu'est-ce que l'ADN mitochondrial ?",o:["Un ADN circulaire hérité uniquement par voie maternelle","Un ADN nucléaire présent dans les mitochondries","Un ARN spécifique aux mitochondries","Un chromosome spécial"],c:[0]},
+{q:"Quel est le symbole chimique du fer ?",o:["Fe","Fr","Fl","F"],c:[0]},
+{q:"Quelle est la structure de la molécule d'ADN ?",o:["Une double hélice","Une simple hélice","Une sphère","Un feuillet plat"],c:[0]},
+{q:"Qu'est-ce que la respiration cellulaire produit principalement ?",o:["De l'ATP (énergie)","De l'oxygène","Du glucose","De l'azote"],c:[0]},
+{q:"Quels sont les composants de l'atome ?",o:["Protons, neutrons, électrons","Protons, quarks, électrons","Neutrons, photons, électrons","Ions, atomes, molécules"],c:[0]},
+],
+"Difficile": [
+{q:"Quelle est la valeur approximative du nombre d'Avogadro ?",o:["6,022 × 10²³ mol⁻¹","6,022 × 10²⁰ mol⁻¹","6,022 × 10²⁶ mol⁻¹","1,602 × 10⁻¹⁹ mol⁻¹"],c:[0]},
+{q:"Quel physicien a énoncé le principe d'incertitude qui limite la mesure simultanée de la position et de la quantité de mouvement ?",o:["Werner Heisenberg","Niels Bohr","Max Planck","Erwin Schrödinger"],c:[0]},
+{q:"Que désigne la technologie CRISPR-Cas9 ?",o:["Un outil d'édition génomique de précision","Un virus modifié utilisé en thérapie","Un séquençage ADN de nouvelle génération","Un système d'ARN interférent"],c:[0]},
+{q:"Quelle loi de la thermodynamique définit le concept d'entropie ?",o:["Le deuxième principe","Le premier principe","Le troisième principe","Le principe zéro"],c:[0]},
+{q:"Qu'est-ce que la méiose ?",o:["Une division cellulaire produisant des gamètes haploïdes","Une division cellulaire produisant deux cellules identiques","Une duplication de l'ADN","Un processus de réparation de l'ADN"],c:[0]},
+{q:"Quelle est la loi de Hardy-Weinberg ?",o:["Un modèle décrivant la stabilité des fréquences alléliques en population","Une loi de la génétique mendélienne","Une règle sur la mutation des gènes","Un principe de sélection naturelle"],c:[0]},
+{q:"Comment se nomme le rayonnement théorique émis par les trous noirs selon Stephen Hawking ?",o:["Le rayonnement de Hawking","Le rayonnement Cherenkov","Le rayonnement de Compton","Le rayonnement synchrotron"],c:[0]},
+{q:"Que postule la relativité générale d'Einstein ?",o:["La matière et l'énergie courbent l'espace-temps","La lumière voyage à vitesse variable","La masse et l'énergie sont équivalentes (E=mc²)","Le temps s'écoule à la même vitesse partout"],c:[0]},
+{q:"Qu'est-ce qu'une liaison hydrogène ?",o:["Une interaction entre un atome H lié à un élément électronégatif et un autre atome électronégatif","Une liaison covalente forte entre deux atomes d'hydrogène","Une liaison ionique impliquant H⁺","Une liaison métalique propre aux hydrures"],c:[0]},
+{q:"Qu'est-ce que le point triple d'une substance ?",o:["Le point de température et pression où coexistent les trois états de la matière","Le point de fusion à pression standard","La température de transition vitreuse","Le point d'ébullition à 3 atm"],c:[0]},
+{q:"Quelle est la constante de Planck (valeur approchée) ?",o:["6,626 × 10⁻³⁴ J·s","1,602 × 10⁻¹⁹ J·s","9,109 × 10⁻³¹ J·s","6,022 × 10²³ J·s"],c:[0]},
+{q:"Qu'est-ce que la saponification ?",o:["Une réaction entre un ester et une base produisant du savon et du glycérol","Une oxydation des acides gras","Une hydrolyse acide des protéines","Une estérification des alcools"],c:[0]},
+{q:"Qu'est-ce qu'un prion ?",o:["Une protéine mal repliée pouvant provoquer des maladies neurodégénératives","Un petit ARN viral","Un type de bactérie résistante","Un anticorps atypique"],c:[0]},
+{q:"Quel phénomène explique la déviation de la lumière lorsqu'elle passe d'un milieu à un autre ?",o:["La réfraction","La diffraction","La polarisation","L'interférence"],c:[0]},
+{q:"Qu'est-ce que l'antimatière ?",o:["De la matière composée de particules de charge opposée à celles de la matière ordinaire","De la matière à masse négative","La matière sombre","De la matière qui voyage en arrière dans le temps"],c:[0]},
+{q:"Comment s'appelle la technique de séparation des composants d'un mélange par leur migration différentielle ?",o:["La chromatographie","L'électrophorèse","La dialyse","La centrifugation"],c:[0]},
+{q:"Qu'est-ce qu'une réaction de polymérisation ?",o:["Une réaction où des monomères s'assemblent pour former un polymère","Une réaction de décomposition d'une longue molécule","Une réaction d'oxydoréduction","Une réaction acide-base"],c:[0]},
+{q:"Quel est l'angle d'inclinaison de l'axe de la Terre par rapport à l'écliptique ?",o:["23,5°","45°","15°","66,5°"],c:[0]},
+{q:"Quelles affirmations sur la fission nucléaire sont correctes ?",o:["Elle libère une grande quantité d'énergie","Elle s'accompagne de radioactivité","Elle est utilisée dans les centrales nucléaires","Elle nécessite des températures de plusieurs millions de degrés"],c:[0,1,2]},
+{q:"Que désigne la loi de Coulomb ?",o:["La force électrique entre deux charges est proportionnelle au produit des charges et inversement proportionnelle au carré de leur distance","La force magnétique entre deux pôles","La force gravitationnelle entre deux masses","La tension aux bornes d'un condensateur"],c:[0]},
+],
+},
+
+"Sport": {
+"Facile": [
+{q:"Combien y a-t-il de joueurs par équipe sur un terrain de football ?",o:["11","9","10","13"],c:[0]},
+{q:"Sur quelle surface se dispute le tournoi de Roland-Garros ?",o:["Terre battue","Gazon","Surface dure","Moquette"],c:[0]},
+{q:"En quelle ville et année ont eu lieu les premiers Jeux Olympiques modernes ?",o:["Athènes, 1896","Paris, 1900","Londres, 1908","Stockholm, 1912"],c:[0]},
+{q:"Quel sport se pratique lors du Tour de France ?",o:["Le cyclisme","L'athlétisme","Le triathlon","Le VTT"],c:[0]},
+{q:"Quel nageur américain détient le record du plus grand nombre de médailles olympiques ?",o:["Michael Phelps","Mark Spitz","Ryan Lochte","Ian Thorpe"],c:[0]},
+{q:"Quelle ligue professionnelle de basketball américaine est la plus célèbre au monde ?",o:["La NBA","La FIBA","L'EuroLeague","La NCAA"],c:[0]},
+{q:"Quel trophée récompense le meilleur club européen de football chaque saison ?",o:["La Ligue des Champions","La Coupe UEFA","La Coupe du Monde clubs","La Coupe d'Europe"],c:[0]},
+{q:"Combien de titres de champion du monde de Formule 1 Michael Schumacher a-t-il remportés ?",o:["7","5","6","8"],c:[0]},
+{q:"Sur quelle surface se joue Wimbledon ?",o:["Le gazon","La terre battue","La surface dure","Le parquet"],c:[0]},
+{q:"Quel boxeur était surnommé « The Greatest » ?",o:["Muhammad Ali","Mike Tyson","Joe Frazier","Sugar Ray Leonard"],c:[0]},
+{q:"Quelle est la distance officielle d'un marathon ?",o:["42,195 km","40 km","45 km","41 km"],c:[0]},
+{q:"Quel footballeur français a inscrit 2 buts en finale de la Coupe du Monde 1998 ?",o:["Zinedine Zidane","Thierry Henry","David Trezeguet","Marcel Desailly"],c:[0]},
+{q:"Quel sprinter jamaïcain est considéré comme l'homme le plus rapide du monde ?",o:["Usain Bolt","Asafa Powell","Yohan Blake","Nesta Carter"],c:[0]},
+{q:"Quelle joueuse de tennis américaine a dominé la discipline féminine pendant des années avec 23 titres du Grand Chelem ?",o:["Serena Williams","Venus Williams","Steffi Graf","Chris Evert"],c:[0]},
+{q:"Quel judoka français a remporté de nombreux titres mondiaux et olympiques ?",o:["Teddy Riner","David Douillet","Guillaume Elmont","Lukas Krpalek"],c:[0]},
+{q:"Tous les combien d'années la Coupe du Monde de rugby a-t-elle lieu ?",o:["4 ans","2 ans","3 ans","5 ans"],c:[0]},
+{q:"Quel pays a remporté le plus de Coupes du Monde de football masculin ?",o:["Le Brésil (5 titres)","L'Allemagne","L'Italie","L'Argentine"],c:[0]},
+{q:"Quelle est la distance entre le point de penalty et la ligne de but au football ?",o:["11 mètres","12 mètres","9 mètres","10 mètres"],c:[0]},
+{q:"Quel est le principal trophée de tennis masculin par équipes nationales ?",o:["La Coupe Davis","La Coupe Hopman","La Laver Cup","La coupe ATP"],c:[0]},
+{q:"Quels sports font partie du triathlon olympique ?",o:["Natation, cyclisme et course à pied","Natation, aviron et course à pied","Cyclisme, course à pied et kayak","Natation, cyclisme et biathlon"],c:[0]},
+],
+"Moyen": [
+{q:"Quel est le record du monde du 100 m masculin et qui le détient ?",o:["9,58 s — Usain Bolt","9,69 s — Usain Bolt","9,58 s — Asafa Powell","9,58 s — Yohan Blake"],c:[0]},
+{q:"En quelles années la France a-t-elle remporté la Coupe du Monde de football ?",o:["1998 et 2018","1998 et 2006","2018 et 2022","1994 et 1998"],c:[0]},
+{q:"Qui a remporté le Ballon d'Or 2023 ?",o:["Lionel Messi","Erling Haaland","Kylian Mbappé","Vinicius Jr"],c:[0]},
+{q:"Dans quelle ville ont eu lieu les Jeux Olympiques d'été de 2024 ?",o:["Paris","Los Angeles","Brisbane","Tokyo"],c:[0]},
+{q:"Combien de titres du Grand Chelem Roger Federer a-t-il remportés au total ?",o:["20","17","19","21"],c:[0]},
+{q:"Quel coureur cycliste a remporté 5 fois le Tour de France consécutivement (1991-1995) ?",o:["Miguel Indurain","Bernard Hinault","Eddy Merckx","Greg LeMond"],c:[0]},
+{q:"Quel club a remporté le plus de Ligues des Champions ?",o:["Le Real Madrid","Liverpool","Le Bayern Munich","La Juventus"],c:[0]},
+{q:"Quels sont les 4 tournois du Grand Chelem au tennis ?",o:["Open d'Australie, Roland-Garros, Wimbledon, US Open","Roland-Garros, Wimbledon, US Open, Masters","Open d'Australie, Roland-Garros, Wimbledon, Coupe Davis","Wimbledon, US Open, Open d'Italie, Roland-Garros"],c:[0]},
+{q:"Combien de points vaut un essai transformé au rugby à XV ?",o:["7 points","5 points","6 points","8 points"],c:[0]},
+{q:"Combien de fois Lewis Hamilton a-t-il été champion du monde de F1 ?",o:["7 fois","6 fois","8 fois","5 fois"],c:[0]},
+{q:"Quel record du monde de triple saut (18,29 m) Jonathan Edwards a-t-il établi ?",o:["En 1995 à Göteborg","En 1992 à Barcelone","En 1996 à Atlanta","En 2000 à Sydney"],c:[0]},
+{q:"Que représente le maillot jaune au Tour de France ?",o:["Le leader du classement général","Le meilleur grimpeur","Le meilleur sprinter","Le meilleur jeune coureur"],c:[0]},
+{q:"Quel est le plus grand stade du monde par capacité ?",o:["Le stade Rungrado (Corée du Nord)","Le Camp Nou (Barcelone)","Le stade de Wembley","Le Maracanã (Rio)"],c:[0]},
+{q:"Combien d'équipes composent la NBA ?",o:["30","28","32","29"],c:[0]},
+{q:"Quel joueur d'échecs américain est devenu champion du monde en 1972 contre Boris Spassky ?",o:["Bobby Fischer","Garry Kasparov","Magnus Carlsen","Paul Morphy"],c:[0]},
+{q:"Quel sport pratique Novak Djokovic, recordman du nombre de titres du Grand Chelem ?",o:["Le tennis","Le squash","Le badminton","Le padel"],c:[0]},
+{q:"Combien d'épreuves composent le décathlon masculin en athlétisme ?",o:["10","7","8","12"],c:[0]},
+{q:"Quel pays a remporté le plus de médailles d'or aux Jeux Olympiques d'été de l'histoire ?",o:["Les États-Unis","L'URSS / Russie","La Chine","L'Allemagne"],c:[0]},
+{q:"En quel sport Teddy Riner est-il multiple champion du monde et olympique ?",o:["Le judo","La lutte","L'aïkido","Le sumo"],c:[0]},
+{q:"Quel coureur a été disqualifié aux JO de Séoul 1988 pour dopage après avoir battu le record du 100 m ?",o:["Ben Johnson","Carl Lewis","Linford Christie","Dennis Mitchell"],c:[0]},
+],
+"Difficile": [
+{q:"Quel joueur a reçu le tout premier Ballon d'Or en 1956 ?",o:["Stanley Matthews","Alfredo di Stéfano","Raymond Kopa","Lev Yashin"],c:[0]},
+{q:"Quelles sont les distances officielles d'un Ironman complet ?",o:["3,86 km nage, 180 km vélo, 42,2 km course","3 km nage, 150 km vélo, 42,2 km course","3,86 km nage, 180 km vélo, 21,1 km course","4 km nage, 180 km vélo, 42 km course"],c:[0]},
+{q:"Qui a remporté le premier Tour de France en 1903 ?",o:["Maurice Garin","Hippolyte Aucouturier","René Pottier","Lucien Petit-Breton"],c:[0]},
+{q:"Lors de quels Jeux Olympiques les États-Unis ont-ils organisé un boycott majeur ?",o:["Moscou 1980","Montréal 1976","Los Angeles 1984","Munich 1972"],c:[0]},
+{q:"Combien de Coupes du Monde de football Pelé a-t-il remportées avec le Brésil ?",o:["3 (1958, 1962, 1970)","2 (1958, 1962)","1 (1970)","4 (1958, 1962, 1966, 1970)"],c:[0]},
+{q:"En quelle année et lors de quel Grand Prix Ayrton Senna a-t-il trouvé la mort ?",o:["1994, Grand Prix de Saint-Marin","1993, Grand Prix de Monaco","1994, Grand Prix d'Espagne","1992, Grand Prix du Brésil"],c:[0]},
+{q:"La série « The Ashes » est une compétition de cricket opposant quels pays ?",o:["L'Angleterre et l'Australie","L'Angleterre et l'Inde","L'Australie et les West Indies","L'Angleterre et le Pakistan"],c:[0]},
+{q:"Comment appelle-t-on le rang le plus élevé dans la hiérarchie du sumo ?",o:["Yokozuna","Ozeki","Sekiwake","Maegashira"],c:[0]},
+{q:"Quelle est la principale différence entre le rugby à XIII et le rugby à XV ?",o:["Le rugby à XIII se joue à 13 joueurs et 4 défenseurs différents","Il n'y a pas de touche au rugby à XIII","Le rugby à XIII se joue sur un terrain plus grand","Il n'y a pas de mêlée au rugby à XIII"],c:[0]},
+{q:"Quelle gymnaste roumaine a obtenu le premier 10 parfait de l'histoire olympique ?",o:["Nadia Comaneci aux JO de Montréal (1976)","Olga Korbut aux JO de Munich (1972)","Vera Čáslavská aux JO de Tokyo (1964)","Larisa Latynina aux JO de Rome (1960)"],c:[0]},
+{q:"Quel athlète américain a remporté 4 médailles d'or aux JO de Berlin en 1936 ?",o:["Jesse Owens","Ralph Metcalfe","Eddie Tolan","Mack Robinson"],c:[0]},
+{q:"En quelle année la FIFA a-t-elle été fondée ?",o:["1904","1900","1910","1896"],c:[0]},
+{q:"Quel boxeur s'est retiré invaincu avec un record de 49 victoires, 0 défaite ?",o:["Rocky Marciano","Muhammad Ali","Joe Louis","Floyd Mayweather"],c:[0]},
+{q:"Quel cycliste a remporté 5 fois le Tour de France entre 1969 et 1974 ?",o:["Eddy Merckx","Bernard Hinault","Jacques Anquetil","Felice Gimondi"],c:[0]},
+{q:"Quel est le record du monde du 200 m masculin détenu par Usain Bolt ?",o:["19,19 s","19,32 s","19,72 s","19,58 s"],c:[0]},
+{q:"En quelle discipline sportive compete Renaud Lavillenie ?",o:["Saut à la perche","Saut en hauteur","Triple saut","Décathlon"],c:[0]},
+{q:"Quel pays a organisé les Jeux Olympiques d'été et d'hiver la même année (1956) ?",o:["L'Australie et l'Italie (Melbourne et Cortina d'Ampezzo)","La France et la Suède","Le Japon et l'URSS","Les États-Unis et la Suisse"],c:[0]},
+{q:"Dans quel sport Jan Železný a-t-il établi le record du monde à 98,48 m en 1996 ?",o:["Le lancer du javelot","Le lancer du marteau","Le lancer du disque","Le lancer du poids"],c:[0]},
+{q:"Quel club de handball allemand a remporté le plus de fois la Ligue des Champions ?",o:["THW Kiel","FC Barcelona","Montpellier HB","HBC Nantes"],c:[0]},
+{q:"Quels pays ont chacun remporté 3 Coupes du Monde de football ?",o:["L'Allemagne et l'Italie","L'Espagne et la France","L'Uruguay et l'Argentine","La France et l'Angleterre"],c:[0]},
+],
+},
+
+"Cinéma": {
+"Facile": [
+{q:"Qui a réalisé la saga Star Wars originale (épisodes IV, V, VI) ?",o:["George Lucas","Steven Spielberg","James Cameron","Francis Ford Coppola"],c:[0]},
+{q:"Quel acteur a incarné James Bond pour la première fois au cinéma ?",o:["Sean Connery","Roger Moore","Pierce Brosnan","Daniel Craig"],c:[0]},
+{q:"Qui a réalisé Titanic (1997) et Avatar (2009) ?",o:["James Cameron","Steven Spielberg","Peter Jackson","Ridley Scott"],c:[0]},
+{q:"Quel acteur a joué Harry Potter dans la saga éponyme ?",o:["Daniel Radcliffe","Elijah Wood","Rupert Grint","Tom Felton"],c:[0]},
+{q:"Quel studio est derrière les films Avengers et la plupart des super-héros Marvel ?",o:["Marvel Studios / Disney","Warner Bros.","Universal","Sony"],c:[0]},
+{q:"Quel film de Bong Joon-ho a remporté l'Oscar du meilleur film en 2020 ?",o:["Parasite","Mémoires de meurtre","Okja","The Host"],c:[0]},
+{q:"Qui a réalisé Jurassic Park (1993) et Schindler's List (1993) ?",o:["Steven Spielberg","James Cameron","George Lucas","Ron Howard"],c:[0]},
+{q:"Quel acteur joue le personnage de Jack Sparrow dans Pirates des Caraïbes ?",o:["Johnny Depp","Orlando Bloom","Keira Knightley","Geoffrey Rush"],c:[0]},
+{q:"Quel film français est devenu le plus grand succès du box-office national en 2008 ?",o:["Bienvenue chez les Ch'tis","Intouchables","Astérix aux Jeux Olympiques","La Vérité si je mens 2"],c:[0]},
+{q:"Qui a réalisé Pulp Fiction (1994) ?",o:["Quentin Tarantino","Coen Brothers","David Fincher","Martin Scorsese"],c:[0]},
+{q:"Quel acteur a joué Batman dans la trilogie The Dark Knight ?",o:["Christian Bale","Michael Keaton","George Clooney","Val Kilmer"],c:[0]},
+{q:"Qui a réalisé Le Seigneur des Anneaux ?",o:["Peter Jackson","James Cameron","Ridley Scott","Steven Spielberg"],c:[0]},
+{q:"Quel acteur joue Iron Man / Tony Stark dans l'univers cinématographique Marvel ?",o:["Robert Downey Jr.","Chris Evans","Chris Hemsworth","Mark Ruffalo"],c:[0]},
+{q:"Quel prix suprême récompense le meilleur film au Festival de Cannes ?",o:["La Palme d'Or","Le Lion d'Or","L'Ours d'Or","L'Oscar"],c:[0]},
+{q:"Qui a réalisé 2001, l'Odyssée de l'espace (1968) ?",o:["Stanley Kubrick","François Truffaut","Jean-Luc Godard","Orson Welles"],c:[0]},
+{q:"Quelle actrice jouait Sigourney Weaver dans le film Alien ?",o:["Ellen Ripley","Sarah Connor","Clarice Starling","Dana Scully"],c:[0]},
+{q:"Quel acteur est connu pour ses rôles dans Rocky et Rambo ?",o:["Sylvester Stallone","Arnold Schwarzenegger","Bruce Willis","Jean-Claude Van Damme"],c:[0]},
+{q:"Quel film d'animation Pixar met en scène un robot nettoyeur dans un monde post-apocalyptique ?",o:["WALL-E","Toy Story","Cars","Ratatouille"],c:[0]},
+{q:"Qui a réalisé Amélie Poulain (2001) ?",o:["Jean-Pierre Jeunet","Luc Besson","François Truffaut","Claude Lelouch"],c:[0]},
+{q:"Quels acteurs ont joué dans Intouchables (2011) ?",o:["Omar Sy et François Cluzet","Dany Boon et Kad Merad","Gilles Lellouche et Jean Dujardin","Omar Sy et Vincent Cassel"],c:[0]},
+],
+"Moyen": [
+{q:"Quel film est généralement considéré comme le premier film parlant commercial de l'histoire ?",o:["Le Chanteur de jazz (1927)","Naissance d'une nation (1915)","Le Cabinet du docteur Caligari (1920)","Metropolis (1927)"],c:[0]},
+{q:"Quel mouvement cinématographique français des années 1960, associé à Godard et Truffaut, a révolutionné le 7e art ?",o:["La Nouvelle Vague","Le Cinéma Vérité","Le Réalisme poétique","Le Surréalisme"],c:[0]},
+{q:"Qui a réalisé The Godfather (Le Parrain) ?",o:["Francis Ford Coppola","Martin Scorsese","Brian De Palma","Sidney Lumet"],c:[0]},
+{q:"Qui était le réalisateur du film Metropolis (1927), chef-d'œuvre du cinéma expressionniste allemand ?",o:["Fritz Lang","F.W. Murnau","G.W. Pabst","Josef von Sternberg"],c:[0]},
+{q:"Quel film de Hayao Miyazaki a remporté l'Oscar du meilleur film d'animation en 2003 ?",o:["Le Voyage de Chihiro","Mon Voisin Totoro","Princesse Mononoké","Nausicaä"],c:[0]},
+{q:"Quel acteur a remporté l'Oscar pour son rôle dans Philadelphia et Forrest Gump ?",o:["Tom Hanks","Tom Cruise","Dustin Hoffman","Jack Nicholson"],c:[0]},
+{q:"Quel film des Frères Coen a remporté l'Oscar du meilleur film en 2008 ?",o:["No Country for Old Men","Fargo","True Grit","Inside Llewyn Davis"],c:[0]},
+{q:"Quelle actrice est connue pour son rôle dans Breakfast at Tiffany's (1961) ?",o:["Audrey Hepburn","Grace Kelly","Marilyn Monroe","Elizabeth Taylor"],c:[0]},
+{q:"Qui a réalisé Taxi Driver (1976), film avec Robert De Niro qui a remporté la Palme d'Or à Cannes ?",o:["Martin Scorsese","Brian De Palma","Sidney Lumet","Michael Cimino"],c:[0]},
+{q:"Quel film en noir et blanc a remporté l'Oscar du meilleur film en 2012 ?",o:["The Artist (Michel Hazanavicius)","Hugo Cabret","La Vie de Pi","Amour"],c:[0]},
+{q:"Quel cinéaste suédois, auteur du Septième Sceau et de Persona, est considéré comme un maître du cinéma d'auteur ?",o:["Ingmar Bergman","Victor Sjöström","Bo Widerberg","Lasse Hallström"],c:[0]},
+{q:"Quel personnage mythique joue Marlon Brando dans The Godfather ?",o:["Don Vito Corleone","Michael Corleone","Don Fanucci","Virgil Sollozzo"],c:[0]},
+{q:"Quelle actrice a remporté le plus d'Oscars dans l'histoire avec 3 statuettes ?",o:["Meryl Streep","Katharine Hepburn","Cate Blanchett","Frances McDormand"],c:[0]},
+{q:"Quel réalisateur britannique est célèbre pour ses thrillers comme Psychose et Les Oiseaux ?",o:["Alfred Hitchcock","Carol Reed","Michael Powell","David Lean"],c:[0]},
+{q:"Qui a réalisé les Frères Wachowski (désormais Lana et Lilly Wachowski) ?",o:["Matrix","Cloud Atlas","Speed Racer","Bound"],c:[0]},
+{q:"Quel prix remporte le meilleur premier film au Festival de Cannes ?",o:["La Caméra d'Or","Le Prix du Jury","Le Grand Prix","La mention spéciale"],c:[0]},
+{q:"Quel film d'Agnès Varda, réalisatrice pionnière de la Nouvelle Vague, est sorti en 1962 ?",o:["Cléo de 5 à 7","Les Créatures","Sans toit ni loi","Jacquot de Nantes"],c:[0]},
+{q:"Quel cinéaste japonais a réalisé Sept Samouraïs (1954) et Rashōmon (1950) ?",o:["Akira Kurosawa","Yasujirō Ozu","Kenji Mizoguchi","Nagisa Ōshima"],c:[0]},
+{q:"Dans quel pays se déroule l'action principale du film Parasite ?",o:["La Corée du Sud","Le Japon","La Chine","Taïwan"],c:[0]},
+{q:"Quels films ont remporté à la fois la Palme d'Or à Cannes et l'Oscar du meilleur film ?",o:["Marty (1955) et Parasite (2019)","Apocalypse Now et La Pianiste","Pulp Fiction et Traffic","Dancer in the Dark et Amour"],c:[0]},
+],
+"Difficile": [
+{q:"Qui a réalisé Le Voyage dans la Lune (1902), film pionnier des effets spéciaux ?",o:["Georges Méliès","Louis Lumière","Ferdinand Zecca","Émile Cohl"],c:[0]},
+{q:"Quel film de Jean Renoir (1937) est considéré comme le chef-d'œuvre du réalisme poétique français ?",o:["La Grande Illusion","La Règle du jeu","La Bête humaine","Toni"],c:[0]},
+{q:"Qu'est-ce que le mouvement Dogme 95, fondé par Lars von Trier et Thomas Vinterberg ?",o:["Un manifeste cinématographique promouvant un tournage naturel et sans artifices","Un festival de cinéma danois","Un mouvement d'avant-garde français","Un genre de films documentaires"],c:[0]},
+{q:"Qui a réalisé L'Atalante (1934), considéré comme l'un des plus grands films français ?",o:["Jean Vigo","René Clair","Marcel Carné","Jean Renoir"],c:[0]},
+{q:"Quel film d'Orson Welles (1941) a révolutionné le langage cinématographique ?",o:["Citizen Kane","La Splendeur des Amberson","Touch of Evil","Falstaff"],c:[0]},
+{q:"Quel réalisateur allemand, auteur de Nosferatu (1922), a fondé l'expressionnisme cinématographique ?",o:["F.W. Murnau","Fritz Lang","Ernst Lubitsch","G.W. Pabst"],c:[0]},
+{q:"Quel cinéaste brésilien a réalisé Central do Brasil (1998) et Cité de Dieu (2002) ?",o:["Walter Salles et Fernando Meirelles respectivement","Glauber Rocha","Héctor Babenco","Bruno Barreto"],c:[0]},
+{q:"Quel réalisateur franco-suisse, figure centrale de la Nouvelle Vague, a réalisé À bout de souffle ?",o:["Jean-Luc Godard","François Truffaut","Claude Chabrol","Eric Rohmer"],c:[0]},
+{q:"Quel film de Jacques Tati (1967) a été un échec commercial retentissant mais est aujourd'hui reconnu comme un chef-d'œuvre ?",o:["Playtime","Mon Oncle","Mr. Hulot's Holiday","Trafic"],c:[0]},
+{q:"Quel cinéaste belge est l'auteur du film Jeanne Dielman, 23 quai du Commerce, 1080 Bruxelles (1975) ?",o:["Chantal Akerman","Agnès Varda","Marguerite Duras","Claire Denis"],c:[0]},
+{q:"Le film Costa-Gavras Z (1969), qui a remporté l'Oscar du meilleur film étranger, est tiré d'un roman sur quel événement ?",o:["L'assassinat du député grec Grigoris Lambrakis","La guerre civile grecque","La dictature des colonels","L'assassinat de Kennedy"],c:[0]},
+{q:"Qui a réalisé Aguirre, la colère de Dieu (1972) avec Klaus Kinski ?",o:["Werner Herzog","Rainer Werner Fassbinder","Wim Wenders","Volker Schlöndorff"],c:[0]},
+{q:"Dans quel film de Robert Bresson (1951) suit-on la vie spirituelle d'un curé de campagne ?",o:["Journal d'un curé de campagne","Au hasard Balthazar","Mouchette","L'Argent"],c:[0]},
+{q:"Quel cinéaste américain est connu pour ses films d'improvisation comme Shadows (1959), fondateur du cinéma indépendant américain ?",o:["John Cassavetes","Robert Altman","Mike Nichols","Arthur Penn"],c:[0]},
+{q:"Quel film de Sergio Leone (1968) avec Henry Fonda en méchant est considéré comme un chef-d'œuvre du western spaghetti ?",o:["Il était une fois dans l'Ouest","Le Bon, la Brute et le Truand","Il était une fois en Amérique","Pour une poignée de dollars"],c:[0]},
+{q:"Quelle cinéaste française, pionnière du cinéma au XXe siècle, a réalisé La Fée aux Choux en 1896 ?",o:["Alice Guy-Blaché","Germaine Dulac","Musidora","Marie Epstein"],c:[0]},
+{q:"Quel film de Mikio Naruse a influencé le cinéma mondial sans être aussi connu que Kurosawa ou Ozu ?",o:["Nuages flottants (1955)","Sounds from the Mountains","When a Woman Ascends the Stairs","Repast"],c:[0]},
+{q:"Quel cinéaste a réalisé L'Humanité (1999) et Flandres (2006), deux Palmes d'Or au Festival de Cannes ?",o:["Bruno Dumont","Jacques Audiard","Leos Carax","Philippe Garrel"],c:[0]},
+{q:"Qui a composé les musiques du Parrain et de nombreux films de Fellini ?",o:["Nino Rota","Ennio Morricone","Bernard Herrmann","John Williams"],c:[0]},
+{q:"Quels réalisateurs sont associés à la Nouvelle Vague française ?",o:["Truffaut, Godard, Chabrol","Carné, Renoir, Vigo","Clair, Duvivier, Grémillon","Tati, Malle, Varda"],c:[0]},
+],
+},
+
+"Musique": {
+"Facile": [
+{q:"Quel célèbre groupe britannique était composé de Lennon, McCartney, Harrison et Starr ?",o:["Les Beatles","Les Rolling Stones","The Who","Led Zeppelin"],c:[0]},
+{q:"Quel compositeur autrichien a écrit Don Giovanni et La Flûte enchantée ?",o:["Wolfgang Amadeus Mozart","Ludwig van Beethoven","Franz Schubert","Joseph Haydn"],c:[0]},
+{q:"Quelle chanteuse française est célèbre pour « La Vie en rose » ?",o:["Édith Piaf","Juliette Gréco","Barbara","Dalida"],c:[0]},
+{q:"Qui est surnommé le « Roi de la Pop » ?",o:["Michael Jackson","Prince","Elvis Presley","James Brown"],c:[0]},
+{q:"Quel compositeur allemand sourd a composé la Symphonie n°9 ?",o:["Ludwig van Beethoven","Johann Sebastian Bach","Johannes Brahms","Robert Schumann"],c:[0]},
+{q:"Quel chanteur français, décédé en 2017, était surnommé « le rocker » ?",o:["Johnny Hallyday","Michel Sardou","Claude François","Serge Gainsbourg"],c:[0]},
+{q:"Quel musicien américain a reçu le prix Nobel de littérature en 2016 ?",o:["Bob Dylan","Patti Smith","Leonard Cohen","Bruce Springsteen"],c:[0]},
+{q:"Combien de touches un piano standard possède-t-il ?",o:["88","76","92","72"],c:[0]},
+{q:"Quel est le nom de l'hymne national français ?",o:["La Marseillaise","La Brabançonne","Le Chant du départ","La Marseillaise de Rouget"],c:[0]},
+{q:"Quel duo électronique français est connu pour Get Lucky et Harder Better Faster Stronger ?",o:["Daft Punk","Justice","Air","Cassius"],c:[0]},
+{q:"Quel est le nom du chanteur principal des Rolling Stones ?",o:["Mick Jagger","Keith Richards","Charlie Watts","Ronnie Wood"],c:[0]},
+{q:"Quel chanteur était le leader du groupe Queen ?",o:["Freddie Mercury","David Bowie","Elton John","Rod Stewart"],c:[0]},
+{q:"Quel compositeur baroque est l'auteur des Brandebourgeois et du Clavier bien tempéré ?",o:["Johann Sebastian Bach","Georg Friedrich Haendel","Antonio Vivaldi","Henry Purcell"],c:[0]},
+{q:"Quelle chanteuse belge est connue pour « Formidable » et « Alors on danse » ?",o:["Stromae","Angèle","Axelle Red","Lara Fabian"],c:[0]},
+{q:"Combien de cordes possède une guitare classique standard ?",o:["6","4","7","12"],c:[0]},
+{q:"Quelle chanteuse québécoise a interprété My Heart Will Go On pour le film Titanic ?",o:["Céline Dion","Ginette Reno","Isabelle Boulay","Coeur de pirate"],c:[0]},
+{q:"Quel musicien britannique est connu pour ses alter egos Ziggy Stardust et Aladdin Sane ?",o:["David Bowie","Elton John","Marc Bolan","Bryan Ferry"],c:[0]},
+{q:"Quel compositeur vénitien est l'auteur des Quatre Saisons ?",o:["Antonio Vivaldi","Arcangelo Corelli","Giovanni Battista Pergolesi","Tomaso Albinoni"],c:[0]},
+{q:"Quel groupe de rock est à l'origine de la chanson Bohemian Rhapsody ?",o:["Queen","Led Zeppelin","Deep Purple","Pink Floyd"],c:[0]},
+{q:"Quels musiciens ont formé le groupe Daft Punk ?",o:["Thomas Bangalter et Guy-Manuel de Homem-Christo","David Guetta et Bob Sinclar","Martin Solveig et Gesaffelstein","Kavinsky et Breakbot"],c:[0]},
+],
+"Moyen": [
+{q:"Quel luthier crémone est célèbre pour ses violons considérés comme les meilleurs jamais construits ?",o:["Antonio Stradivari","Niccolò Amati","Giuseppe Guarneri","Giovanni Paolo Maggini"],c:[0]},
+{q:"Quelle ville américaine est considérée comme le berceau du jazz ?",o:["La Nouvelle-Orléans","Chicago","New York","Kansas City"],c:[0]},
+{q:"Quel compositeur polonais, virtuose du piano, a vécu en France et est connu pour ses nocturnes et mazurkas ?",o:["Frédéric Chopin","Franz Liszt","Johann Hummel","Ignaz Moscheles"],c:[0]},
+{q:"Quel opéra de Georges Bizet met en scène une jeune femme travaillant dans une manufacture de tabac ?",o:["Carmen","La Bohème","Rigoletto","Madame Butterfly"],c:[0]},
+{q:"Quel style musical brésilien, né à Rio dans les années 1950, mêle samba et jazz ?",o:["La Bossa Nova","La Samba","Le Forró","La Lambada"],c:[0]},
+{q:"Quel groupe de heavy metal américain est connu pour Enter Sandman et Master of Puppets ?",o:["Metallica","Slayer","Megadeth","Anthrax"],c:[0]},
+{q:"Quel compositeur français est l'auteur du Boléro ?",o:["Maurice Ravel","Claude Debussy","Camille Saint-Saëns","César Franck"],c:[0]},
+{q:"Quel festival de musique, tenu en 1969 dans l'État de New York, est devenu un symbole de la culture hippie ?",o:["Woodstock","Glastonbury","Isle of Wight","Monterey Pop"],c:[0]},
+{q:"Quel album de Pink Floyd (1979) raconte l'histoire d'un rockstar qui construit un mur autour de lui ?",o:["The Wall","Dark Side of the Moon","Wish You Were Here","Animals"],c:[0]},
+{q:"Quel compositeur français est associé à l'impressionnisme musical et a composé La Mer et Clair de lune ?",o:["Claude Debussy","Maurice Ravel","Gabriel Fauré","Erik Satie"],c:[0]},
+{q:"Quelle chanteuse britannique, décédée en 2011, a sorti l'album Back to Black ?",o:["Amy Winehouse","Adele","Duffy","Lily Allen"],c:[0]},
+{q:"Quel groupe de Seattle a popularisé le grunge avec l'album Nevermind ?",o:["Nirvana","Pearl Jam","Soundgarden","Alice in Chains"],c:[0]},
+{q:"Quel compositeur français est l'auteur des Gymnopédies ?",o:["Erik Satie","Claude Debussy","Maurice Ravel","Francis Poulenc"],c:[0]},
+{q:"Quel rappeur américain, décédé en 1996, est l'auteur des albums All Eyez on Me et Me Against the World ?",o:["Tupac Shakur","The Notorious B.I.G.","Eazy-E","Big L"],c:[0]},
+{q:"Quel duo français (Air) est connu pour l'album Moon Safari et la B.O. du film Virgin Suicides ?",o:["Nicolas Godin et Jean-Benoît Dunckel","Daft Punk","Cassius","Phoenix"],c:[0]},
+{q:"Quel chanteur auteur-compositeur français, surnommé le « Rebelle », est connu pour En cloque et Mistral Gagnant ?",o:["Renaud","Maxime Le Forestier","Francis Cabrel","Jean-Jacques Goldman"],c:[0]},
+{q:"Quel compositeur hongrois a synthétisé musique folklorique et avant-garde dans Microcosmos et le Mandarin merveilleux ?",o:["Béla Bartók","Zoltán Kodály","Franz Liszt","Ernst von Dohnányi"],c:[0]},
+{q:"Quel album de Miles Davis (1959) est considéré comme le chef-d'œuvre du jazz modal ?",o:["Kind of Blue","Bitches Brew","Birth of the Cool","Milestones"],c:[0]},
+{q:"Quel rappeur américain est l'auteur des albums The Blueprint et 4:44 ?",o:["Jay-Z","Kanye West","Nas","Drake"],c:[0]},
+{q:"Quels compositeurs sont associés à la période baroque ?",o:["Bach, Haendel et Vivaldi","Mozart, Haydn et Beethoven","Schubert, Schumann et Brahms","Debussy, Ravel et Fauré"],c:[0]},
+],
+"Difficile": [
+{q:"Quel compositeur américain est l'auteur de 4'33\", une pièce de silence composé ?",o:["John Cage","Steve Reich","Philip Glass","Morton Feldman"],c:[0]},
+{q:"Quel compositeur autrichien a développé le système dodécaphonique (musique sérielle) ?",o:["Arnold Schönberg","Alban Berg","Anton Webern","Gustav Mahler"],c:[0]},
+{q:"Quel compositeur français, mort en 1992, a écrit le Quatuor pour la fin du Temps lors de sa captivité en 1941 ?",o:["Olivier Messiaen","Pierre Boulez","Henri Dutilleux","André Jolivet"],c:[0]},
+{q:"Quel musicien de jazz américain est considéré comme le père du free jazz, notamment avec l'album The Shape of Jazz to Come ?",o:["Ornette Coleman","John Coltrane","Cecil Taylor","Albert Ayler"],c:[0]},
+{q:"Quel compositeur d'origine grecque, naturalisé français, a développé la musique stochastique (compositions probabilistes) ?",o:["Iannis Xenakis","Nikos Skalkottas","Manos Hatzidakis","Mikis Theodorakis"],c:[0]},
+{q:"Qui est considéré comme l'auteur du premier opéra de l'histoire avec L'Orfeo (1607) ?",o:["Claudio Monteverdi","Jean-Baptiste Lully","Henry Purcell","Alessandro Scarlatti"],c:[0]},
+{q:"Quelle est la durée approximative du cycle Der Ring des Nibelungen de Richard Wagner ?",o:["Environ 15 heures sur 4 soirées","Environ 6 heures","Environ 20 heures","Environ 10 heures"],c:[0]},
+{q:"Quel compositeur et chef d'orchestre français, fondateur de l'IRCAM, a dominé la musique contemporaine des années 1970-2000 ?",o:["Pierre Boulez","Henri Dutilleux","Tristan Murail","Gérard Grisey"],c:[0]},
+{q:"Quel bassiste de jazz est l'auteur de Goodbye Pork Pie Hat et de l'album Mingus Ah Um ?",o:["Charles Mingus","Ray Brown","Paul Chambers","Ron Carter"],c:[0]},
+{q:"Qu'est-ce que le khoomei (chant diphonique) pratiqué notamment en Tuvie (Sibérie) ?",o:["Une technique vocale permettant à un chanteur de produire simultanément plusieurs sons","Un instrument à cordes mongol","Un style de percussion rituel","Un genre de chant polyphonique géorgien"],c:[0]},
+{q:"Quel artiste est à l'origine du concept de la musique ambiante avec des albums comme Discreet Music ?",o:["Brian Eno","Tangerine Dream","Klaus Schulze","Terry Riley"],c:[0]},
+{q:"Qui était Thelonious Monk dans l'histoire du jazz ?",o:["Un pianiste et compositeur fondamental du bebop","Un saxophoniste du cool jazz","Un trompettiste du hard bop","Un contrebassiste du free jazz"],c:[0]},
+{q:"Quel compositeur, auteur des Études symphoniques, est associé au romantisme allemand et a fondé une revue musicale influente ?",o:["Robert Schumann","Felix Mendelssohn","Carl Maria von Weber","Louis Spohr"],c:[0]},
+{q:"Dans quel style musical le Charango, instrument à cordes andins à 10 cordes, est-il utilisé traditionnellement ?",o:["La musique andine (Pérou, Bolivie)","Le flamenco","La samba brésilienne","Le tango argentin"],c:[0]},
+{q:"Quel compositeur autrichien est l'auteur de 9 symphonies monumentales connues pour leur durée exceptionnelle ?",o:["Anton Bruckner","Gustav Mahler","Johannes Brahms","Richard Strauss"],c:[0]},
+{q:"Quel compositeur est à l'origine du concept de Gesamtkunstwerk (œuvre d'art total) ?",o:["Richard Wagner","Franz Liszt","Hector Berlioz","Giuseppe Verdi"],c:[0]},
+{q:"Quelle compositrice du XIIe siècle, abbesse rhénane, est l'autrice de pièces liturgiques comme la Symphonia ?",o:["Hildegard von Bingen","Élisabeth Jacquet de la Guerre","Barbara Strozzi","Madeleine de Scudéry"],c:[0]},
+{q:"Quel musicien, auteur de l'album Trout Mask Replica, incarne l'avant-garde rock américaine ?",o:["Captain Beefheart","Frank Zappa","Lou Reed","John Cale"],c:[0]},
+{q:"Quel est le style musical de l'album Pet Sounds des Beach Boys (1966), considéré comme l'un des plus influents de l'histoire ?",o:["Pop symphonique et psychédélique","Surf rock","Folk rock","Rhythm and blues"],c:[0]},
+{q:"Quels compositeurs sont associés au sérialisme intégral après 1945 ?",o:["Boulez, Nono et Stockhausen","Messiaen, Dutilleux et Jolivet","Cage, Reich et Glass","Xenakis, Ligeti et Berio"],c:[0]},
+],
+},
+
+"Littérature": {
+"Facile": [
+{q:"Quel auteur français a écrit Les Misérables ?",o:["Victor Hugo","Émile Zola","Gustave Flaubert","Alexandre Dumas"],c:[0]},
+{q:"Qui a écrit Hamlet, Roméo et Juliette et Macbeth ?",o:["William Shakespeare","Christopher Marlowe","Ben Jonson","John Milton"],c:[0]},
+{q:"Quel dramaturge français est l'auteur de L'Avare et du Malade imaginaire ?",o:["Molière","Corneille","Racine","Marivaux"],c:[0]},
+{q:"Qui a écrit la saga Harry Potter ?",o:["J.K. Rowling","Philip Pullman","Neil Gaiman","Roald Dahl"],c:[0]},
+{q:"Qui a écrit Le Petit Prince ?",o:["Antoine de Saint-Exupéry","Jules Verne","André Gide","Anatole France"],c:[0]},
+{q:"Quel auteur espagnol a écrit Don Quichotte de la Manche ?",o:["Miguel de Cervantes","Lope de Vega","Francisco de Quevedo","Tirso de Molina"],c:[0]},
+{q:"Quel auteur français de science-fiction est l'auteur de 20 000 lieues sous les mers ?",o:["Jules Verne","H.G. Wells","Alexandre Dumas","Guy de Maupassant"],c:[0]},
+{q:"Qui a écrit Madame Bovary ?",o:["Gustave Flaubert","Stendhal","Balzac","Zola"],c:[0]},
+{q:"Qui a créé les personnages d'Astérix et Obélix ?",o:["René Goscinny (scénario) et Albert Uderzo (dessin)","Hergé","Jean-Michel Charlier","Morris"],c:[0]},
+{q:"Qui a écrit Crime et Châtiment ?",o:["Fiodor Dostoïevski","Léon Tolstoï","Anton Tchekhov","Ivan Tourgueniev"],c:[0]},
+{q:"Quel auteur belge a créé le reporter Tintin ?",o:["Hergé","Franquin","Peyo","Uderzo"],c:[0]},
+{q:"Quel auteur algérien-français a écrit L'Étranger et La Peste ?",o:["Albert Camus","Jean-Paul Sartre","Simone de Beauvoir","André Malraux"],c:[0]},
+{q:"Quel auteur britannique a écrit Le Seigneur des Anneaux ?",o:["J.R.R. Tolkien","C.S. Lewis","Philip Pullman","Terry Pratchett"],c:[0]},
+{q:"Quel auteur français est connu pour son roman-fleuve À la recherche du temps perdu ?",o:["Marcel Proust","Émile Zola","André Gide","Romain Rolland"],c:[0]},
+{q:"Quelle romancière britannique est l'auteur de Dix Petits Nègres avec le personnage Hercule Poirot ?",o:["Agatha Christie","Arthur Conan Doyle","P.D. James","Dorothy Sayers"],c:[0]},
+{q:"Quel auteur français naturaliste est connu pour sa lettre J'accuse dans l'affaire Dreyfus ?",o:["Émile Zola","Victor Hugo","Guy de Maupassant","Anatole France"],c:[0]},
+{q:"Qui a écrit Les Fleurs du mal ?",o:["Charles Baudelaire","Arthur Rimbaud","Paul Verlaine","Stéphane Mallarmé"],c:[0]},
+{q:"Quel auteur britannique a écrit 1984 et La Ferme des animaux ?",o:["George Orwell","Aldous Huxley","H.G. Wells","Evelyn Waugh"],c:[0]},
+{q:"Qui a écrit Le Rouge et le Noir ?",o:["Stendhal","Balzac","Flaubert","Mérimée"],c:[0]},
+{q:"Quels auteurs français ont écrit des romans du XIXe siècle devenus des classiques ?",o:["Balzac, Zola, Flaubert et Hugo","Camus, Sartre et Beauvoir","Breton, Aragon et Éluard","Prévert, Queneau et Perec"],c:[0]},
+],
+"Moyen": [
+{q:"Qui a écrit La Métamorphose, roman où un homme se transforme en insecte ?",o:["Franz Kafka","Albert Camus","Jean-Paul Sartre","Samuel Beckett"],c:[0]},
+{q:"Quel essai de Simone de Beauvoir, paru en 1949, a fondé le féminisme moderne ?",o:["Le Deuxième Sexe","Les Mandarins","Mémoires d'une jeune fille rangée","La Force de l'âge"],c:[0]},
+{q:"Qui a reçu le prix Nobel de littérature en 2022 ?",o:["Annie Ernaux","Michel Houellebecq","Patrick Modiano","Jean-Marie Gustave Le Clézio"],c:[0]},
+{q:"Quel auteur français est l'auteur de Voyage au bout de la nuit, roman publié en 1932 ?",o:["Louis-Ferdinand Céline","André Malraux","Jean Giono","Raymond Queneau"],c:[0]},
+{q:"Qui a écrit La Nausée et L'Être et le Néant ?",o:["Jean-Paul Sartre","Albert Camus","Simone de Beauvoir","Maurice Merleau-Ponty"],c:[0]},
+{q:"Quel auteur français est l'auteur du Comte de Monte-Cristo et des Trois Mousquetaires ?",o:["Alexandre Dumas","Victor Hugo","Théophile Gautier","Prosper Mérimée"],c:[0]},
+{q:"Qui a écrit la pièce de théâtre Phèdre ?",o:["Jean Racine","Pierre Corneille","Molière","Jean Giraudoux"],c:[0]},
+{q:"Quelle pièce de Corneille du XVIIe siècle est à l'origine de la querelle littéraire du même nom ?",o:["Le Cid","Horace","Cinna","Polyeucte"],c:[0]},
+{q:"Quel auteur français des Lumières a écrit Candide ?",o:["Voltaire","Rousseau","Diderot","Montesquieu"],c:[0]},
+{q:"Quelle auteure franco-belge a été la première femme élue à l'Académie française en 1980 ?",o:["Marguerite Yourcenar","Simone de Beauvoir","Nathalie Sarraute","Marguerite Duras"],c:[0]},
+{q:"Quel auteur russe est l'auteur de Lolita ?",o:["Vladimir Nabokov","Boris Pasternak","Ivan Bounine","Mikhaïl Boulgakov"],c:[0]},
+{q:"Qui a écrit Cent ans de solitude, roman fondateur du réalisme magique ?",o:["Gabriel García Márquez","Jorge Luis Borges","Mario Vargas Llosa","Julio Cortázar"],c:[0]},
+{q:"Quel poète français est l'auteur de Paroles, recueil comprenant « Barbara » et « Le cancre » ?",o:["Jacques Prévert","Paul Éluard","Louis Aragon","René Char"],c:[0]},
+{q:"Quel poète français surréaliste est l'auteur des Yeux d'Elsa ?",o:["Louis Aragon","André Breton","Paul Éluard","Robert Desnos"],c:[0]},
+{q:"Quel poète français est l'auteur de Calligrammes, poèmes mêlant typographie et image ?",o:["Guillaume Apollinaire","Blaise Cendrars","Max Jacob","Pierre Reverdy"],c:[0]},
+{q:"Quel auteur colombien a fondé le mouvement du réalisme magique en littérature hispanique ?",o:["Gabriel García Márquez","Pablo Neruda","Octavio Paz","Miguel Ángel Asturias"],c:[0]},
+{q:"Qui a écrit La Chartreuse de Parme ?",o:["Stendhal","Balzac","Flaubert","Mérimée"],c:[0]},
+{q:"Quel auteur irlandais, auteur de Molloy et Malone meurt, a reçu le Nobel de littérature en 1969 ?",o:["Samuel Beckett","James Joyce","W.B. Yeats","Brian Friel"],c:[0]},
+{q:"Quel mouvement littéraire est associé à Zola, Maupassant et Daudet ?",o:["Le Naturalisme","Le Romantisme","Le Symbolisme","Le Surréalisme"],c:[0]},
+{q:"Quels auteurs sont associés au roman policier français ou à la littérature noire ?",o:["Frédéric Dard (San-Antonio), Léo Malet, Jean-Patrick Manchette","Françoise Sagan, Françoise Mallet-Joris","Patrick Modiano, Jean-Marie Gustave Le Clézio","Annie Ernaux, Marie Darrieussecq"],c:[0]},
+],
+"Difficile": [
+{q:"Quel auteur du XVIe siècle est l'auteur de Gargantua et Pantagruel, œuvres humanistes et satiriques ?",o:["François Rabelais","Montaigne","Pierre de Ronsard","Joachim du Bellay"],c:[0]},
+{q:"Quel groupe de poètes du XVIe siècle, comprenant Ronsard et Du Bellay, a voulu renouveler la poésie française ?",o:["La Pléiade","Le Cénacle romantique","L'Oulipo","Le Grand Rhétoriqueurs"],c:[0]},
+{q:"En quelle année le Prix Goncourt a-t-il été décerné pour la première fois ?",o:["1903","1900","1910","1896"],c:[0]},
+{q:"Quel auteur irlandais, auteur d'Ulysse, a révolutionné le roman avec le flux de conscience ?",o:["James Joyce","Samuel Beckett","William Butler Yeats","Oscar Wilde"],c:[0]},
+{q:"Quel roman de William Faulkner (1929) raconte l'histoire de la famille Compson depuis plusieurs points de vue ?",o:["Le Bruit et la Fureur","Sanctuaire","Absalon, Absalon!","Les Palmiers sauvages"],c:[0]},
+{q:"Combien de tomes compte À la recherche du temps perdu de Marcel Proust ?",o:["7","5","9","3"],c:[0]},
+{q:"Quel auteur humaniste du XVIe siècle a inventé le genre de l'essai avec ses Essais publiés en 1580 ?",o:["Michel de Montaigne","François Rabelais","Pierre de Ronsard","Étienne de La Boétie"],c:[0]},
+{q:"Quel poète de la Pléiade est l'auteur des Amours et des Odes, considéré comme le « Prince des poètes » ?",o:["Pierre de Ronsard","Joachim du Bellay","Jean-Antoine de Baïf","Pontus de Tyard"],c:[0]},
+{q:"Quel auteur romantique a écrit les Mémoires d'outre-tombe, autobiographie monumentale ?",o:["François-René de Chateaubriand","Lamartine","Alfred de Vigny","Théophile Gautier"],c:[0]},
+{q:"Quel mouvement littéraire Queneau, Perec, Calvino et Roubaud ont-ils fondé en 1960 ?",o:["L'Oulipo","Le Lettrisme","Le Nouveau Roman","La Pataphysique"],c:[0]},
+{q:"Quel est le premier vers de la Chanson de Roland, épopée médiévale du XIe siècle ?",o:["La chanson ne débute pas ainsi — mais l'épopée relate Roncevaux (778)","Charlemagne invoque Dieu à Roncevaux","Roland préfère mourir que rendre son épée Durandal","Le traître Ganelon trahit Roland"],c:[0]},
+{q:"Quel est le vrai nom de Stendhal ?",o:["Henri Beyle","Frédéric Beyle","Henri Brûlard","Henri de Chartres"],c:[0]},
+{q:"Quel poète symboliste est l'auteur de l'Art poétique et des Poèmes saturniens ?",o:["Paul Verlaine","Stéphane Mallarmé","Arthur Rimbaud","Tristan Corbière"],c:[0]},
+{q:"Quel poète est l'auteur d'Un Coup de dés jamais n'abolira le hasard (1897), œuvre révolutionnaire de la typographie ?",o:["Stéphane Mallarmé","Arthur Rimbaud","Paul Verlaine","Gustave Kahn"],c:[0]},
+{q:"Quel auteur suisse-française a écrit L'Amant, Prix Goncourt 1984 ?",o:["Marguerite Duras","Marguerite Yourcenar","Françoise Sagan","Annie Ernaux"],c:[0]},
+{q:"Quel auteur-poète du XIXe siècle est l'auteur de La Prose du Transsibérien ?",o:["Blaise Cendrars","Guillaume Apollinaire","Max Jacob","Pierre Albert-Birot"],c:[0]},
+{q:"Quel auteur français a reçu le Prix Nobel de littérature en 1947 pour ses œuvres incluant La Porte étroite ?",o:["André Gide","François Mauriac","Albert Camus","Jean-Paul Sartre"],c:[0]},
+{q:"Quel roman de Marguerite Yourcenar, paru en 1951, raconte la vie de l'empereur Hadrien à la première personne ?",o:["Mémoires d'Hadrien","L'Œuvre au noir","Alexis","Coup de grâce"],c:[0]},
+{q:"Quel auteur de la littérature médiévale française est l'auteur des Lais, dont le Lai de Lanval ?",o:["Marie de France","Chrétien de Troyes","Guillaume de Lorris","Jean de Meung"],c:[0]},
+{q:"Quels auteurs sont associés au Nouveau Roman français des années 1950-1970 ?",o:["Robbe-Grillet, Butor, Sarraute, Simon","Sagan, Beauvoir, Duras","Ionesco, Beckett, Adamov","Aragon, Éluard, Breton"],c:[0]},
+],
+},
+
+"Peinture": {
+"Facile": [
+{q:"Qui a peint la Joconde (Mona Lisa) ?",o:["Léonard de Vinci","Michel-Ange","Raphaël","Botticelli"],c:[0]},
+{q:"Qui a peint La Nuit étoilée ?",o:["Vincent van Gogh","Paul Gauguin","Paul Cézanne","Claude Monet"],c:[0]},
+{q:"Qui a peint Guernica, représentant les horreurs de la guerre civile espagnole ?",o:["Pablo Picasso","Salvador Dalí","Juan Gris","Joan Miró"],c:[0]},
+{q:"Qui a peint Le Cri ?",o:["Edvard Munch","Gustav Klimt","Egon Schiele","Ernst Ludwig Kirchner"],c:[0]},
+{q:"Quel peintre est connu pour sa série des Tournesols et des Autoportraits à l'oreille coupée ?",o:["Vincent van Gogh","Paul Gauguin","Paul Cézanne","Georges Seurat"],c:[0]},
+{q:"Qui a peint La Persistance de la mémoire avec ses montres molles ?",o:["Salvador Dalí","René Magritte","Max Ernst","Giorgio de Chirico"],c:[0]},
+{q:"Quel peintre impressionniste est célèbre pour sa série des Nymphéas ?",o:["Claude Monet","Auguste Renoir","Edgar Degas","Camille Pissarro"],c:[0]},
+{q:"Qui a peint La Création d'Adam sur la voûte de la Chapelle Sixtine ?",o:["Michel-Ange","Raphaël","Léonard de Vinci","Le Titien"],c:[0]},
+{q:"Qui a peint La Naissance de Vénus ?",o:["Sandro Botticelli","Raphaël","Léonard de Vinci","Le Pérugin"],c:[0]},
+{q:"Quel peintre hollandais du XVIIe siècle a peint La Jeune Fille à la perle ?",o:["Johannes Vermeer","Rembrandt van Rijn","Frans Hals","Jan Steen"],c:[0]},
+{q:"Dans quel musée parisien est conservée la Joconde ?",o:["Le Louvre","Le musée d'Orsay","Le Centre Pompidou","Le musée de l'Orangerie"],c:[0]},
+{q:"Quel peintre impressionniste est célèbre pour ses tableaux de danseuses ?",o:["Edgar Degas","Claude Monet","Auguste Renoir","Alfred Sisley"],c:[0]},
+{q:"Quel peintre mexicaine est connue pour ses autoportraits et sa vie tumultueuse ?",o:["Frida Kahlo","Remedios Varo","Leonora Carrington","María Izquierdo"],c:[0]},
+{q:"Quel peintre flamand baroque est connu pour ses scènes mythologiques et ses portraits opulents ?",o:["Pierre Paul Rubens","Anthony van Dyck","Jacob Jordaens","Frans Snyders"],c:[0]},
+{q:"Quel peintre belge a peint Le Fils de l'homme, un homme au chapeau melon avec une pomme devant le visage ?",o:["René Magritte","Paul Delvaux","James Ensor","Léon Spilliaert"],c:[0]},
+{q:"Quel artiste français est le chef de file du Fauvisme ?",o:["Henri Matisse","André Derain","Maurice de Vlaminck","Kees van Dongen"],c:[0]},
+{q:"Quel peintre post-impressionniste est surtout connu pour ses paysages de la Montagne Sainte-Victoire ?",o:["Paul Cézanne","Paul Gauguin","Vincent van Gogh","Georges Seurat"],c:[0]},
+{q:"Quel peintre autrichien est l'auteur du tableau Le Baiser ?",o:["Gustav Klimt","Egon Schiele","Oskar Kokoschka","Alfred Kubin"],c:[0]},
+{q:"Quel peintre toulousain est connu pour ses affiches du Moulin Rouge ?",o:["Henri de Toulouse-Lautrec","Pierre Bonnard","Édouard Vuillard","Maurice Denis"],c:[0]},
+{q:"Quels peintres sont associés au mouvement impressionniste ?",o:["Monet, Renoir, Degas et Pissarro","Picasso, Braque et Léger","Dalí, Magritte et Ernst","Kandinsky, Mondrian et Klee"],c:[0]},
+],
+"Moyen": [
+{q:"Qui a fondé le cubisme avec Pablo Picasso ?",o:["Georges Braque","Juan Gris","Fernand Léger","Robert Delaunay"],c:[0]},
+{q:"Quel artiste dadaïste est connu pour avoir ajouté des moustaches à la Joconde dans l'œuvre L.H.O.O.Q. ?",o:["Marcel Duchamp","Man Ray","Francis Picabia","Kurt Schwitters"],c:[0]},
+{q:"Quels artistes sont associés au mouvement surréaliste en peinture ?",o:["Salvador Dalí, René Magritte et Max Ernst","Picasso, Braque et Léger","Mondrian, Kandinsky et Klee","Matisse, Derain et Vlaminck"],c:[0]},
+{q:"Quel peintre espagnol du Siècle d'Or est l'auteur du tableau Las Meninas ?",o:["Diego Vélasquez","Francisco de Goya","El Greco","Zurbarán"],c:[0]},
+{q:"Quel peintre espagnol a représenté les horreurs de la guerre dans Le 3 mai 1808 à Madrid ?",o:["Francisco de Goya","Diego Vélasquez","El Greco","Zurbarán"],c:[0]},
+{q:"Qui a peint le tableau Nighthawks (1942), scène nocturne dans un diner américain ?",o:["Edward Hopper","Grant Wood","Norman Rockwell","Andrew Wyeth"],c:[0]},
+{q:"Quel artiste américain est le chef de file du Pop Art ?",o:["Andy Warhol","Roy Lichtenstein","Jasper Johns","Robert Rauschenberg"],c:[0]},
+{q:"Quel peintre américain est connu pour sa technique de dripping (action painting) ?",o:["Jackson Pollock","Mark Rothko","Franz Kline","Willem de Kooning"],c:[0]},
+{q:"Quel peintre baroque est célèbre pour son utilisation du clair-obscur (chiaroscuro) dans des scènes violentes ?",o:["Le Caravage","Rembrandt","Rubens","Velázquez"],c:[0]},
+{q:"Dans quel musée parisien se trouvent principalement les œuvres du XIXe siècle français ?",o:["Le musée d'Orsay","Le Louvre","Le Centre Pompidou","Le musée de l'Orangerie"],c:[0]},
+{q:"Quel peintre romantique britannique est célèbre pour ses paysages atmosphériques, notamment avec The Fighting Temeraire ?",o:["J.M.W. Turner","John Constable","Thomas Gainsborough","Joshua Reynolds"],c:[0]},
+{q:"Quel peintre néoclassique français est l'auteur du Serment des Horaces (1784) ?",o:["Jacques-Louis David","Jean-Auguste-Dominique Ingres","Nicolas Poussin","Jean-Baptiste Greuze"],c:[0]},
+{q:"Quel peintre expressionniste allemand a fondé le mouvement Die Brücke ?",o:["Ernst Ludwig Kirchner","Wassily Kandinsky","Paul Klee","Franz Marc"],c:[0]},
+{q:"Quel artiste de l'École de Paris, d'origine modiglianesque, est connu pour ses nus allongés ?",o:["Amedeo Modigliani","Marc Chagall","Chaïm Soutine","Jules Pascin"],c:[0]},
+{q:"Quel mouvement artistique est associé à Mark Rothko et ses grands aplats de couleur ?",o:["Le Color Field painting (expressionnisme abstrait)","Le Minimalisme","Le Pop Art","L'Op Art"],c:[0]},
+{q:"Quel peintre symboliste français est l'auteur de L'Apparition et Jupiter et Sémélé ?",o:["Gustave Moreau","Odilon Redon","Pierre Puvis de Chavannes","Fernand Khnopff"],c:[0]},
+{q:"Quel peintre des primitifs flamands est l'auteur du Retable de l'Agneau mystique ?",o:["Jan van Eyck","Rogier van der Weyden","Hans Memling","Dirk Bouts"],c:[0]},
+{q:"Quel peintre post-impressionniste français partageait la vie des Tahitiens et peignait leurs couleurs vives ?",o:["Paul Gauguin","Vincent van Gogh","Paul Cézanne","Henri Rousseau"],c:[0]},
+{q:"Quel peintre français du XVIIe siècle, fondateur du classicisme français, a vécu longtemps à Rome ?",o:["Nicolas Poussin","Claude Lorrain","Simon Vouet","Laurent de La Hyre"],c:[0]},
+{q:"Quels peintres sont associés au mouvement Art Nouveau ?",o:["Klimt, Mucha et Toorop","Dalí, Magritte et Ernst","Cézanne, Van Gogh et Gauguin","Matisse, Derain et Vlaminck"],c:[0]},
+],
+"Difficile": [
+{q:"Quel peintre maniériste florentin est l'auteur de la Déposition de croix à Santa Felicita de Florence ?",o:["Pontormo (Jacopo Carucci)","Bronzino","Rosso Fiorentino","Francesco Salviati"],c:[0]},
+{q:"Quel artiste du Bauhaus, auteur de Autour du poisson, est connu pour ses compositions géométriques colorées ?",o:["Paul Klee","Wassily Kandinsky","László Moholy-Nagy","Herbert Bayer"],c:[0]},
+{q:"Quel peintre est à l'origine du mouvement De Stijl et du néoplasticisme, avec ses grilles de lignes noires et couleurs primaires ?",o:["Piet Mondrian","Theo van Doesburg","Bart van der Leck","Georges Vantongerloo"],c:[0]},
+{q:"Quel peintre britannique d'origine irlandaise est connu pour ses triptiques de corps humains déformés ?",o:["Francis Bacon","Lucian Freud","David Hockney","Graham Sutherland"],c:[0]},
+{q:"Quel peintre américain, décédé en 1988 à 27 ans, a mêlé street art et néo-expressionnisme ?",o:["Jean-Michel Basquiat","Keith Haring","Kenny Scharf","David Wojnarowicz"],c:[0]},
+{q:"Qu'est-ce que l'Arte Povera, mouvement artistique italien des années 1960 ?",o:["Un mouvement utilisant des matériaux humbles et naturels pour contester l'art de galerie","Un mouvement de peinture abstraite","Un courant néo-réaliste de la peinture","Un style d'art conceptuel américain"],c:[0]},
+{q:"Quel peintre allemand néo-expressionniste est connu pour ses grandes toiles évoquant la mythologie et l'histoire allemande ?",o:["Anselm Kiefer","Georg Baselitz","Gerhard Richter","Sigmar Polke"],c:[0]},
+{q:"Qui a réalisé le tableau Las Hilanderas (Les Fileuses) conservé au Prado, souvent considéré comme une des œuvres les plus complexes de Velázquez ?",o:["Diego Vélasquez","Francisco de Zurbarán","Bartolomé Esteban Murillo","Francisco de Goya"],c:[0]},
+{q:"Quel peintre français post-impressionniste est connu pour ses scènes intimistes et sa palette chaude, parfois comparé à Bonnard ?",o:["Pierre Bonnard","Édouard Vuillard","Maurice Denis","Ker-Xavier Roussel"],c:[0]},
+{q:"Qui était le maître de Léonard de Vinci ?",o:["Andrea del Verrocchio","Lorenzo Ghiberti","Filippo Brunelleschi","Donatello"],c:[0]},
+{q:"Quel peintre symboliste belge est l'auteur de La Femme en bleu et de ses tableaux énigmatiques à l'atmosphère onirique ?",o:["Fernand Khnopff","James Ensor","Léon Spilliaert","Théo van Rysselberghe"],c:[0]},
+{q:"Quel peintre hollandais a peint La Ronde de nuit, conservée au Rijksmuseum d'Amsterdam ?",o:["Rembrandt van Rijn","Johannes Vermeer","Frans Hals","Jan Steen"],c:[0]},
+{q:"Quel courant artistique abstrait américain des années 1950 regroupe Rothko, Newman et Still dans leur approche méditative de la couleur ?",o:["Le Color Field","L'Action Painting","Le Minimalisme","L'Expressionnisme abstrait"],c:[0]},
+{q:"Quel peintre de la Renaissance allemande est l'auteur des célèbres gravures du Chevalier, la Mort et le Diable ?",o:["Albrecht Dürer","Lucas Cranach","Hans Holbein","Matthias Grünewald"],c:[0]},
+{q:"Quel artiste français d'origine ukrainienne est connu pour ses grandes peintures aux couleurs vives et ses thèmes bibliques ou du shtetl ?",o:["Marc Chagall","Amedeo Modigliani","Chaïm Soutine","Ossip Zadkine"],c:[0]},
+{q:"Quel peintre flamand du XVe siècle, auteur du Triptyque de l'Annonciation, est associé au Retable de Mérode ?",o:["Robert Campin (Maître de Flémalle)","Rogier van der Weyden","Jan van Eyck","Hans Memling"],c:[0]},
+{q:"Quel artiste abstrait français, influencé par Mondrian, a développé une peinture totalement non figurative dès 1910 ?",o:["Robert Delaunay","Fernand Léger","Francis Picabia","Jacques Villon"],c:[0]},
+{q:"Quel artiste américain minimaliste est connu pour ses cubes et volumes géométriques en acier inoxydable ?",o:["Donald Judd","Carl Andre","Dan Flavin","Sol LeWitt"],c:[0]},
+{q:"Quel peintre espagnol du XVIIe siècle est connu pour ses moines capucins aux blancs éclatants ?",o:["Francisco de Zurbarán","Bartolomé Esteban Murillo","Diego Vélasquez","El Greco"],c:[0]},
+{q:"Quels peintres sont associés au mouvement expressionniste allemand Der Blaue Reiter ?",o:["Kandinsky, Marc et Macke","Kirchner, Heckel et Schmidt-Rottluff","Beckmann, Dix et Grosz","Klee, Schlemmer et Feininger"],c:[0]},
+],
+},
+
+"Astronomie": {
+"Facile": [
+{q:"Quelle est la planète la plus proche du Soleil ?",o:["Mercure","Vénus","Mars","Terre"],c:[0]},
+{q:"Comment appelle-t-on la planète rouge de notre système solaire ?",o:["Mars","Jupiter","Saturne","Uranus"],c:[0]},
+{q:"Quel est le satellite naturel de la Terre ?",o:["La Lune","Phobos","Europe","Titan"],c:[0]},
+{q:"Quelle est l'étoile la plus proche du système solaire ?",o:["Proxima Centauri","Alpha Centauri A","Sirius","Bételgeuse"],c:[0]},
+{q:"Dans quelle galaxie se trouve notre système solaire ?",o:["La Voie Lactée","Andromède","La Galaxie du Sombrero","Le Grand Nuage de Magellan"],c:[0]},
+{q:"Quel astronaute américain a été le premier à marcher sur la Lune en 1969 ?",o:["Neil Armstrong","Buzz Aldrin","Michael Collins","John Glenn"],c:[0]},
+{q:"Quelle est la plus grande planète de notre système solaire ?",o:["Jupiter","Saturne","Uranus","Neptune"],c:[0]},
+{q:"Quel est le type d'étoile de notre Soleil ?",o:["Une naine jaune (type G)","Une géante rouge","Une naine blanche","Une étoile à neutrons"],c:[0]},
+{q:"Quelle comète passe près de la Terre tous les 75-76 ans environ ?",o:["La comète de Halley","La comète Hale-Bopp","La comète Lovejoy","La comète ISON"],c:[0]},
+{q:"Lors d'une éclipse solaire totale, quel astre cache le Soleil ?",o:["La Lune","Mars","Vénus","Mercure"],c:[0]},
+{q:"Quelle planète du système solaire est connue pour ses spectaculaires anneaux ?",o:["Saturne","Jupiter","Uranus","Neptune"],c:[0]},
+{q:"Quel fut le nom du premier satellite artificiel lancé en 1957 ?",o:["Spoutnik 1","Explorer 1","Vanguard","Luna 1"],c:[0]},
+{q:"Quel cosmonaute soviétique a été le premier humain dans l'espace en 1961 ?",o:["Youri Gagarine","Valentina Terechkova","Alexeï Leonov","German Titov"],c:[0]},
+{q:"Combien de temps met la lumière du Soleil pour parvenir jusqu'à la Terre ?",o:["Environ 8 minutes","Environ 1 heure","Environ 1 seconde","Environ 1 jour"],c:[0]},
+{q:"Quel est le statut actuel de Pluton dans la classification de l'Union Astronomique Internationale ?",o:["Planète naine","Planète principale","Astéroïde","Comète"],c:[0]},
+{q:"Quelle constellation contient l'étoile Bételgeuse, une supergéante rouge ?",o:["Orion","La Grande Ourse","Cassiopée","Le Scorpion"],c:[0]},
+{q:"Qu'est-ce qu'une année-lumière ?",o:["La distance parcourue par la lumière en un an (~9 461 milliards de km)","La durée que met la lumière pour traverser le système solaire","Un milliard de kilomètres","La distance Terre-Soleil"],c:[0]},
+{q:"Quel télescope spatial célèbre, lancé en 1990, a révolutionné notre vision de l'univers ?",o:["Le télescope Hubble","Le James Webb","Le Spitzer","Le Herschel"],c:[0]},
+{q:"Quelles planètes du système solaire ont des anneaux visibles ?",o:["Saturne, Jupiter, Uranus et Neptune","Seulement Saturne","Saturne et Jupiter","Saturne, Uranus et Neptune"],c:[0]},
+{q:"En quelle décennie l'Homme a-t-il marché sur la Lune pour la première fois ?",o:["Les années 1960","Les années 1970","Les années 1950","Les années 1980"],c:[0]},
+],
+"Moyen": [
+{q:"Qu'est-ce qu'un trou noir ?",o:["Une région de l'espace où la gravité est si forte que même la lumière ne peut s'en échapper","Un amas d'étoiles très denses","Un type de nébuleuse","Une étoile effondrée en son centre"],c:[0]},
+{q:"Quelle est la théorie sur l'origine de l'univers, selon laquelle tout aurait commencé il y a environ 13,8 milliards d'années ?",o:["Le Big Bang","La théorie de l'état stationnaire","La théorie des cordes","Le modèle de l'inflation"],c:[0]},
+{q:"Que devient généralement une étoile similaire au Soleil en fin de vie ?",o:["Une naine blanche","Une étoile à neutrons","Un trou noir","Une supernova"],c:[0]},
+{q:"Quel phénomène astronomique se produit lorsqu'une étoile massive explose en fin de vie ?",o:["Une supernova","Une nova classique","Un sursaut gamma","Une éruption solaire"],c:[0]},
+{q:"Quelle particularité a la planète Uranus par rapport aux autres planètes ?",o:["Son axe de rotation est presque couché (97,77° par rapport à son plan orbital)","Elle tourne dans le sens inverse des autres planètes","Elle n'a pas de lunes","Elle est la plus petite des géantes gazeuses"],c:[0]},
+{q:"Où se situe la ceinture d'astéroïdes principale de notre système solaire ?",o:["Entre Mars et Jupiter","Entre Jupiter et Saturne","Entre la Terre et Mars","Au-delà de Neptune"],c:[0]},
+{q:"Quel nouveau télescope spatial, successeur de Hubble, a été lancé fin 2021 ?",o:["Le James Webb Space Telescope","Le Spitzer","Le Chandra","L'INTEGRAL"],c:[0]},
+{q:"Quelle est la distance approximative entre la Terre et le Soleil ?",o:["150 millions de km (1 unité astronomique)","15 millions de km","1,5 milliard de km","384 000 km"],c:[0]},
+{q:"Comment s'appelle la zone au-delà de Neptune contenant des corps glacés dont proviennent de nombreuses comètes ?",o:["La ceinture de Kuiper","Le nuage d'Oort","La ceinture d'astéroïdes","Le disque protoplanétaire"],c:[0]},
+{q:"Qu'est-ce que la précession des équinoxes ?",o:["Le lent mouvement conique de l'axe terrestre sur environ 26 000 ans","Le déplacement apparent du Soleil sur l'écliptique","Le mouvement rétrograde de certaines planètes","La rotation de la Lune autour de la Terre"],c:[0]},
+{q:"Quelle est la distance approximative entre la Terre et la Lune ?",o:["384 000 km","38 000 km","1,28 million de km","150 000 km"],c:[0]},
+{q:"Quelle est la dernière planète (la plus éloignée) de notre système solaire ?",o:["Neptune","Uranus","Saturne","Pluton"],c:[0]},
+{q:"Que recherche le programme SETI ?",o:["Des signaux de civilisations extraterrestres intelligentes","Des astéroïdes potentiellement dangereux","De nouvelles étoiles et galaxies","Des exoplanètes habitables"],c:[0]},
+{q:"Quelle est la composition principale de l'atmosphère de Mars ?",o:["Dioxyde de carbone (CO₂) à 95%","Azote et oxygène comme sur Terre","Hydrogène et hélium","Méthane et éthane"],c:[0]},
+{q:"Combien de fois le Soleil est-il plus grand que la Terre en diamètre ?",o:["Environ 109 fois","Environ 10 fois","Environ 1 000 fois","Environ 50 fois"],c:[0]},
+{q:"Comment appelle-t-on les rayonnements très énergétiques provenant de l'espace interstellaire ?",o:["Les rayons cosmiques","Les rayons X stellaires","Le vent solaire","Les ondes gravitationnelles"],c:[0]},
+{q:"Que désigne le terme « exoplanète » ?",o:["Une planète orbitant autour d'une autre étoile que le Soleil","Une planète expulsée de son système stellaire","Un astéroïde de grande taille","Une lune en dehors de l'orbite planétaire"],c:[0]},
+{q:"Quelle est l'origine de la lumière des étoiles ?",o:["Des réactions de fusion nucléaire en leur cœur","Des réactions de fission","Une combustion chimique","Le chauffage par le Big Bang"],c:[0]},
+{q:"Quelles caractéristiques distinguent une nébuleuse d'une galaxie ?",o:["Une nébuleuse est un nuage de gaz et poussières, une galaxie est un ensemble de milliards d'étoiles","Ce sont deux noms pour la même chose","Une nébuleuse est plus grande qu'une galaxie","Une galaxie ne contient que des nébuleuses"],c:[0]},
+{q:"Qu'est-ce qu'une éclipse lunaire ?",o:["La Lune entre dans l'ombre de la Terre","La Terre cache le Soleil à la Lune","La Lune cache le Soleil","Un transit de la Lune devant une étoile"],c:[0]},
+],
+"Difficile": [
+{q:"Qu'est-ce que la constante de Hubble ?",o:["Le taux d'expansion de l'univers, mesurant la vitesse de récession des galaxies selon leur distance","La constante gravitationnelle universelle","La vitesse de rotation de notre galaxie","Le rapport de l'énergie sombre à la matière"],c:[0]},
+{q:"Quelle fraction approximative de l'univers l'énergie sombre représente-t-elle ?",o:["Environ 68%","Environ 27%","Environ 5%","Environ 50%"],c:[0]},
+{q:"Quelle fraction approximative de l'univers la matière sombre représente-t-elle ?",o:["Environ 27%","Environ 68%","Environ 5%","Environ 15%"],c:[0]},
+{q:"Comment appelle-t-on le rayonnement fossile, vestige du Big Bang, qui baigne uniformément l'univers ?",o:["Le fond diffus cosmologique (CMB)","Le rayonnement de Hawking","Le rayonnement Cherenkov","Le fond extragalactique"],c:[0]},
+{q:"Quel est le type stellaire le plus commun dans l'univers ?",o:["Les naines rouges (type M)","Les naines jaunes (type G)","Les géantes bleues","Les naines blanches"],c:[0]},
+{q:"Que désigne la magnitude absolue d'une étoile ?",o:["Sa luminosité intrinsèque si elle était placée à 10 parsecs","Sa luminosité apparente vue de la Terre","Sa température de surface","Sa masse"],c:[0]},
+{q:"Quelle est la période de rotation de Mercure sur elle-même en jours terrestres ?",o:["59 jours terrestres","24 heures","88 jours terrestres","176 jours terrestres"],c:[0]},
+{q:"Qu'est-ce que la parallaxe stellaire ?",o:["La méthode de mesure des distances par décalage angulaire apparent lié au mouvement orbital terrestre","La réfraction de la lumière dans l'atmosphère","Le scintillement des étoiles","La déflexion gravitationnelle de la lumière"],c:[0]},
+{q:"Qu'est-ce qu'un pulsar ?",o:["Une étoile à neutrons en rotation rapide émettant des faisceaux de rayonnement détectés comme des pulsations","Une supernova en cours d'explosion","Un trou noir de petite taille","Un type de quasar peu lumineux"],c:[0]},
+{q:"Quelle observation a fourni la première preuve directe de l'existence des ondes gravitationnelles, en 2015 ?",o:["La détection par LIGO de la fusion de deux trous noirs","L'observation d'une supernova dans Andromède","Le mouvement d'étoiles autour du trou noir galactique","La déviation de la lumière lors d'une éclipse"],c:[0]},
+{q:"Comment appelle-t-on l'hypothétique tunnel reliant deux points distincts de l'espace-temps ?",o:["Un trou de ver (wormhole)","Un trou noir","Un pont Einstein-Rosen","Les deux réponses précédentes sont équivalentes"],c:[2,3]},
+{q:"Qu'est-ce qu'une lentille gravitationnelle ?",o:["La déviation de la lumière par une masse importante, permettant d'observer des objets derrière cette masse","Un miroir parabolique des grands télescopes","Un phénomène d'absorption de la lumière par les nébuleuses","La diffraction de la lumière dans l'atmosphère"],c:[0]},
+{q:"Quel est l'horizon des événements d'un trou noir ?",o:["La frontière au-delà de laquelle rien (même la lumière) ne peut s'échapper","La surface visible du trou noir","La région de production du rayonnement de Hawking","Le disque d'accrétion entourant le trou noir"],c:[0]},
+{q:"Que désigne le terme « chromosphère » ?",o:["La couche de l'atmosphère solaire entre la photosphère et la couronne","La couche externe la plus chaude du Soleil","Le noyau du Soleil","La zone de convection du Soleil"],c:[0]},
+{q:"Qu'est-ce qu'un quasar ?",o:["Le noyau actif d'une galaxie lointaine, extrêmement lumineux, alimenté par un trou noir supermassif","Une étoile très brillante de notre galaxie","Un type de nébuleuse planétaire","Un amas de galaxies en fusion"],c:[0]},
+{q:"Dans quel groupe local de galaxies se trouve la Voie Lactée ?",o:["Le Groupe Local, contenant aussi Andromède et le Triangle","L'Amas de la Vierge","Le Superamas de Laniakea","L'Amas de Persée"],c:[0]},
+{q:"Qu'est-ce que le catalogue Messier ?",o:["Un catalogue de 110 objets du ciel profond (nébuleuses, amas, galaxies) dressé au XVIIIe siècle","Un catalogue d'étoiles variables","Un atlas des planètes du système solaire","Un registre des comètes découvertes"],c:[0]},
+{q:"Comment appelle-t-on le point d'espace où la gravité est nulle entre deux corps en orbite mutuelle, permettant à un troisième corps d'y rester stable ?",o:["Un point de Lagrange","Un point de Roche","Un nœud orbital","Un point libration de Jacobi"],c:[0]},
+{q:"Que signifie le terme « magnitude apparente » d'un astre ?",o:["Sa brillance observée depuis la Terre, qui dépend à la fois de sa luminosité et de sa distance","Sa luminosité intrinsèque indépendante de la distance","Sa taille angulaire dans le ciel","Sa couleur dans le spectre visible"],c:[0]},
+{q:"Quels phénomènes sont liés aux étoiles à neutrons ?",o:["Les pulsars et les sursauts gamma courts","Les quasars et les noyaux actifs de galaxies","Les supernovae de type Ia","Les trous noirs supermassifs"],c:[0]},
+],
+},
+
+"Politique": {
+"Facile": [
+{q:"En quelle année l'ONU (Organisation des Nations Unies) a-t-elle été fondée ?",o:["1945","1919","1948","1955"],c:[0]},
+{q:"Quel est le rôle principal du Parlement dans une démocratie ?",o:["Voter les lois","Exécuter les lois","Juger les lois","Proposer des référendums"],c:[0]},
+{q:"Qu'est-ce qu'une démocratie ?",o:["Un système politique où le pouvoir appartient au peuple","Un système dirigé par un chef militaire","Un système où le roi détient tout le pouvoir","Un système où les experts gouvernent"],c:[0]},
+{q:"Quelles sont les deux chambres du Parlement français ?",o:["L'Assemblée nationale et le Sénat","Le Congrès et le Sénat","L'Assemblée et le Conseil d'État","La Chambre des députés et le Conseil de la République"],c:[0]},
+{q:"En quelle année la Constitution de la Ve République française a-t-elle été adoptée ?",o:["1958","1944","1946","1968"],c:[0]},
+{q:"En quelle année les femmes ont-elles obtenu le droit de vote en France ?",o:["1944","1918","1936","1968"],c:[0]},
+{q:"Quelle alliance militaire occidentale, fondée en 1949, regroupe de nombreux pays d'Europe et d'Amérique du Nord ?",o:["L'OTAN","L'ONU","L'OCDE","L'OSCE"],c:[0]},
+{q:"Quel traité a fondé l'Union européenne (UE) en 1992 ?",o:["Le traité de Maastricht","Le traité de Rome","Le traité de Lisbonne","Le traité de Paris"],c:[0]},
+{q:"Combien d'années dure un mandat présidentiel en France ?",o:["5 ans","7 ans","4 ans","6 ans"],c:[0]},
+{q:"Qu'est-ce qu'un référendum ?",o:["Un vote direct des citoyens sur une question ou un texte","Une élection législative","Un vote du Parlement","Une consultation consultative sans valeur légale"],c:[0]},
+{q:"Quelle est la différence entre une République et une Monarchie ?",o:["En République, le chef d'État n'est pas un monarque héréditaire","En République, le chef d'État est un roi élu","Ce sont deux noms pour la même chose","En République, les citoyens ne votent pas"],c:[0]},
+{q:"Quelle organisation internationale défend les droits de l'homme à travers le monde ?",o:["Amnesty International","Greenpeace","Médecins Sans Frontières","La Croix-Rouge"],c:[0]},
+{q:"Qu'est-ce que le suffrage universel ?",o:["Le droit de vote accordé à tous les citoyens sans distinction","Le vote réservé aux propriétaires","Le vote réservé aux hommes","Le vote des parlementaires uniquement"],c:[0]},
+{q:"Quel est le siège de l'ONU ?",o:["New York","Genève","Paris","Bruxelles"],c:[0]},
+{q:"Comment appelle-t-on le chef du gouvernement en France ?",o:["Le Premier ministre","Le Président","Le Chancelier","Le Premier secrétaire"],c:[0]},
+{q:"Qu'est-ce qu'une monarchie constitutionnelle ?",o:["Un système où un roi règne mais le gouvernement est exercé selon une constitution","Un système où le roi gouverne seul et sans limite","Une démocratie sans chef d'État","Un système républicain avec un président à vie"],c:[0]},
+{q:"Qu'est-ce qu'un droit de veto ?",o:["Le pouvoir de bloquer une décision ou une loi","Le droit de proposer une loi","Le droit de dissoudre le Parlement","Le droit de vote lors d'une élection"],c:[0]},
+{q:"Que signifie « gauche » et « droite » en politique ?",o:["Deux orientations politiques issues de la Révolution française, définissant des positions sur les inégalités sociales et les traditions","Deux partis politiques français","Des termes synonymes de libéralisme et socialisme","Des positions sur la politique étrangère uniquement"],c:[0]},
+{q:"En combien d'États membres l'Union européenne comptait-elle en 2024 ?",o:["27","28","25","30"],c:[0]},
+{q:"Quels pouvoirs sont traditionnellement séparés dans une démocratie libérale ?",o:["Le pouvoir législatif, exécutif et judiciaire","Le pouvoir militaire, civil et religieux","Le pouvoir fédéral, régional et local","Le pouvoir présidentiel, parlementaire et populaire"],c:[0]},
+],
+"Moyen": [
+{q:"Quel traité a fondé la Communauté Économique Européenne (CEE) en 1957 ?",o:["Le traité de Rome","Le traité de Maastricht","Le traité de Paris","Le traité de Lisbonne"],c:[0]},
+{q:"Qui sont les 5 membres permanents du Conseil de sécurité de l'ONU, disposant du droit de veto ?",o:["États-Unis, Royaume-Uni, France, Russie, Chine","États-Unis, Allemagne, France, Russie, Chine","États-Unis, Royaume-Uni, Allemagne, Russie, Japon","États-Unis, Royaume-Uni, France, Russie, Inde"],c:[0]},
+{q:"Comment appelle-t-on la situation en France où le Président et le Premier ministre appartiennent à des partis opposés ?",o:["La cohabitation","La bipolarisation","La dyarchie","L'opposition constitutionnelle"],c:[0]},
+{q:"Dans quelle(s) ville(s) le Parlement européen siège-t-il ?",o:["Strasbourg et Bruxelles (Bruxelles pour les commissions)","Uniquement à Bruxelles","Uniquement à Strasbourg","Strasbourg, Bruxelles et Luxembourg"],c:[0]},
+{q:"Que désigne le FMI ?",o:["Le Fonds Monétaire International, institution visant à stabiliser le système monétaire mondial","La Fédération Mondiale des Industries","Le Fonds Mondial pour l'Investissement","La Fondation Mondiale pour l'Innovation"],c:[0]},
+{q:"Quel groupe de 7 pays industrialisés se réunit annuellement pour discuter des grandes questions mondiales ?",o:["Le G7","Le G8","Le G20","Le Groupe des 77"],c:[0]},
+{q:"Qu'est-ce que le GIEC ?",o:["Le Groupe d'experts intergouvernemental sur l'évolution du climat","Le Groupement International pour l'Environnement et le Climat","Le Grand Institut Économique et Climatique","La Gouvernance Internationale pour l'Énergie et le Climat"],c:[0]},
+{q:"Qu'est-ce que le lobbying ?",o:["Une activité visant à influencer les décisions politiques en faveur d'intérêts privés ou sectoriels","Une procédure législative accélérée","Un type de vote parlementaire","Un sondage d'opinion politique"],c:[0]},
+{q:"Quelle est la durée d'un mandat présidentiel aux États-Unis ?",o:["4 ans (renouvelable une fois)","6 ans","2 ans","4 ans (renouvelable indéfiniment)"],c:[0]},
+{q:"Devant quelle juridiction internationale peuvent être jugés les crimes de guerre ?",o:["La Cour Pénale Internationale (CPI) à La Haye","La Cour Internationale de Justice","Le Tribunal pénal pour l'ex-Yougoslavie","La Cour européenne des droits de l'homme"],c:[0]},
+{q:"Qu'est-ce que le BRICS ?",o:["Un groupe de pays émergents : Brésil, Russie, Inde, Chine, Afrique du Sud","Une institution financière internationale","Un traité de libre-échange","Un sommet annuel de pays développés"],c:[0]},
+{q:"Comment s'appelle le phénomène par lequel une armée ou un pouvoir conserve son influence en dehors des gouvernements ?",o:["L'État profond ou deep state","La cohabitation","Le gouvernement fantôme","La technocratie"],c:[0]},
+{q:"Qu'est-ce que la proportionnelle dans un système électoral ?",o:["Un mode de scrutin où les sièges sont répartis proportionnellement aux voix obtenues","Un système où le candidat ayant le plus de voix gagne tout","Un vote à deux tours","Un scrutin de liste sans proportionnalité"],c:[0]},
+{q:"Qu'est-ce que le « soft power » dans les relations internationales ?",o:["L'influence d'un pays via la culture, les valeurs et la diplomatie, sans contrainte militaire","La puissance militaire conventionnelle","Les sanctions économiques","L'aide au développement"],c:[0]},
+{q:"Quel régime politique caractérise la Chine depuis 1949 ?",o:["Un régime à parti unique dirigé par le Parti communiste chinois","Une démocratie populaire pluraliste","Une monarchie constitutionnelle","Une théocratie"],c:[0]},
+{q:"Qu'est-ce qu'une oligarchie ?",o:["Un gouvernement dominé par un petit groupe d'individus puissants","Un gouvernement de savants","Un gouvernement populaire direct","Un gouvernement religieux"],c:[0]},
+{q:"Que désigne le terme « séparation des pouvoirs » ?",o:["La division du pouvoir entre législatif, exécutif et judiciaire pour éviter les abus","La répartition des compétences entre l'État et les régions","La distinction entre pouvoir civil et militaire","L'indépendance de la presse"],c:[0]},
+{q:"Qui est nommé Premier ministre en France et par qui ?",o:["Il est nommé par le Président de la République","Il est élu au suffrage universel","Il est élu par l'Assemblée nationale","Il est nommé par le Sénat"],c:[0]},
+{q:"Quelle a été la première présidente d'un grand pays démocratique en Europe ?",o:["Vigdís Finnbogadóttir (Islande, 1980)","Margaret Thatcher (Royaume-Uni, 1979)","Angela Merkel (Allemagne, 2005)","Mary Robinson (Irlande, 1990)"],c:[0]},
+{q:"Quelles institutions composent l'Union européenne (principaux organes) ?",o:["Le Parlement européen, le Conseil de l'UE, la Commission européenne et la Cour de justice","Le Parlement, la BCE, l'OTAN et la Commission","Le Conseil de sécurité, l'Assemblée générale, la Commission et la Cour","Le Parlement, le Conseil d'État, le Sénat et la Commission"],c:[0]},
+],
+"Difficile": [
+{q:"Comment Montesquieu a-t-il théorisé la séparation des pouvoirs dans De l'esprit des lois (1748) ?",o:["En distinguant trois pouvoirs distincts et équilibrés : législatif, exécutif, judiciaire","En proposant un gouvernement direct du peuple","En défendant la suprématie du pouvoir exécutif","En plaidant pour un pouvoir judiciaire unique"],c:[0]},
+{q:"Qui est l'auteur du Prince (1532), manuel de politique réaliste ?",o:["Nicolas Machiavel","Thomas Hobbes","Jean Bodin","Francesco Guicciardini"],c:[0]},
+{q:"Comment Thomas Hobbes justifie-t-il l'État dans le Léviathan (1651) ?",o:["Par un contrat social où les hommes cèdent leurs droits naturels à un souverain pour fuir l'état de guerre","Par la volonté divine du souverain","Par la volonté générale du peuple","Par la nécessité économique du commerce"],c:[0]},
+{q:"Qu'est-ce que le système de Bretton Woods mis en place en 1944 ?",o:["Un accord monétaire international instaurant la parité des monnaies avec le dollar et créant le FMI et la Banque mondiale","Un accord de libre-échange","Un traité militaire précédant l'OTAN","Un accord de partage colonial d'après-guerre"],c:[0]},
+{q:"Que désignent la glasnost et la perestroïka ?",o:["Les réformes de transparence et de restructuration économique engagées par Gorbatchev en URSS","Deux partis politiques soviétiques","Des mouvements de résistance en Pologne","Des traités de désarmement nucléaire"],c:[0]},
+{q:"Qu'est-ce que le réalisme en relations internationales ?",o:["Une théorie selon laquelle les États agissent rationnellement pour maximiser leur puissance dans un système anarchique","Une théorie prônant la coopération internationale","Un courant philosophique humaniste","Une approche normative des droits de l'homme"],c:[0]},
+{q:"Qu'est-ce que l'équilibre de Nash en théorie des jeux ?",o:["Un équilibre où aucun joueur n'a intérêt à changer de stratégie si les autres ne changent pas la leur","Un accord de coopération mutuellement bénéfique","Un état où tous les joueurs maximisent leurs gains communs","Un résultat de jeu à somme nulle"],c:[0]},
+{q:"Quelle était la position de John Maynard Keynes concernant la politique économique ?",o:["L'État doit intervenir pour stimuler la demande, notamment en période de récession","L'État ne doit pas intervenir dans l'économie","Les marchés s'autorégulent toujours","La politique monétaire prime sur la politique budgétaire"],c:[0]},
+{q:"Qu'est-ce que l'Habeas Corpus ?",o:["Un principe juridique garantissant qu'une personne ne peut être détenue sans jugement ni raison légale","Un droit à l'insurrection populaire","Un principe de liberté de la presse","Un système de contrôle du gouvernement par le Parlement"],c:[0]},
+{q:"Qu'est-ce que le suffrage censitaire ?",o:["Un système où seuls les individus payant un certain niveau d'impôts ont le droit de vote","Le vote obligatoire","Un scrutin proportionnel","Le vote des femmes uniquement"],c:[0]},
+{q:"Qu'est-ce que le Komintern (IIIe Internationale) fondé en 1919 ?",o:["Une organisation internationale dirigée par Moscou visant à coordonner les partis communistes mondiaux","Un traité de paix après la Première Guerre mondiale","Un groupement de pays socialistes neutres","Un forum de dialogue entre pays communistes et capitalistes"],c:[0]},
+{q:"Que désigne le concept de « spoils system » aux États-Unis ?",o:["La pratique de remplacer les fonctionnaires par des partisans du parti victorieux après une élection","Un système de vote proportionnel","Un mécanisme anti-corruption","Le financement des campagnes électorales"],c:[0]},
+{q:"Qu'est-ce que le constructivisme en relations internationales ?",o:["Une théorie selon laquelle les identités et intérêts des États sont construits socialement, pas donnés","Une théorie de la puissance militaire","Un courant prônant la paix perpétuelle","Un mouvement promouvant la gouvernance mondiale"],c:[0]},
+{q:"Quelle est la différence entre un État fédéral et un État unitaire ?",o:["Dans un État fédéral, le pouvoir est partagé entre un gouvernement central et des entités fédérées ayant leur propre constitution","Dans un État fédéral, tout le pouvoir est centralisé","Un État unitaire est composé de plusieurs nations","Un État fédéral n'a pas de gouvernement central"],c:[0]},
+{q:"Qu'est-ce que la doctrine Monroe (1823) ?",o:["Une politique américaine s'opposant à toute ingérence européenne dans les Amériques","Un traité de libre-échange entre les États américains","Un accord de paix après les guerres napoléoniennes","Une déclaration de neutralité américaine dans les conflits européens"],c:[0]},
+{q:"Que désigne le terme « État de droit » ?",o:["Un système où tous les individus et pouvoirs publics sont soumis à la loi","Un État gouverné par des juristes","Un État sans constitution écrite","Un État où la loi prime sur les droits individuels"],c:[0]},
+{q:"Qu'est-ce que le dilemme du prisonnier en théorie des jeux appliquée à la politique internationale ?",o:["Une situation où deux acteurs rationnels choisissent la non-coopération malgré des bénéfices mutuels à coopérer","Un scénario de négociation multilatérale","Un modèle de coopération commerciale","Un jeu à somme positive"],c:[0]},
+{q:"Qu'est-ce que la Convention citoyenne pour le climat, mise en place en France en 2019 ?",o:["Une assemblée de 150 citoyens tirés au sort pour proposer des mesures de réduction des émissions de gaz à effet de serre","Un référendum sur le changement climatique","Un comité d'experts scientifiques sur le climat","Un groupe de travail parlementaire sur l'environnement"],c:[0]},
+{q:"Quelle théorie politique, associée à Friedrich Hayek, soutient que les marchés libres sont plus efficaces que la planification centrale ?",o:["Le libéralisme économique (néolibéralisme)","Le keynésianisme","Le dirigisme","Le socialisme de marché"],c:[0]},
+{q:"Quels penseurs sont associés à la théorie du contrat social ?",o:["Hobbes, Locke et Rousseau","Machiavel, Montesquieu et Tocqueville","Marx, Engels et Lénine","Burke, Hegel et Mill"],c:[0]},
+],
+},
+
+};
+
+// ============================================================
+// THEME CONFIG
+// ============================================================
+const THEMES = [
+  {name:"Histoire",    icon:"🏛️", grad:"linear-gradient(135deg,#C0392B,#E74C3C)"},
+  {name:"Géographie",  icon:"🌍", grad:"linear-gradient(135deg,#27AE60,#2ECC71)"},
+  {name:"Sciences",    icon:"🔬", grad:"linear-gradient(135deg,#2980B9,#3498DB)"},
+  {name:"Sport",       icon:"⚽", grad:"linear-gradient(135deg,#D35400,#E67E22)"},
+  {name:"Cinéma",      icon:"🎬", grad:"linear-gradient(135deg,#8E44AD,#9B59B6)"},
+  {name:"Musique",     icon:"🎵", grad:"linear-gradient(135deg,#16A085,#1ABC9C)"},
+  {name:"Littérature", icon:"📚", grad:"linear-gradient(135deg,#B7950B,#D4AC0D)"},
+  {name:"Peinture",    icon:"🎨", grad:"linear-gradient(135deg,#D81B60,#E91E63)"},
+  {name:"Astronomie",  icon:"🌌", grad:"linear-gradient(135deg,#1A237E,#3949AB)"},
+  {name:"Politique",   icon:"🗳️", grad:"linear-gradient(135deg,#37474F,#546E7A)"},
+];
+
+// ============================================================
+// PROFILE (localStorage)
+// ============================================================
+const PROFILE_KEY = 'quiz-cg-v1';
+
+function loadProfile() {
+  try {
+    const raw = localStorage.getItem(PROFILE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  const def = { themes: {}, totalGames: 0, totalTime: 0 };
+  THEMES.forEach(t => { def.themes[t.name] = { played: 0, correct: 0, total: 0, timeSpent: 0 }; });
+  return def;
+}
+
+function saveProfile(p) {
+  try { localStorage.setItem(PROFILE_KEY, JSON.stringify(p)); } catch(e) {}
+}
+
+function ensureThemes(p) {
+  THEMES.forEach(t => {
+    if (!p.themes[t.name]) p.themes[t.name] = { played: 0, correct: 0, total: 0, timeSpent: 0 };
+  });
+}
+
+// ============================================================
+// STATE
+// ============================================================
+let G = {
+  theme: null, diff: 'Facile', timer: false,
+  questions: [], qIdx: 0, selected: [], score: 0,
+  results: [], interval: null, timerVal: 15,
+  startTime: 0,
+};
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showPage(page) {
+  clearTimer();
+  document.getElementById('page-home').classList.toggle('hidden', page !== 'home');
+  document.getElementById('page-profile').classList.toggle('hidden', page !== 'profile');
+  document.getElementById('nav-home').classList.toggle('active', page === 'home');
+  document.getElementById('nav-profile').classList.toggle('active', page === 'profile');
+  if (page === 'home') showView('themes');
+  if (page === 'profile') renderProfile();
+}
+
+function showView(v) {
+  ['themes','setup','quiz','results'].forEach(n => {
+    document.getElementById('view-'+n).classList.toggle('hidden', n !== v);
+  });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  const grid = document.getElementById('themes-grid');
+  grid.innerHTML = THEMES.map(t =>
+    `<button class="theme-card" style="background:${t.grad}" onclick="selectTheme('${t.name}')">
+      <span class="icon">${t.icon}</span>
+      <span>${t.name}</span>
+    </button>`
+  ).join('');
+}
+
+// ============================================================
+// SETUP
+// ============================================================
+function selectTheme(name) {
+  G.theme = name; G.diff = 'Facile'; G.timer = false;
+  const th = THEMES.find(t => t.name === name);
+  document.getElementById('setup-name').textContent = `${th.icon} ${name}`;
+  // reset toggles
+  setActive('diff-row', 0);
+  setActive('timer-row', 0);
+  showView('setup');
+}
+
+function setActive(rowId, idx) {
+  const btns = document.getElementById(rowId).querySelectorAll('.toggle-btn');
+  btns.forEach((b,i) => b.classList.toggle('active', i === idx));
+}
+
+function selectDiff(d, btn) {
+  G.diff = d;
+  const btns = document.getElementById('diff-row').querySelectorAll('.toggle-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function selectTimer(on, btn) {
+  G.timer = on;
+  const btns = document.getElementById('timer-row').querySelectorAll('.toggle-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ============================================================
+// QUIZ START
+// ============================================================
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function startQuiz() {
+  const pool = shuffle([...QUESTIONS[G.theme][G.diff]]);
+  G.questions = pool.slice(0, 10);
+  G.qIdx = 0; G.score = 0; G.results = []; G.selected = [];
+  G.startTime = Date.now();
+  showView('quiz');
+  renderQ();
+}
+
+// ============================================================
+// RENDER QUESTION
+// ============================================================
+function renderQ() {
+  const q = G.questions[G.qIdx];
+  G.selected = [];
+
+  document.getElementById('q-counter').textContent = `Q ${G.qIdx+1}/10`;
+  document.getElementById('prog-fill').style.width = `${G.qIdx * 10}%`;
+
+  const card = document.getElementById('question-card');
+  card.innerHTML = `
+    <div class="q-num">Question ${G.qIdx+1} sur 10</div>
+    <div class="q-text">${q.q}</div>
+    <div class="q-hint">Sélectionnez la ou les bonne(s) réponse(s)</div>
+    <div class="options">
+      ${q.o.map((opt,i) => `
+        <div class="option" id="opt${i}" onclick="toggleOpt(${i})">
+          <div class="opt-box" id="box${i}"></div>
+          <span class="opt-text">${opt}</span>
+        </div>`).join('')}
+    </div>
+    <button class="btn-primary validate-btn" id="val-btn" onclick="validate()">Valider</button>
+  `;
+
+  const tel = document.getElementById('timer-el');
+  if (G.timer) { tel.classList.remove('hidden'); startTimer(); }
+  else { tel.classList.add('hidden'); clearTimer(); }
+}
+
+function toggleOpt(i) {
+  const el = document.getElementById('opt'+i);
+  if (el.classList.contains('locked')) return;
+  const box = document.getElementById('box'+i);
+  if (G.selected.includes(i)) {
+    G.selected = G.selected.filter(x => x !== i);
+    el.classList.remove('chosen'); box.textContent = '';
+  } else {
+    G.selected.push(i);
+    el.classList.add('chosen'); box.textContent = '✓';
+  }
+}
+
+// ============================================================
+// VALIDATE
+// ============================================================
+function validate() {
+  clearTimer();
+  const q = G.questions[G.qIdx];
+  const corr = q.c;
+  const allOk = corr.every(c => G.selected.includes(c));
+  const noWrong = G.selected.every(s => corr.includes(s));
+  const isOk = allOk && noWrong;
+  if (isOk) G.score++;
+
+  G.results.push({ ok: isOk, q: q.q, opts: q.o, sel: [...G.selected], corr });
+
+  // Show feedback
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.add('locked');
+    const box = document.getElementById('box'+i);
+    if (corr.includes(i) && G.selected.includes(i)) {
+      el.classList.remove('chosen'); el.classList.add('correct'); box.textContent = '✓';
+    } else if (!corr.includes(i) && G.selected.includes(i)) {
+      el.classList.remove('chosen'); el.classList.add('wrong'); box.textContent = '✗';
+    } else if (corr.includes(i) && !G.selected.includes(i)) {
+      el.classList.add('missed'); box.textContent = '!';
+    }
+  });
+
+  const btn = document.getElementById('val-btn');
+  btn.textContent = G.qIdx < 9 ? 'Question suivante →' : 'Voir les résultats →';
+  btn.onclick = nextQ;
+}
+
+function nextQ() {
+  G.qIdx++;
+  if (G.qIdx >= 10) showResults();
+  else renderQ();
+}
+
+// ============================================================
+// TIMER
+// ============================================================
+function startTimer() {
+  G.timerVal = 15;
+  const el = document.getElementById('timer-el');
+  el.textContent = 15; el.className = 'timer-circle';
+  G.interval = setInterval(() => {
+    G.timerVal--;
+    el.textContent = G.timerVal;
+    if (G.timerVal <= 5) el.className = 'timer-circle danger';
+    else if (G.timerVal <= 8) el.className = 'timer-circle warn';
+    if (G.timerVal <= 0) { clearTimer(); validate(); }
+  }, 1000);
+}
+
+function clearTimer() {
+  if (G.interval) { clearInterval(G.interval); G.interval = null; }
+}
+
+// ============================================================
+// RESULTS
+// ============================================================
+function showResults() {
+  clearTimer();
+  const elapsed = Math.round((Date.now() - G.startTime) / 1000);
+
+  // Update profile
+  const p = loadProfile(); ensureThemes(p);
+  p.themes[G.theme].played++;
+  p.themes[G.theme].correct += G.score;
+  p.themes[G.theme].total += 10;
+  p.themes[G.theme].timeSpent += elapsed;
+  p.totalGames++; p.totalTime += elapsed;
+  saveProfile(p);
+
+  const pct = G.score * 10;
+  let msg = G.score === 10 ? '🏆 Score parfait ! Félicitations !'
+          : G.score >= 8  ? '🌟 Excellent résultat !'
+          : G.score >= 6  ? '👍 Très bien !'
+          : G.score >= 4  ? '💪 Pas mal, continuez !'
+          : '📚 Révisez et réessayez !';
+
+  const wrong = G.results.filter(r => !r.ok);
+  const wrongHtml = wrong.length > 0
+    ? `<div class="recap-title">❌ Questions manquées (${wrong.length}/${G.results.length})</div>
+       ${wrong.map(r => `
+        <div class="recap-item ko">
+          <div class="recap-q">${r.q}</div>
+          <div class="recap-user">Votre réponse : ${r.sel.length ? r.sel.map(i=>r.opts[i]).join(', ') : '(aucune)'}</div>
+          <div class="recap-ok">✅ Réponse(s) correcte(s) : ${r.corr.map(i=>r.opts[i]).join(', ')}</div>
+        </div>`).join('')}`
+    : `<div class="recap-title">✅ Toutes les questions réussies !</div>`;
+
+  document.getElementById('results-content').innerHTML = `
+    <div class="score-hero">
+      <div class="score-big">${G.score}<span style="font-size:2.5rem;opacity:.4">/10</span></div>
+      <div class="score-sub">${G.theme} · ${G.diff}</div>
+      <div class="score-msg">${msg}</div>
+    </div>
+    ${wrongHtml}
+    <div class="btn-row">
+      <button class="btn-primary" onclick="startQuiz()">🔄 Rejouer</button>
+      <button class="btn-back" onclick="showView('themes')">🏠 Accueil</button>
+    </div>
+  `;
+  showView('results');
+}
+
+// ============================================================
+// PROFILE
+// ============================================================
+function formatTime(s) {
+  if (s < 60) return s + 's';
+  if (s < 3600) return Math.floor(s/60) + 'm ' + (s%60) + 's';
+  return Math.floor(s/3600) + 'h ' + Math.floor((s%3600)/60) + 'm';
+}
+
+function renderProfile() {
+  const p = loadProfile(); ensureThemes(p);
+  let gc = 0, gt = 0, favName = '–', maxP = 0;
+  THEMES.forEach(t => {
+    const td = p.themes[t.name];
+    gc += td.correct; gt += td.total;
+    if (td.played > maxP) { maxP = td.played; favName = t.icon + ' ' + t.name; }
+  });
+  const rate = gt > 0 ? Math.round(gc / gt * 100) : 0;
+
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-val">${p.totalGames}</div>
+      <div class="stat-lbl">Parties jouées</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">${rate}%</div>
+      <div class="stat-lbl">Taux de réussite global</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">${formatTime(p.totalTime)}</div>
+      <div class="stat-lbl">Temps total passé</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val sm">${maxP > 0 ? favName : '–'}</div>
+      <div class="stat-lbl">Thématique préférée</div>
+    </div>
+  `;
+  drawRadar(p);
+}
+
+function drawRadar(p) {
+  const canvas = document.getElementById('radar-canvas');
+  const W = canvas.width, H = canvas.height;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, W, H);
+
+  const cx = W / 2, cy = H / 2;
+  const n = THEMES.length;
+  const r = Math.min(W, H) * 0.3;
+  const labelR = r + 42;
+  const step = (2 * Math.PI) / n;
+
+  const data = THEMES.map(t => {
+    const td = p.themes[t.name];
+    return td.total > 0 ? td.correct / td.total : 0;
+  });
+
+  // Grid
+  for (let lv = 1; lv <= 5; lv++) {
+    ctx.beginPath();
+    for (let i = 0; i < n; i++) {
+      const a = i * step - Math.PI / 2;
+      const x = cx + (r * lv / 5) * Math.cos(a);
+      const y = cy + (r * lv / 5) * Math.sin(a);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = '#E0D0BC'; ctx.lineWidth = 1; ctx.stroke();
+  }
+
+  // Axes
+  for (let i = 0; i < n; i++) {
+    const a = i * step - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
+    ctx.strokeStyle = '#E0D0BC'; ctx.lineWidth = 1; ctx.stroke();
+  }
+
+  // Data polygon
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) {
+    const a = i * step - Math.PI / 2;
+    const x = cx + r * data[i] * Math.cos(a);
+    const y = cy + r * data[i] * Math.sin(a);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(44,44,44,0.12)'; ctx.fill();
+  ctx.strokeStyle = '#2C2C2C'; ctx.lineWidth = 2.5; ctx.stroke();
+
+  // Dots
+  for (let i = 0; i < n; i++) {
+    const a = i * step - Math.PI / 2;
+    const x = cx + r * data[i] * Math.cos(a);
+    const y = cy + r * data[i] * Math.sin(a);
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, 2*Math.PI);
+    ctx.fillStyle = '#2C2C2C'; ctx.fill();
+  }
+
+  // Labels
+  for (let i = 0; i < n; i++) {
+    const a = i * step - Math.PI / 2;
+    const lx = cx + labelR * Math.cos(a);
+    const ly = cy + labelR * Math.sin(a);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#2C2C2C'; ctx.font = 'bold 13px "Segoe UI", sans-serif';
+    ctx.fillText(THEMES[i].icon + ' ' + THEMES[i].name, lx, ly);
+    ctx.fillStyle = '#888'; ctx.font = '11px "Segoe UI", sans-serif';
+    const pct = p.themes[THEMES[i].name].total > 0
+      ? Math.round(p.themes[THEMES[i].name].correct / p.themes[THEMES[i].name].total * 100) : 0;
+    ctx.fillText(pct + '%', lx, ly + 17);
+  }
+}
+
+// ============================================================
+// START
+// ============================================================
+window.addEventListener('load', init);
+</script>
+</body>
+</html>
