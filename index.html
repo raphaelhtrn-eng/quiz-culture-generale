@@ -113,6 +113,73 @@ canvas { display: block; margin: 0 auto; max-width: 100%; }
   nav { padding: 0 1rem; }
   .toggle-row { flex-wrap: wrap; }
 }
+
+/* ===== XP BAR ===== */
+.xp-card{background:var(--white);border-radius:16px;padding:1.4rem 1.5rem;box-shadow:0 2px 10px var(--shadow);margin-bottom:1rem;}
+.xp-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem;}
+.xp-level{font-size:1.6rem;font-weight:900;}
+.xp-label{font-size:.82rem;color:var(--muted);}
+.xp-track{background:var(--cream2);height:14px;border-radius:99px;overflow:hidden;margin-bottom:.4rem;}
+.xp-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#F39C12,#E67E22);transition:width .7s cubic-bezier(.22,1,.36,1);}
+.xp-sub{font-size:.78rem;color:var(--muted);text-align:right;}
+
+/* ===== BADGES ===== */
+.badges-section{background:var(--white);border-radius:16px;padding:1.5rem;box-shadow:0 2px 10px var(--shadow);margin-bottom:1.5rem;}
+.badges-section h3{font-size:1rem;font-weight:700;margin-bottom:1rem;}
+.badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:.7rem;}
+.badge{background:var(--cream);border-radius:14px;padding:.9rem .7rem;text-align:center;border:2px solid var(--border);transition:all .2s;}
+.badge.unlocked{background:white;border-color:#F39C12;box-shadow:0 3px 10px rgba(243,156,18,.2);}
+.badge .b-icon{font-size:1.8rem;margin-bottom:.3rem;display:block;}
+.badge .b-name{font-size:.78rem;font-weight:700;margin-bottom:.25rem;line-height:1.2;}
+.badge .b-cond{font-size:.68rem;color:var(--muted);line-height:1.3;}
+.badge.locked{opacity:.4;filter:grayscale(80%);}
+.badge.unlocked .b-cond{color:#E67E22;font-weight:600;}
+
+/* ===== THEME BARS ===== */
+.theme-bars{background:var(--white);border-radius:16px;padding:1.5rem;box-shadow:0 2px 10px var(--shadow);margin-bottom:1.5rem;}
+.theme-bars h3{font-size:1rem;font-weight:700;margin-bottom:1rem;}
+.tb-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.65rem;}
+.tb-name{font-size:.83rem;font-weight:600;width:105px;flex-shrink:0;white-space:nowrap;}
+.tb-track{flex:1;background:var(--cream2);height:10px;border-radius:99px;overflow:hidden;}
+.tb-fill{height:100%;border-radius:99px;transition:width .5s ease;}
+.tb-pct{font-size:.78rem;font-weight:700;color:var(--muted);width:34px;text-align:right;flex-shrink:0;}
+
+/* ===== FUN FACT ===== */
+.fun-fact{background:linear-gradient(135deg,#FFF8E1,#FFF3CD);border-left:4px solid #F39C12;border-radius:0 12px 12px 0;padding:.85rem 1rem;margin-top:.9rem;font-size:.88rem;line-height:1.5;display:none;}
+.fun-fact .ff-lbl{font-size:.7rem;font-weight:700;color:#E67E22;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem;}
+
+/* ===== ANIMATIONS ===== */
+@keyframes shake{0%,100%{transform:translateX(0)}10%,50%,90%{transform:translateX(-7px)}30%,70%{transform:translateX(7px)}}
+@keyframes flashGreen{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
+@keyframes flashRed{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
+@keyframes cfFall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+@keyframes popIn{0%{transform:scale(0) translateY(20px);opacity:0}60%{transform:scale(1.1) translateY(-4px);opacity:1}100%{transform:scale(1) translateY(0);opacity:1}}
+.shake{animation:shake .4s ease;}
+.flash-overlay{position:fixed;inset:0;pointer-events:none;z-index:200;border-radius:0;animation-duration:.55s;animation-fill-mode:forwards;}
+.flash-green-layer{background:rgba(39,174,96,.22);animation-name:flashGreen;}
+.flash-red-layer{background:rgba(231,76,60,.22);animation-name:flashRed;}
+.cf-piece{position:fixed;border-radius:2px;pointer-events:none;z-index:300;animation:cfFall linear forwards;}
+
+/* ===== DUEL ===== */
+.duel-btn{width:100%;margin-top:.75rem;padding:.9rem;background:linear-gradient(135deg,#8E44AD,#9B59B6);color:white;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .15s;box-shadow:0 4px 15px rgba(142,68,173,.3);}
+.duel-btn:hover{opacity:.88;}
+.p1-tag{display:inline-block;padding:.2rem .65rem;border-radius:99px;font-size:.78rem;font-weight:700;color:white;background:#2980B9;margin-bottom:.5rem;}
+.p2-tag{display:inline-block;padding:.2rem .65rem;border-radius:99px;font-size:.78rem;font-weight:700;color:white;background:#C0392B;margin-bottom:.5rem;}
+.duel-scores{display:flex;gap:1rem;margin-top:1rem;}
+.dsc{flex:1;border-radius:16px;padding:1.5rem;text-align:center;color:white;box-shadow:0 4px 15px rgba(0,0,0,.15);}
+.dsc.p1{background:linear-gradient(135deg,#2980B9,#3498DB);}
+.dsc.p2{background:linear-gradient(135deg,#C0392B,#E74C3C);}
+.dsc-big{font-size:3rem;font-weight:900;line-height:1;}
+.duel-winner{font-size:1.1rem;font-weight:700;text-align:center;padding:1rem;background:linear-gradient(135deg,#F39C12,#E67E22);color:white;border-radius:16px;margin:1rem 0;}
+
+/* ===== POPUPS ===== */
+.xp-popup{position:fixed;bottom:2rem;right:2rem;background:#2C2C2C;color:white;padding:.7rem 1.2rem;border-radius:12px;font-weight:700;font-size:.92rem;z-index:400;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;}
+.xp-popup.show{opacity:1;transform:translateY(0);}
+.lvlup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:500;display:none;}
+.lvlup-inner{background:white;border-radius:24px;padding:2.5rem 3rem;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:popIn .5s cubic-bezier(.175,.885,.32,1.275);}
+.lvlup-inner .li-icon{font-size:3.5rem;margin-bottom:.5rem;}
+.lvlup-inner h2{font-size:1.8rem;font-weight:900;margin-bottom:.3rem;}
+.lvlup-inner p{color:var(--muted);}
 </style>
 </head>
 <body>
@@ -133,6 +200,7 @@ canvas { display: block; margin: 0 auto; max-width: 100%; }
       <h1 class="page-title">Quiz Culture Générale</h1>
       <p class="page-sub">Choisissez une thématique pour commencer</p>
       <div class="grid" id="themes-grid"></div>
+      <button class="duel-btn" onclick="showDuelSetup()">⚔️ Mode Duel — 2 joueurs</button>
     </div>
 
     <!-- SETUP VIEW -->
@@ -177,20 +245,96 @@ canvas { display: block; margin: 0 auto; max-width: 100%; }
       <div class="res-wrap" id="results-content"></div>
     </div>
 
+    <!-- DUEL SETUP VIEW -->
+    <div id="view-duel-setup" class="hidden">
+      <div class="panel duel-panel">
+        <div class="panel-title">⚔️ Mode Duel</div>
+        <div class="panel-sub">Deux joueurs, même écran, même questions !</div>
+        <div class="form-group">
+          <label class="form-label">Prénom Joueur 1 🔵</label>
+          <input id="p1-name" type="text" placeholder="Joueur 1" maxlength="20"
+            style="width:100%;padding:.7rem 1rem;border:2px solid var(--border);border-radius:10px;font-size:.95rem;outline:none;">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Prénom Joueur 2 🔴</label>
+          <input id="p2-name" type="text" placeholder="Joueur 2" maxlength="20"
+            style="width:100%;padding:.7rem 1rem;border:2px solid var(--border);border-radius:10px;font-size:.95rem;outline:none;">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Thématique</label>
+          <div class="toggle-row" id="duel-theme-row" style="flex-wrap:wrap;gap:.4rem;">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Difficulté</label>
+          <div class="toggle-row" id="duel-diff-row">
+            <button class="toggle-btn active" onclick="selectDuelDiff('Facile',this)">Facile</button>
+            <button class="toggle-btn" onclick="selectDuelDiff('Moyen',this)">Moyen</button>
+            <button class="toggle-btn" onclick="selectDuelDiff('Difficile',this)">Difficile</button>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="startDuel()">⚔️ C'est parti !</button>
+        <button class="btn-back" onclick="showView('themes')">← Retour</button>
+      </div>
+    </div>
+
+    <!-- DUEL QUIZ VIEW -->
+    <div id="view-duel-quiz" class="hidden">
+      <div class="quiz-wrap">
+        <div class="quiz-header">
+          <span class="q-label" id="duel-q-counter">Q 1/10</span>
+          <div class="prog-track"><div class="prog-fill" id="duel-prog-fill" style="width:0%"></div></div>
+        </div>
+        <div id="duel-player-tag"></div>
+        <div class="question-card" id="duel-question-card"></div>
+      </div>
+    </div>
+
+    <!-- DUEL RESULTS VIEW -->
+    <div id="view-duel-results" class="hidden">
+      <div class="res-wrap" id="duel-results-content"></div>
+    </div>
+
   </div>
 
   <!-- ========== PROFILE PAGE ========== -->
   <div id="page-profile" class="hidden">
     <div class="prof-wrap">
       <h2 class="page-title" style="margin-bottom:1.5rem">Mon Profil</h2>
+      <!-- XP BAR -->
+      <div class="xp-card" id="xp-card"></div>
+      <!-- STATS -->
       <div class="stats-grid" id="stats-grid"></div>
+      <!-- THEME BARS -->
+      <div class="theme-bars" id="theme-bars">
+        <h3>📊 Réussite par thématique</h3>
+        <div id="theme-bars-content"></div>
+      </div>
+      <!-- BADGES -->
+      <div class="badges-section" id="badges-section">
+        <h3>🏅 Badges</h3>
+        <div class="badges-grid" id="badges-grid"></div>
+      </div>
+      <!-- RADAR -->
       <div class="radar-card">
-        <h3>Performance par thématique</h3>
+        <h3>🕸️ Radar des scores</h3>
         <canvas id="radar-canvas" width="520" height="520"></canvas>
       </div>
     </div>
   </div>
 
+</div>
+
+<!-- OVERLAYS -->
+<div id="flash-overlay" class="flash-overlay hidden"></div>
+<div id="xp-popup" class="xp-popup"></div>
+<div id="lvlup-overlay" class="lvlup-overlay">
+  <div class="lvlup-inner">
+    <div class="li-icon">🎉</div>
+    <h2 id="lvlup-title">Niveau atteint !</h2>
+    <p id="lvlup-sub"></p>
+    <button class="btn-primary" style="margin-top:1.5rem;width:auto;padding:.75rem 2rem;" onclick="closeLvlUp()">Super !</button>
+  </div>
 </div>
 
 <script>
@@ -1084,6 +1228,10 @@ function validate() {
 
   G.results.push({ ok: isOk, q: q.q, opts: q.o, sel: [...G.selected], corr });
 
+  // Animations
+  if (isOk) triggerFlash('green');
+  else triggerShakeAndFlash();
+
   // Show feedback
   document.querySelectorAll('.option').forEach((el, i) => {
     el.classList.add('locked');
@@ -1096,6 +1244,17 @@ function validate() {
       el.classList.add('missed'); box.textContent = '!';
     }
   });
+
+  // Fun fact
+  const fact = FUN_FACTS[q.q];
+  if (fact) {
+    const card = document.getElementById('question-card');
+    const ff = document.createElement('div');
+    ff.className = 'fun-fact';
+    ff.innerHTML = `<div class="ff-lbl">💡 Le savais-tu ?</div>${fact}`;
+    ff.style.display = 'block';
+    card.appendChild(ff);
+  }
 
   const btn = document.getElementById('val-btn');
   btn.textContent = G.qIdx < 9 ? 'Question suivante →' : 'Voir les résultats →';
@@ -1137,14 +1296,26 @@ function showResults() {
 
   // Update profile
   const p = loadProfile(); ensureThemes(p);
+  const prevLevel = getLevel(p.xp || 0);
   p.themes[G.theme].played++;
   p.themes[G.theme].correct += G.score;
   p.themes[G.theme].total += 10;
   p.themes[G.theme].timeSpent += elapsed;
+  if (G.score === 10) p.themes[G.theme].hadPerfect = true;
   p.totalGames++; p.totalTime += elapsed;
+
+  // XP
+  const diffMult = {Facile:1, Moyen:1.5, Difficile:2}[G.diff] || 1;
+  const timerBonus = G.timer ? 1.3 : 1;
+  const xpEarned = Math.round(G.score * 10 * diffMult * timerBonus);
+  if (!p.xp) p.xp = 0;
+  p.xp += xpEarned;
   saveProfile(p);
 
-  const pct = G.score * 10;
+  const newLevel = getLevel(p.xp);
+  setTimeout(() => showXpPopup(xpEarned), 600);
+  if (newLevel > prevLevel) setTimeout(() => showLevelUp(newLevel), 1400);
+
   let msg = G.score === 10 ? '🏆 Score parfait ! Félicitations !'
           : G.score >= 8  ? '🌟 Excellent résultat !'
           : G.score >= 6  ? '👍 Très bien !'
@@ -1167,6 +1338,7 @@ function showResults() {
       <div class="score-big">${G.score}<span style="font-size:2.5rem;opacity:.4">/10</span></div>
       <div class="score-sub">${G.theme} · ${G.diff}</div>
       <div class="score-msg">${msg}</div>
+      <div style="margin-top:.75rem;font-size:.88rem;color:#E67E22;font-weight:600;">+${xpEarned} XP gagnés</div>
     </div>
     ${wrongHtml}
     <div class="btn-row">
@@ -1196,6 +1368,23 @@ function renderProfile() {
   });
   const rate = gt > 0 ? Math.round(gc / gt * 100) : 0;
 
+  // XP bar
+  if (!p.xp) p.xp = 0;
+  const lvl = getLevel(p.xp);
+  const xpCur = p.xp - xpForLevel(lvl);
+  const xpNext = xpForLevel(lvl + 1) - xpForLevel(lvl);
+  const pct = lvl >= 99 ? 100 : Math.round(xpCur / xpNext * 100);
+  const levelNames = ['','Apprenti','Curieux','Lettré','Érudit','Chercheur','Savant','Éclairé','Champion','Virtuose','Maître','Visionnaire','Sage','Légende','Oracle','Immortel'];
+  const lvlName = levelNames[Math.min(lvl, levelNames.length-1)] || `Niveau ${lvl}`;
+  document.getElementById('xp-card').innerHTML = `
+    <div class="xp-header">
+      <span class="xp-level">⭐ Niveau ${lvl}</span>
+      <span class="xp-label">${lvlName} · ${p.xp.toLocaleString()} XP total</span>
+    </div>
+    <div class="xp-track"><div class="xp-fill" style="width:${pct}%"></div></div>
+    <div class="xp-sub">${lvl < 99 ? `${xpCur} / ${xpNext} XP vers niveau ${lvl+1}` : 'Niveau maximum atteint ! 🏆'}</div>
+  `;
+
   document.getElementById('stats-grid').innerHTML = `
     <div class="stat-card">
       <div class="stat-val">${p.totalGames}</div>
@@ -1214,6 +1403,30 @@ function renderProfile() {
       <div class="stat-lbl">Thématique préférée</div>
     </div>
   `;
+
+  // Theme bars
+  const THEME_COLORS = ['#C0392B','#27AE60','#2980B9','#D35400','#8E44AD','#16A085','#B7950B','#D81B60','#1A237E','#37474F'];
+  document.getElementById('theme-bars-content').innerHTML = THEMES.map((t, i) => {
+    const td = p.themes[t.name];
+    const pctT = td.total > 0 ? Math.round(td.correct / td.total * 100) : 0;
+    return `<div class="tb-row">
+      <span class="tb-name">${t.icon} ${t.name}</span>
+      <div class="tb-track"><div class="tb-fill" style="width:${pctT}%;background:${THEME_COLORS[i]}"></div></div>
+      <span class="tb-pct">${pctT}%</span>
+    </div>`;
+  }).join('');
+
+  // Badges
+  const unlocked = checkBadges(p);
+  document.getElementById('badges-grid').innerHTML = ALL_BADGES.map(b => {
+    const on = unlocked.has(b.id);
+    return `<div class="badge ${on?'unlocked':'locked'}">
+      <span class="b-icon">${b.icon}</span>
+      <div class="b-name">${b.name}</div>
+      <div class="b-cond">${on ? '✅ Débloqué' : b.cond}</div>
+    </div>`;
+  }).join('');
+
   drawRadar(p);
 }
 
@@ -1290,6 +1503,945 @@ function drawRadar(p) {
       ? Math.round(p.themes[THEMES[i].name].correct / p.themes[THEMES[i].name].total * 100) : 0;
     ctx.fillText(pct + '%', lx, ly + 17);
   }
+}
+
+// ============================================================
+// XP & LEVELS
+// ============================================================
+function xpForLevel(n) {
+  if (n <= 0) return 0;
+  return Math.round(100 * n * Math.log(n + 1));
+}
+function getLevel(totalXp) {
+  let lvl = 0;
+  for (let n = 1; n <= 99; n++) {
+    if (totalXp >= xpForLevel(n)) lvl = n; else break;
+  }
+  return lvl;
+}
+
+// ============================================================
+// BADGES
+// ============================================================
+const ALL_BADGES = [
+  // Level milestones
+  {id:'lvl10', icon:'🌱', name:'Curieux', cond:'Atteindre niveau 10'},
+  {id:'lvl20', icon:'📖', name:'Lettré', cond:'Atteindre niveau 20'},
+  {id:'lvl30', icon:'🏫', name:'Érudit', cond:'Atteindre niveau 30'},
+  {id:'lvl40', icon:'🔭', name:'Chercheur', cond:'Atteindre niveau 40'},
+  {id:'lvl50', icon:'⚗️', name:'Savant', cond:'Atteindre niveau 50'},
+  {id:'lvl60', icon:'🎓', name:'Docteur', cond:'Atteindre niveau 60'},
+  {id:'lvl70', icon:'🏆', name:'Champion', cond:'Atteindre niveau 70'},
+  {id:'lvl80', icon:'🦉', name:'Sage', cond:'Atteindre niveau 80'},
+  {id:'lvl90', icon:'🌟', name:'Légende', cond:'Atteindre niveau 90'},
+  // Achievement badges
+  {id:'perfect', icon:'🎯', name:'10/10 Parfait', cond:'Obtenir un score parfait'},
+  {id:'polymath', icon:'🧠', name:'Polymathe', cond:'Jouer dans 5 thématiques'},
+  {id:'persist', icon:'💪', name:'Persévérant', cond:'Jouer 10 parties'},
+  {id:'marathon', icon:'🏃', name:'Marathonien', cond:'Jouer 50 parties'},
+  {id:'master', icon:'👑', name:'Maître', cond:'80% de réussite globale'},
+  // Theme badges
+  {id:'th_Histoire',    icon:'🏛️', name:'Historien',         cond:'80% en Histoire'},
+  {id:'th_Géographie',  icon:'🌍', name:'Géographe',          cond:'80% en Géographie'},
+  {id:'th_Sciences',    icon:'🔬', name:'Scientifique',       cond:'80% en Sciences'},
+  {id:'th_Sport',       icon:'⚽', name:'Champion sportif',   cond:'80% en Sport'},
+  {id:'th_Cinéma',      icon:'🎬', name:'Cinéphile',          cond:'80% en Cinéma'},
+  {id:'th_Musique',     icon:'🎵', name:'Mélomane',           cond:'80% en Musique'},
+  {id:'th_Littérature', icon:'📚', name:'Littéraire',         cond:'80% en Littérature'},
+  {id:'th_Peinture',    icon:'🎨', name:'Artiste',            cond:'80% en Peinture'},
+  {id:'th_Astronomie',  icon:'🌌', name:'Astronome',          cond:'80% en Astronomie'},
+  {id:'th_Politique',   icon:'🗳️', name:'Politologue',        cond:'80% en Politique'},
+];
+
+function checkBadges(p) {
+  const unlocked = new Set(p.badges || []);
+  const prev = unlocked.size;
+  const lvl = getLevel(p.xp || 0);
+  if (lvl >= 10) unlocked.add('lvl10');
+  if (lvl >= 20) unlocked.add('lvl20');
+  if (lvl >= 30) unlocked.add('lvl30');
+  if (lvl >= 40) unlocked.add('lvl40');
+  if (lvl >= 50) unlocked.add('lvl50');
+  if (lvl >= 60) unlocked.add('lvl60');
+  if (lvl >= 70) unlocked.add('lvl70');
+  if (lvl >= 80) unlocked.add('lvl80');
+  if (lvl >= 90) unlocked.add('lvl90');
+  // Perfect score
+  if (p.themes) {
+    let anyPerfect = false;
+    THEMES.forEach(t => { if (p.themes[t.name] && p.themes[t.name].hadPerfect) anyPerfect = true; });
+    if (anyPerfect) unlocked.add('perfect');
+  }
+  // Polymath: played ≥5 different themes
+  const playedThemes = THEMES.filter(t => p.themes && p.themes[t.name] && p.themes[t.name].played > 0).length;
+  if (playedThemes >= 5) unlocked.add('polymath');
+  // Games count
+  if ((p.totalGames || 0) >= 10) unlocked.add('persist');
+  if ((p.totalGames || 0) >= 50) unlocked.add('marathon');
+  // Global success
+  let gc = 0, gt = 0;
+  THEMES.forEach(t => { if (p.themes && p.themes[t.name]) { gc += p.themes[t.name].correct; gt += p.themes[t.name].total; } });
+  if (gt >= 20 && gc / gt >= 0.8) unlocked.add('master');
+  // Theme badges
+  THEMES.forEach(t => {
+    const td = p.themes && p.themes[t.name];
+    if (td && td.total >= 20 && td.correct / td.total >= 0.8) unlocked.add('th_' + t.name);
+  });
+  // Save if new badges
+  if (unlocked.size > prev) { p.badges = [...unlocked]; saveProfile(p); }
+  return unlocked;
+}
+
+// ============================================================
+// ANIMATIONS
+// ============================================================
+function triggerFlash(type) {
+  const el = document.getElementById('flash-overlay');
+  el.className = 'flash-overlay flash-' + type + '-layer';
+  el.classList.remove('hidden');
+  setTimeout(() => el.classList.add('hidden'), 600);
+  if (type === 'green') launchConfetti();
+}
+function triggerShakeAndFlash(cardId) {
+  triggerFlash('red');
+  const card = document.getElementById(cardId || 'question-card');
+  card.classList.remove('shake');
+  void card.offsetWidth; // reflow
+  card.classList.add('shake');
+  setTimeout(() => card.classList.remove('shake'), 450);
+}
+function launchConfetti() {
+  const colors = ['#F39C12','#27AE60','#3498DB','#E74C3C','#9B59B6','#1ABC9C','#F1C40F','#E91E63'];
+  for (let i = 0; i < 55; i++) {
+    const el = document.createElement('div');
+    el.className = 'cf-piece';
+    const size = 6 + Math.random() * 8;
+    el.style.cssText = `
+      left:${20 + Math.random()*60}%;
+      top:-10px;
+      width:${size}px; height:${size}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${1.2 + Math.random()*1.4}s;
+      animation-delay:${Math.random()*0.4}s;
+      border-radius:${Math.random()>.5?'50%':'2px'};
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3000);
+  }
+}
+
+// ============================================================
+// XP POPUP & LEVEL UP
+// ============================================================
+function showXpPopup(xp) {
+  const el = document.getElementById('xp-popup');
+  el.textContent = `+${xp} XP 🌟`;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+function showLevelUp(lvl) {
+  const ov = document.getElementById('lvlup-overlay');
+  document.getElementById('lvlup-title').textContent = `Niveau ${lvl} atteint ! 🎉`;
+  document.getElementById('lvlup-sub').textContent = `Félicitations, tu progresses rapidement !`;
+  ov.style.display = 'flex';
+}
+function closeLvlUp() {
+  document.getElementById('lvlup-overlay').style.display = 'none';
+}
+
+// ============================================================
+// DUEL MODE
+// ============================================================
+let D = {
+  names: ['Joueur 1','Joueur 2'],
+  questions: [], qIdx: 0, turn: 0,
+  scores: [0, 0], results: [[], []],
+  theme: 'Histoire', diff: 'Facile',
+  selected: [],
+};
+
+function showDuelSetup() {
+  // Build theme toggle buttons
+  const row = document.getElementById('duel-theme-row');
+  row.innerHTML = THEMES.map((t, i) =>
+    `<button class="toggle-btn${i===0?' active':''}" style="flex:0 0 auto;padding:.5rem .6rem;font-size:.78rem;" onclick="selectDuelTheme('${t.name}',this)">${t.icon} ${t.name}</button>`
+  ).join('');
+  D.theme = 'Histoire'; D.diff = 'Facile';
+  showView('duel-setup');
+}
+function selectDuelTheme(name, btn) {
+  D.theme = name;
+  document.getElementById('duel-theme-row').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function selectDuelDiff(d, btn) {
+  D.diff = d;
+  document.getElementById('duel-diff-row').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function startDuel() {
+  D.names[0] = document.getElementById('p1-name').value.trim() || 'Joueur 1';
+  D.names[1] = document.getElementById('p2-name').value.trim() || 'Joueur 2';
+  D.questions = shuffle([...QUESTIONS[D.theme][D.diff]]).slice(0, 10);
+  D.qIdx = 0; D.turn = 0; D.scores = [0, 0]; D.results = [[], []]; D.selected = [];
+  showView('duel-quiz');
+  renderDuelQ();
+}
+function renderDuelQ() {
+  const q = D.questions[D.qIdx];
+  D.selected = [];
+  document.getElementById('duel-q-counter').textContent = `Q ${D.qIdx+1}/10`;
+  document.getElementById('duel-prog-fill').style.width = `${D.qIdx * 10}%`;
+  const tag = document.getElementById('duel-player-tag');
+  tag.innerHTML = `<span class="${D.turn===0?'p1-tag':'p2-tag'}">${D.names[D.turn]} joue</span>`;
+  const card = document.getElementById('duel-question-card');
+  card.innerHTML = `
+    <div class="q-num">Question ${D.qIdx+1} sur 10</div>
+    <div class="q-text">${q.q}</div>
+    <div class="q-hint">Sélectionnez la ou les bonne(s) réponse(s)</div>
+    <div class="options">
+      ${q.o.map((opt,i) => `
+        <div class="option" id="dopt${i}" onclick="toggleDuelOpt(${i})">
+          <div class="opt-box" id="dbox${i}"></div>
+          <span class="opt-text">${opt}</span>
+        </div>`).join('')}
+    </div>
+    <button class="btn-primary validate-btn" id="dval-btn" onclick="validateDuel()">Valider</button>
+  `;
+}
+function toggleDuelOpt(i) {
+  const el = document.getElementById('dopt'+i);
+  if (el.classList.contains('locked')) return;
+  const box = document.getElementById('dbox'+i);
+  if (D.selected.includes(i)) {
+    D.selected = D.selected.filter(x=>x!==i);
+    el.classList.remove('chosen'); box.textContent = '';
+  } else {
+    D.selected.push(i);
+    el.classList.add('chosen'); box.textContent = '✓';
+  }
+}
+function validateDuel() {
+  const q = D.questions[D.qIdx];
+  const corr = q.c;
+  const allOk = corr.every(c => D.selected.includes(c));
+  const noWrong = D.selected.every(s => corr.includes(s));
+  const isOk = allOk && noWrong;
+  if (isOk) { D.scores[D.turn]++; triggerFlash('green'); }
+  else triggerShakeAndFlash('duel-question-card');
+  D.results[D.turn].push({ ok: isOk, q: q.q });
+  // Show feedback
+  document.querySelectorAll('#duel-question-card .option').forEach((el, i) => {
+    el.classList.add('locked');
+    const box = document.getElementById('dbox'+i);
+    if (corr.includes(i) && D.selected.includes(i)) { el.classList.remove('chosen'); el.classList.add('correct'); box.textContent='✓'; }
+    else if (!corr.includes(i) && D.selected.includes(i)) { el.classList.remove('chosen'); el.classList.add('wrong'); box.textContent='✗'; }
+    else if (corr.includes(i) && !D.selected.includes(i)) { el.classList.add('missed'); box.textContent='!'; }
+  });
+  // Fun fact
+  const fact = FUN_FACTS[q.q];
+  if (fact) {
+    const card = document.getElementById('duel-question-card');
+    const ff = document.createElement('div');
+    ff.className = 'fun-fact'; ff.style.display = 'block';
+    ff.innerHTML = `<div class="ff-lbl">💡 Le savais-tu ?</div>${fact}`;
+    card.appendChild(ff);
+  }
+  const btn = document.getElementById('dval-btn');
+  if (D.turn === 0) {
+    btn.textContent = `Passer à ${D.names[1]} →`;
+    btn.onclick = () => { D.turn = 1; D.selected = []; renderDuelQ(); };
+  } else {
+    D.qIdx++;
+    if (D.qIdx >= 10) { btn.textContent = 'Voir les résultats →'; btn.onclick = showDuelResults; }
+    else { btn.textContent = `Passer à ${D.names[0]} →`; btn.onclick = () => { D.turn = 0; D.selected = []; renderDuelQ(); }; }
+  }
+}
+function showDuelResults() {
+  const s0 = D.scores[0], s1 = D.scores[1];
+
+  // Save profile stats & XP
+  const p = loadProfile(); ensureThemes(p);
+  const prevLevel = getLevel(p.xp || 0);
+  const totalCorrect = s0 + s1;
+  p.themes[D.theme].played++;
+  p.themes[D.theme].correct += totalCorrect;
+  p.themes[D.theme].total += 20;
+  if (s0 === 10 || s1 === 10) p.themes[D.theme].hadPerfect = true;
+  p.totalGames++;
+  if (!p.xp) p.xp = 0;
+  const diffMult = {Facile:1, Moyen:1.5, Difficile:2}[D.diff] || 1;
+  const xpEarned = Math.round(totalCorrect * 5 * diffMult);
+  p.xp += xpEarned;
+  saveProfile(p);
+  const newLevel = getLevel(p.xp);
+  setTimeout(() => showXpPopup(xpEarned), 600);
+  if (newLevel > prevLevel) setTimeout(() => showLevelUp(newLevel), 1400);
+
+  const winner = s0 > s1 ? D.names[0] : s1 > s0 ? D.names[1] : null;
+  const winMsg = winner ? `🏆 ${winner} remporte le duel !` : '🤝 Égalité parfaite !';
+  document.getElementById('duel-results-content').innerHTML = `
+    <div class="score-hero" style="margin-bottom:1rem;">
+      <div style="font-size:1.6rem;font-weight:900;margin-bottom:.5rem;">⚔️ Résultat du duel</div>
+      <div class="duel-scores">
+        <div class="dsc p1"><div style="font-size:.9rem;font-weight:700;opacity:.8">${D.names[0]}</div><div class="dsc-big">${s0}/10</div></div>
+        <div class="dsc p2"><div style="font-size:.9rem;font-weight:700;opacity:.8">${D.names[1]}</div><div class="dsc-big">${s1}/10</div></div>
+      </div>
+      <div class="duel-winner">${winMsg}</div>
+      <div style="margin-top:.75rem;font-size:.88rem;color:#E67E22;font-weight:600;">+${xpEarned} XP gagnés</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="startDuel()">🔄 Rejouer</button>
+      <button class="btn-back" onclick="showView('themes')">🏠 Accueil</button>
+    </div>
+  `;
+  showView('duel-results');
+}
+
+// ============================================================
+// FUN FACTS — 600 entrées (clé = texte exact de la question)
+// ============================================================
+const FUN_FACTS = {
+// HISTOIRE FACILE
+"En quelle année a eu lieu la Révolution française ?":"La Bastille ne contenait que 7 prisonniers le 14 juillet 1789 : 4 faussaires, 2 fous et un libertin. Pourtant sa prise est devenue le symbole mondial de la liberté.",
+"Qui était le premier président des États-Unis ?":"Washington a refusé un 3e mandat, établissant une tradition de 2 mandats respectée 150 ans avant d'être inscrite dans la Constitution. Il est aussi le seul président élu à l'unanimité des grands électeurs.",
+"Quelle guerre s'est terminée en 1945 ?":"La Seconde Guerre mondiale a causé entre 70 et 85 millions de morts, soit ~3% de la population mondiale de l'époque. C'est le conflit le plus meurtrier de toute l'histoire humaine.",
+"Qui a construit les pyramides de Gizeh ?":"Les bâtisseurs des pyramides n'étaient pas des esclaves mais des ouvriers qualifiés et libres, logés, nourris et soignés par l'État. Des archives médicales prouvent qu'on les opérait en cas de blessure.",
+"En quelle année le mur de Berlin est-il tombé ?":"La chute du mur a été annoncée par erreur lors d'une conférence de presse ! Le porte-parole Günter Schabowski, mal briefé, a déclaré que les passages s'ouvraient « immédiatement, sans délai ».",
+"Qui dirigeait l'Allemagne nazie ?":"Hitler a été nommé chancelier légalement le 30 janvier 1933. En moins de 18 mois, il a transformé la démocratie de Weimar en dictature totale, exploitant les lois d'urgence de la Constitution.",
+"Quelle bataille Napoléon a-t-il perdue en 1815 ?":"À Waterloo, le maréchal Grouchy a poursuivi les Prussiens dans la mauvaise direction avec 33 000 hommes. S'il avait rejoint Napoléon à temps, l'issue de la bataille aurait pu être radicalement différente.",
+"En quelle année a été signé l'armistice de la Première Guerre mondiale ?":"L'armistice a pris effet le 11/11/1918 à 11h pile. Des soldats ont été tués dans les dernières minutes car certains officiers voulaient « finir en beauté » malgré la capitulation imminente.",
+"En quelle année Christophe Colomb a-t-il découvert l'Amérique ?":"Colomb est mort en 1506 convaincu d'avoir atteint l'Asie. C'est Amerigo Vespucci qui réalisa qu'il s'agissait d'un Nouveau Monde, donnant son prénom à deux continents.",
+"Quel pharaon est associé au masque funéraire en or le plus célèbre ?":"Le tombeau de Toutânkhamon était dissimulé sous les débris d'autres chantiers depuis 3 000 ans. Howard Carter cherchait depuis 5 ans lorsqu'il le découvrit intact en novembre 1922.",
+"Quelle était la capitale de l'Empire romain ?":"À son apogée au IIe siècle, Rome comptait ~1 million d'habitants. Ce n'est que vers 1800 que Londres dépassa ce chiffre pour devenir la plus grande ville d'Europe.",
+"En quelle année Louis XVI a-t-il été guillotiné ?":"Louis XVI a demandé la permission de se raser avant son exécution. Le bourreau Sanson a décrit le roi comme « remarquablement courageux » face à la guillotine le 21 janvier 1793.",
+"Quel événement a directement déclenché la Première Guerre mondiale ?":"François-Ferdinand avait survécu à un premier attentat à la bombe ce matin-là ! C'est en faisant un détour pour visiter des blessés que sa voiture a croisé par hasard Gavrilo Princip.",
+"Jeanne d'Arc était originaire de quelle localité ?":"Jeanne d'Arc avait ~17 ans quand elle convainquit Charles VII de lui confier une armée. Elle leva le siège d'Orléans en seulement 9 jours, exploit militaire qui stupéfia les contemporains.",
+"Quel pays a utilisé la première bombe atomique sur une ville ?":"L'ombre d'un homme assis sur des marches, vaporisé par la chaleur de la bombe d'Hiroshima, est encore visible sur la pierre. La « shadow » est un vestige humain unique dans l'histoire.",
+"En quelle année a eu lieu le Débarquement allié en Normandie ?":"Le D-Day a mobilisé 156 000 soldats sur 5 plages. Une seule fenêtre météo favorable a permis à Eisenhower de donner le feu vert ; une heure de retard aurait tout compromis.",
+"Quel général a fondé la Ve République française ?":"De Gaulle a démissionné en 1969 après la défaite d'un référendum sur la régionalisation. Il quitta l'Élysée le jour même, refusant tout départ officiel, et mourut 16 mois plus tard.",
+"Quel empire a construit le Colisée de Rome ?":"Le Colisée (Amphithéâtre Flavien, 70-80 ap. J.-C.) fut construit en ~10 ans. Son système de vomitoria permettait d'évacuer 50 000 spectateurs en quelques minutes seulement.",
+"En quelle date a eu lieu la prise de la Bastille ?":"La Bastille avait été construite comme forteresse militaire au XIVe siècle avant de devenir une prison. Après la capitulation du gouverneur De Launay, la foule le lyncha et l'on promena sa tête sur une pique.",
+"Lesquelles de ces affirmations sur Napoléon Bonaparte sont vraies ?":"Napoléon mesurait ~1m69, la taille moyenne pour son époque. La légende de sa petite taille vient d'une confusion entre pouces français (plus grands) et anglais : en mesures anglaises il faisait 5'7\".",
+// HISTOIRE MOYEN
+"Quel traité a officiellement mis fin à la Première Guerre mondiale ?":"Le traité de Versailles imposa à l'Allemagne 132 milliards de marks-or de réparations. Ces conditions humiliantes, dites « Diktat », furent exploitées par Hitler pour accéder au pouvoir.",
+"En quelle année a eu lieu la Commune de Paris ?":"La Commune de Paris (mars–mai 1871) dura 72 jours. La Semaine sanglante fit entre 10 000 et 30 000 morts en une semaine — plus que la Terreur de la Révolution en un an.",
+"Qui était Vercingétorix ?":"Après sa reddition à Alésia, Vercingétorix fut emprisonné à Rome 6 ans avant d'être exhibé lors du triomphe de César, puis exécuté en 46 av. J.-C. Il resta un symbole de résistance nationale.",
+"Quelle civilisation précolombienne a construit le Machu Picchu ?":"Le Machu Picchu fut construit vers 1450 et abandonné un siècle plus tard, probablement à cause d'une épidémie de variole espagnole qui précédait les conquistadors. Ces derniers ne le trouvèrent jamais.",
+"En quelle année Jeanne d'Arc a-t-elle été brûlée vive à Rouen ?":"Jeanne d'Arc fut réhabilitée en 1456 (25 ans après sa mort), béatifiée en 1909 et canonisée en 1920. Il fallut presque 500 ans pour qu'elle devienne officiellement sainte.",
+"Qui était Spartacus ?":"La révolte de Spartacus (73–71 av. J.-C.) mobilisa jusqu'à 120 000 esclaves. Après sa défaite, Crassus fit crucifier 6 000 prisonniers le long de la Via Appia sur 200 km.",
+"En quelle année la France a-t-elle aboli la peine de mort ?":"Robert Badinter défendit l'abolition devant une Assemblée nationale hostile. Après son discours, 63% des Français étaient encore favorables à la peine de mort. La loi fut pourtant adoptée.",
+"Quelle était la capitale de l'Empire ottoman ?":"Constantinople a été rebaptisée Istanbul en 1930 par Atatürk. Elle fut capitale de quatre empires successifs : romain, byzantin, latin de Constantinople et ottoman.",
+"Qui a fondé l'Empire carolingien et a été couronné empereur en 800 ?":"Charlemagne ne savait probablement pas lire, mais il encourageait l'éducation. Il essayait d'apprendre à écrire seul le soir dans son lit, selon son biographe Einhard.",
+"En quelle année a eu lieu la bataille d'Azincourt (victoire anglaise) ?":"À Azincourt, 6 000 Anglais vainquirent une armée française de 12 000 à 36 000 hommes. Les archers gallois tiraient jusqu'à 12 flèches par minute à des distances de 200 mètres.",
+"Quel roi de France était surnommé « le Roi-Soleil » ?":"Louis XIV a régné 72 ans — le plus long règne de l'histoire française. Il a transformé Versailles en palais pour surveiller la noblesse et l'empêcher de comploter loin de Paris.",
+"En quelle année la Tour Eiffel a-t-elle été inaugurée ?":"La Tour Eiffel devait être démolie après l'Exposition universelle ! Elle fut sauvée car elle servait d'antenne de télégraphie, ce qui s'avéra crucial pendant la Première Guerre mondiale.",
+"En quelle année a eu lieu la Révolution bolchevique en Russie ?":"La prise du Palais d'Hiver à Petrograd fut bien moins violente que dans le mythe : seulement 5 gardes furent tués. Le vrai bain de sang vint avec la guerre civile qui suivit.",
+"Qui était l'amiral britannique qui a vaincu la flotte de Napoléon à Trafalgar ?":"Lord Nelson fut tué d'une balle tirée depuis le mât du Redoutable français. Ses dernières paroles rapportées : « Dieu merci, j'ai fait mon devoir. » Il mourut en pleine victoire.",
+"En quelle année l'esclavage a-t-il été définitivement aboli en France ?":"Victor Schœlcher porta le décret du 27 avril 1848. Napoléon avait rétabli l'esclavage en 1802 pour des raisons économiques, annulant l'abolition de 1794.",
+"Quel empire était dirigé par Gengis Khan au XIIIe siècle ?":"L'Empire mongol couvrit 24 millions de km² — ~22% des terres émergées — reliant la Chine à la Pologne. C'est le plus grand empire terrestre contigu de l'histoire humaine.",
+"En quelle année a eu lieu la Nuit de Cristal en Allemagne nazie ?":"La Nuit de Cristal (9–10 nov. 1938) tire son nom des éclats de verre de 7 000 commerces juifs détruits. Ce pogrom organisé marqua le passage à une violence raciale ouverte et d'État.",
+"Qui dirigeait le gouvernement de Vichy pendant la Seconde Guerre mondiale ?":"Pétain, héros de Verdun (1916) vénéré par des millions de Français, rencontra Hitler à Montoire en octobre 1940, inaugurant la politique de collaboration active.",
+"En quelle année a été signé le traité de Westphalie, mettant fin à la guerre de Trente Ans ?":"La guerre de Trente Ans (1618–1648) tua entre 25 et 40% de la population de l'Allemagne actuelle par les épidémies et la famine. Le traité de Westphalie fonda le système des États-nations.",
+"Lesquels de ces personnages ont participé à la Révolution française ?":"Robespierre, surnommé « l'Incorruptible », refusait les pots-de-vin et vivait modestement chez un menuisier. Cela ne l'empêcha pas d'envoyer des milliers de personnes à la guillotine.",
+// HISTOIRE DIFFICILE
+"Quel pharaon a tenté d'imposer un monothéisme solaire en Égypte ?":"Akhenaton fit effacer le nom des autres dieux des temples et fonda une nouvelle capitale. Après sa mort, son fils Toutânkhamon restaura l'ancien polythéisme et fit effacer le nom de son père.",
+"En quelle année s'est tenue la Diète de Worms où Luther fut mis au ban de l'Empire ?":"Face à Charles Quint, Luther aurait dit : « Me voici, je ne peux faire autrement. » Mis au ban, il fut caché par l'Électeur de Saxe dans le château de la Wartbourg, où il traduisit la Bible en allemand.",
+"Qui était Oliver Cromwell ?":"Cromwell fit exécuter Charles Ier en 1649. Après sa mort, son corps fut déterré, jugé symboliquement pour trahison, et sa tête exposée sur une pique pendant 20 ans devant le Parlement.",
+"En quelle année la Russie a-t-elle vendu l'Alaska aux États-Unis ?":"L'Alaska fut vendu pour 7,2 millions de dollars (2 cents l'acre). Surnommé « la folie de Seward », l'achat fut moqué jusqu'à la découverte d'or en 1896 et du pétrole au XXe siècle.",
+"Qui a assassiné Jean Jaurès en juillet 1914 ?":"Jaurès fut assassiné au Café du Croissant à Paris le 31 juillet 1914, veille de la mobilisation générale. Son meurtrier Raoul Villain fut acquitté en 1919 par un jury nationaliste.",
+"En quelle année Constantin Ier a-t-il fondé Constantinople ?":"Constantin choisit Byzance pour sa position stratégique, contrôlant le passage Europe–Asie. La ville ne tomba aux mains des Ottomans qu'en 1453, soit 1 123 ans plus tard.",
+"Quel sultan ottoman a conquis Constantinople en 1453 ?":"Mehmed II fit construire en secret le plus grand canon de l'époque (8 mètres, boulets de 500 kg). La ville défendue par ~7 000 hommes résista 53 jours avant de succomber.",
+"Quel roi de France a ordonné le massacre de la Saint-Barthélemy en 1572 ?":"Le massacre fit ~3 000 morts à Paris en une nuit. Le pape Grégoire XIII en fut si réjoui qu'il fit frapper une médaille commémorative et célébrer un Te Deum à Rome.",
+"En quelle année a été adopté le Code civil français dit « Code Napoléon » ?":"Le Code civil du 21 mars 1804 est toujours en vigueur. Il a été traduit et adopté en Belgique, Luxembourg, Québec, Louisiane, Pologne et dans de nombreux pays hispanophones.",
+"Quelle était la fonction de Klemens von Metternich au Congrès de Vienne ?":"Metternich organisa des banquets et bals quasi-quotidiens pour distraire les monarques. Le prince de Ligne observa : « Le Congrès danse, mais il ne marche pas. »",
+"En quelle année a eu lieu la révolution des Œillets au Portugal ?":"Le 25 avril 1974, des soldats mirent des œillets dans leurs fusils pour signifier la non-violence. Les femmes offraient des fleurs à l'armée dans les rues. La dictature de Salazar tomba sans quasi-aucune violence.",
+"Quelle bataille a mis fin à la guerre de Cent Ans en 1453 ?":"Castillon (1453) vit l'artillerie française décimer la chevalerie anglaise. C'est aussi l'année de la chute de Constantinople — deux fins d'époque simultanées qui marquent le début de la Renaissance.",
+"Qui était Tamerlan (Timur) ?":"Tamerlan (1336–1405) fit construire des pyramides de crânes après ses conquêtes — jusqu'à 70 000 crânes après le sac de Bagdad. Il mourut en route pour conquérir la Chine.",
+"En quelle année a eu lieu la bataille de Marathon entre Grecs et Perses ?":"Après Marathon (490 av. J.-C.), un soldat grec courut les 42 km jusqu'à Athènes pour annoncer la victoire avant de mourir d'épuisement. Cette légende est à l'origine du marathon moderne.",
+"Qui était Maximilien Robespierre ?":"Robespierre fut renversé lors du 9 Thermidor (27 juillet 1794) alors même qu'il tenait un discours. Il fut guillotiné sans procès le lendemain — comme les milliers de victimes qu'il avait condamnées.",
+"En quelle année a eu lieu la Semaine sanglante réprimant la Commune de Paris ?":"La Semaine sanglante (21–28 mai 1871) est la répression la plus meurtrière de l'histoire de France. Le mur des Fédérés au cimetière du Père-Lachaise est encore un lieu de pèlerinage de la gauche.",
+"Quel est le nom du cardinal qui fut le principal ministre de Louis XIII ?":"Richelieu n'était pas seulement homme d'État : il fondait aussi des pièces de théâtre et l'Académie française (1635). Son vrai nom était Armand Jean du Plessis de Richelieu.",
+"Lors de quelle bataille Vercingétorix s'est-il rendu à Jules César ?":"Vercingétorix se rendit en grand apparat sur son plus beau cheval. Emprisonné 6 ans à Rome, il fut exhibé lors du triomphe de César avant d'être exécuté par strangulation en 46 av. J.-C.",
+"Quel roi mérovingien a unifié les Francs et s'est converti au christianisme ?":"Le baptême de Clovis (~498) fut décisif pour l'Europe : en devenant chrétien il s'allia à l'Église. La France est depuis lors dite « fille aînée de l'Église ».",
+"La bataille de Lépante (1571) a opposé la Sainte Ligue à quel empire ?":"Lépante engagea 500 navires et 150 000 hommes. Elle brisa le mythe de l'invincibilité ottomane. Le romancier Cervantes y perdit l'usage de sa main gauche, ce qui ne l'empêcha pas d'écrire Don Quichotte.",
+// GÉOGRAPHIE FACILE
+"Quelle est la capitale de la France ?":"Paris a été fondée par les Gaulois Parisii vers 250 av. J.-C. sur l'île de la Cité. L'Île-de-France abrite 12 millions d'habitants, soit 18% de la population française sur 2% du territoire.",
+"Quel est le plus grand océan du monde ?":"Le Pacifique couvre 165 millions de km² — plus que tous les continents réunis. Son point le plus profond, la fosse des Mariannes (11 034 m), dépasse l'Everest en hauteur.",
+"Quel est le plus haut sommet du monde ?":"L'Everest (8 849 m) n'est pas la montagne la plus éloignée du centre de la Terre. Le mont Chimborazo en Équateur l'est davantage, car la Terre est renflée à l'équateur.",
+"Quelle est la capitale de l'Allemagne ?":"Berlin fut divisée par un mur pendant 28 ans (1961–1989). Avec 84 millions d'habitants, l'Allemagne est le pays le plus peuplé d'Europe et son économie est la 4e mondiale.",
+"Quel est le plus grand pays du monde en superficie ?":"La Russie s'étend sur 11 fuseaux horaires et 17,1 millions de km². La Sibérie représente 77% du territoire russe mais n'abrite que 27% de sa population.",
+"Quelle est la capitale du Brésil ?":"Brasília fut construite en seulement 41 mois (1956–1960) par Oscar Niemeyer et Lúcio Costa. Inscrite au patrimoine mondial de l'UNESCO, elle fut inaugurée le 21 avril 1960.",
+"Quel pays est surnommé « le pays du Soleil Levant » ?":"Le Japon est composé de plus de 6 800 îles et est situé dans la Ceinture de feu du Pacifique. En 2021, il comptait plus de 86 000 centenaires — le plus grand nombre par habitant au monde.",
+"Quelle mer sépare l'Europe de l'Afrique au niveau du détroit de Gibraltar ?":"Le détroit de Gibraltar n'a que 14 km à son point le plus étroit. Les Colonnes d'Hercule marquaient pour les Grecs la fin du monde connu et le début des mers dangereuses.",
+"Quelle est la capitale de l'Italie ?":"Rome est surnommée la « Ville éternelle » et a été habitée continuellement depuis plus de 2 800 ans. Le Vatican, enclavé dans Rome, est le plus petit État souverain du monde.",
+"Quel est le plus grand désert chaud du monde ?":"Le Sahara (9,2 millions de km²) n'a pas toujours été désertique : il y a 10 000 ans, il était verdoyant et peuplé d'hippopotames, de crocodiles et d'humains.",
+"Quelle est la capitale du Royaume-Uni ?":"Londres fut fondée par les Romains vers 43 ap. J.-C. sous le nom de Londinium. Avec 14 millions d'habitants dans son aire urbaine, c'est la plus grande ville du Royaume-Uni.",
+"Quel continent est le plus grand en superficie ?":"L'Asie couvre 44,6 millions de km² et abrite 4,7 milliards de personnes — 60% de la population mondiale. Elle contient à la fois le point le plus haut (Everest) et le plus bas (Mer Morte) sur Terre.",
+"Quelle est la capitale de la Chine ?":"Pékin (Beijing = « capitale du Nord ») fut capitale impériale pendant ~700 ans. La Cité interdite compte, selon la tradition, 9 999 pièces — une de moins que le palais céleste.",
+"Quel fleuve traverse Paris ?":"La Seine fait 775 km de long, de sa source en Côte-d'Or jusqu'à son estuaire au Havre. Paris compte 37 ponts sur la Seine, dont le Pont Neuf, le plus ancien (1578), malgré son nom.",
+"Quelle est la plus grande île du monde ?":"Le Groenland (2,16 millions de km²) est recouvert à 80% par un glacier. Sa fonte complète élèverait les océans de 7 mètres, engloutissant des millions de kilomètres de côtes.",
+"Dans quel pays se trouve la Tour de Pise ?":"La Tour de Pise penchait déjà en cours de construction au XIIe siècle. Des travaux de 1990–2001 l'ont redressée de 44 cm, stabilisant son inclinaison pour environ 200 ans.",
+"Quelle est la capitale de l'Australie ?":"Canberra fut choisie comme capitale en 1908 pour éviter la rivalité Sydney–Melbourne. Son nom viendrait du mot aborigène « Kamberra », signifiant « lieu de rassemblement ».",
+"Quelle est la capitale de l'Espagne ?":"Madrid est la capitale la plus haute d'Europe occidentale (667 m). Elle est devenue la capitale de l'Espagne en 1561 sous Philippe II, qui y transféra la cour depuis Tolède.",
+"Sur quel continent se trouve l'Égypte ?":"95% des Égyptiens vivent dans la vallée du Nil, qui ne représente que 4% du territoire. La péninsule du Sinaï se trouve techniquement en Asie : l'Égypte est un pays transcontinental.",
+"Quelle est la capitale du Japon ?":"Tokyo, avec 37 millions d'habitants dans son aire urbaine, est la plus grande agglomération du monde. Elle s'appelait Edo et n'est devenue Tokyo (« capitale de l'Est ») qu'en 1868.",
+// GÉOGRAPHIE MOYEN
+"Quelle est la capitale du Canada ?":"Ottawa fut choisie comme capitale par la reine Victoria en 1857, pour son éloignement de la frontière américaine et pour équilibrer les rivalités entre Toronto et Montréal.",
+"Quel est le lac le plus profond du monde ?":"Le lac Baïkal (1 642 m de profondeur) contient ~20% de l'eau douce liquide non gelée de la planète. Il héberge 1 200 espèces animales uniques au monde, dont l'unique espèce de phoque d'eau douce.",
+"Quelle chaîne de montagnes constitue la frontière naturelle entre l'Europe et l'Asie ?":"L'Oural s'étend sur 2 500 km du nord au sud. Ses plus hauts sommets ne dépassent pas 1 895 m — l'une des plus basses frontières continentales du monde.",
+"Dans quel pays se trouve le Machu Picchu ?":"Machu Picchu est construit sur une crête à 2 430 m d'altitude. Ses pierres sont assemblées sans mortier avec une précision telle qu'une lame de couteau ne peut pas passer entre deux blocs.",
+"Quelle est la capitale de l'Inde ?":"New Delhi fut construite par les Britanniques entre 1911 et 1931 pour remplacer Calcutta comme capitale des Indes. L'architecte Edwin Lutyens en conçut le plan en seulement quelques semaines.",
+"Quel pays est le plus peuplé du monde en 2024 ?":"L'Inde a dépassé la Chine en nombre d'habitants en 2023, avec 1,43 milliard de personnes. Contrairement à la Chine, elle n'a jamais eu de politique de l'enfant unique.",
+"Quel est le plus long fleuve d'Amérique du Sud ?":"L'Amazone débite 209 000 m³/s dans l'Atlantique — 20% de tout le débit d'eau douce mondiale qui rejoint les océans. Certains le considèrent aussi comme le plus long fleuve du monde.",
+"Dans quel pays se trouve le mont Kilimandjaro ?":"Le Kilimandjaro (5 895 m) est un stratovolcan dont le sommet glaciaire est en train de fondre à cause du réchauffement climatique. Il pourrait perdre 85% de sa glace d'ici 2033.",
+"Quelle est la capitale de la Turquie ?":"Ankara est une petite ville de 30 000 habitants quand Atatürk en fait la capitale en 1923. Aujourd'hui elle compte 5 millions d'habitants, loin de l'ancienne capitale Istanbul.",
+"Quelle est la plus grande ville d'Afrique par sa population ?":"Lagos (Nigeria) héberge entre 15 et 20 millions d'habitants selon les estimations. Elle croît si vite qu'elle pourrait devenir la plus grande ville du monde d'ici 2100.",
+"Entre quels deux pays le lac Titicaca est-il partagé ?":"Le lac Titicaca (3 812 m d'altitude) est le plus grand lac navigable du monde en termes de surface. Il abrite les Uros, un peuple vivant sur des îles flottantes en roseaux.",
+"Quel est le point culminant de l'Afrique ?":"Le Kilimandjaro est le seul « toit du continent » accessible à des randonneurs non expérimentés — sans matériel d'alpinisme. Pourtant, son altitude et ses conditions climatiques le rendent exigeant.",
+"Quelle est la capitale du Mexique ?":"Mexico City est construite sur les ruines de Tenochtitlan, l'ancienne capitale aztèque, qui était bâtie sur un lac. La ville s'enfonce de ~50 cm par an à cause du pompage des eaux souterraines.",
+"Quelle est la capitale de l'Argentine ?":"Buenos Aires (« bons vents ») fut fondée deux fois par les Espagnols : en 1535 (chassés par les Indiens) et définitivement en 1580. Son architecture lui vaut le surnom de « Paris de l'Amérique du Sud ».",
+"Quel est le plus long fleuve d'Europe ?":"La Volga (3 531 km) coule entièrement en Russie et se jette dans la mer Caspienne. Elle représente ~33% du débit total des fleuves russes européens.",
+"Quel est le plus grand lac d'eau douce du monde par superficie ?":"Le lac Supérieur (82 103 km²) est si grand qu'il génère son propre micro-climat. Sa profondeur atteint 406 m et il contient 10% des réserves mondiales d'eau douce de surface.",
+"Quelle frontière terrestre est la plus longue du monde ?":"La frontière entre le Canada et les États-Unis mesure 8 891 km — 12 185 km avec l'Alaska. Elle est la frontière internationale la plus longue et est presque entièrement non militarisée.",
+"Quels pays sont traversés par le tropique du Cancer ?":"Le tropique du Cancer (23°26' N) traverse 16 pays : Mexique, Bahamas, Mauritanie, Mali, Algérie, Libye, Égypte, Arabie saoudite, Émirats, Oman, Inde, Bangladesh, Myanmar, Chine, Taïwan et Philippines.",
+"Quel détroit sépare l'Amérique du Nord de l'Asie ?":"Le détroit de Béring ne fait que 82 km de large à son point le plus étroit. Pendant les glaciations, il formait un « pont terrestre » par lequel les premiers humains ont peuplé les Amériques il y a ~20 000 ans.",
+"Quelle est la capitale de la Corée du Sud ?":"Séoul héberge environ 10 millions d'habitants intra-muros et 25 millions dans son aire urbaine, soit la moitié de la population sud-coréenne. C'est l'une des villes les plus denses au monde.",
+// GÉOGRAPHIE DIFFICILE
+"Combien de pays la Russie et la Chine ont-elles chacune en commun comme plus grand nombre de voisins terrestres ?":"La Russie partage ses frontières avec : Norvège, Finlande, Estonie, Lettonie, Lituanie, Pologne, Biélorussie, Ukraine, Géorgie, Azerbaïdjan, Kazakhstan, Mongolie, Chine et Corée du Nord.",
+"Quelle est la capitale du Kazakhstan depuis 2022 (après avoir été Nur-Sultan) ?":"La ville fut fondée en 1830 sous le nom d'Akmolinsk, rebaptisée Tselinograd, puis Akmola, puis Astana en 1998, Nur-Sultan en 2019 en hommage à l'ex-président, puis Astana à nouveau en 2022.",
+"Quel est le plus petit État souverain du monde ?":"Le Vatican n'occupe que 0,44 km² pour environ 800 habitants. C'est le seul État au monde dont toute la superficie est classée au patrimoine mondial de l'UNESCO.",
+"Quel est le point le plus bas de la surface terrestre ?":"La mer Morte est à ~430 m sous le niveau de la mer et baisse de ~1 m par an en raison des détournements du Jourdain. Sa salinité (34%) empêche tout organisme de s'y développer.",
+"La mer Caspienne est-elle techniquement un lac ou une mer ?":"La mer Caspienne (371 000 km²) est le plus grand lac du monde par sa superficie. Malgré son nom, elle est enclavée, sans accès aux océans. Ses eaux sont légèrement salées.",
+"Quelle est la capitale du Népal ?":"Katmandou est située à 1 400 m d'altitude dans une vallée himalayenne. Elle fut fondée au VIIIe siècle et est entourée de 7 des 14 sommets de plus de 8 000 m dans un rayon de 150 km.",
+"Quel pays possède la plus forte densité de population en excluant les micro-États ?":"Le Bangladesh concentre ~170 millions d'habitants sur 147 570 km², soit une densité de ~1 150 hab/km². C'est l'équivalent de la population du Pakistan entassée dans la moitié de la France.",
+"Quelle est la capitale du Myanmar (Birmanie) ?":"Naypyidaw fut construite en secret par la junte militaire et inaugurée le 6 novembre 2005 (à 6h37 du matin, heure jugée favorable par les astrologues). Elle est quasi-déserte malgré sa superficie.",
+"Quel est le plus grand delta du monde en superficie ?":"Le delta du Gange-Brahmapoutre (Sundarbans, 105 000 km²) est partagé entre le Bangladesh et l'Inde. Il abrite la plus grande forêt de mangroves du monde et est particulièrement vulnérable au changement climatique.",
+"À quelle latitude approximative se situe Paris ?":"Paris (48°52'N) est plus proche du pôle Nord que de l'équateur. À la même latitude se trouvent Vancouver (Canada), Minsk (Biélorussie) et l'Île de Vancouver.",
+"Quel canal relie la mer Rouge à la Méditerranée ?":"Le canal de Suez (193 km) a été inauguré en 1869. Il réduit de ~7 000 km le trajet entre l'Europe et l'Asie. En 2021, le porte-conteneurs Ever Given l'a bloqué 6 jours, coûtant ~9 milliards de dollars par jour.",
+"Quel fleuve forme en grande partie la frontière entre l'Argentine et l'Uruguay ?":"Le Río de la Plata est en réalité le plus large estuaire du monde (220 km à son embouchure). Il est si large que depuis Buenos Aires on ne peut pas voir la rive uruguayenne.",
+"Dans quel pays se trouve l'isthme de Panama ?":"L'isthme de Panama sépare les océans Atlantique et Pacifique sur seulement 80 km. Son canal (inauguré 1914) permet le passage de ~14 000 navires par an, dont dépend 5% du commerce mondial.",
+"Quel archipel est à la fois le plus à l'est et au centre du fuseau international de changement de date ?":"Kiribati (prononcé « Kiribass ») est le premier pays à voir se lever le soleil au Nouvel An. Il s'étend sur 3,5 millions de km² d'océan, mais ne représente que 811 km² de terres émergées.",
+"Quel pays d'Afrique australe est entièrement enclavé dans l'Afrique du Sud ?":"Le Lesotho (30 355 km²) est entièrement enclavé dans l'Afrique du Sud — l'un des trois États entièrement enclavés dans un seul autre pays (avec le Vatican et Saint-Marin, enclavés en Italie).",
+"Combien de pays partagent une frontière avec la France métropolitaine ?":"La France partage ses frontières avec : Belgique, Luxembourg, Allemagne, Suisse, Italie, Monaco, Andorre et Espagne. Elle est le pays ayant le plus de voisins en Europe occidentale.",
+"Quel est le plus long tunnel ferroviaire sous-marin du monde ?":"Le tunnel du Seikan (Japon, 53,85 km) relie l'île de Honshū à Hokkaidō sous le détroit de Tsugaru. Construit entre 1961 et 1988, il reste le tunnel ferroviaire sous-marin le plus long du monde.",
+"Quelle ville est la capitale administrative du Sri Lanka ?":"Sri Jayawardenepura Kotte est la capitale législative tandis que Colombo est la capitale commerciale et de facto. Ce statut double est le résultat d'une décision politique symbolique de 1982.",
+"Dans quelle chaîne de montagnes se trouve le mont Blanc ?":"Le mont Blanc (4 808 m) est à cheval sur la France, l'Italie et la Suisse. Sa nationalité est disputée : la France et l'Italie revendiquent toutes deux le sommet, la frontière passant sur la crête.",
+"Quelle est la capitale de la Mongolie ?":"Oulan-Bator (Ulaanbaatar = « Héros rouge ») est la capitale la plus froide du monde avec une température moyenne annuelle de -1,3°C. En hiver, elle peut descendre à -40°C.",
+// SCIENCES FACILE
+"Quel est l'élément le plus abondant dans l'atmosphère terrestre ?":"L'azote (N₂) représente 78% de l'atmosphère terrestre, contre seulement 21% pour l'oxygène. L'azote est chimiquement inerte et essentiel à la vie via le cycle de l'azote.",
+"Quelle est la vitesse approximative de la lumière dans le vide ?":"La lumière parcourt 299 792 458 m/s — soit 1 079 252 848 km/h. Elle fait le tour de la Terre 7,5 fois par seconde et met ~1,3 secondes pour atteindre la Lune.",
+"À qui attribue-t-on l'invention du téléphone ?":"Graham Bell a déposé son brevet le 14 février 1876, soit quelques heures avant Elisha Gray. Cette avance de quelques heures lui a valu la paternité officielle d'une invention qui a changé le monde.",
+"Qui a formulé la loi de la gravitation universelle ?":"La légende de la pomme de Newton qui tomba n'est pas totalement fausse : il affirma lui-même que l'observation d'une pomme tombant l'avait inspiré dans sa réflexion sur la gravitation.",
+"Qui a classé les éléments chimiques dans le premier tableau périodique ?":"Mendeleïev (1869) laissa des cases vides pour des éléments non encore découverts. Il prédit si précisément leurs propriétés que leur découverte ultérieure confirma brillamment son système.",
+"Qui a proposé la théorie de l'évolution des espèces par sélection naturelle ?":"Darwin attendit 20 ans avant de publier L'Origine des espèces (1859), de peur des réactions religieuses. La réception du livre dépassa ses craintes : il se vendit entièrement le jour de sa sortie.",
+"Quelle est la formule chimique de l'eau ?":"La molécule d'eau est asymétrique (angle de 104,5°), ce qui lui confère un moment dipolaire. C'est cette propriété qui explique la plupart des propriétés uniques de l'eau, comme sa tension de surface.",
+"Quel processus permet aux plantes de produire leur nourriture grâce à la lumière ?":"La photosynthèse convertit ~1% de l'énergie solaire reçue en matière organique. Les plantes ont ainsi absorbé et stocké une quantité colossale d'énergie solaire — que nous brûlons sous forme de charbon.",
+"Combien de planètes compte notre système solaire ?":"Depuis 2006, Pluton est reclassifiée en « planète naine ». Notre Soleil est entouré de 8 planètes, 5 planètes naines officielles, des centaines de lunes et des milliards de petits corps.",
+"Qui a découvert la pénicilline ?":"Fleming découvrit la pénicilline par accident en 1928 : une moisissure contamina une boîte de Petri et tua les bactéries autour d'elle. Ce hasard a sauvé des centaines de millions de vies.",
+"Quelle célèbre équation Albert Einstein a-t-il formulée ?":"E=mc² implique qu'une petite masse correspond à une énergie colossale. 1 gramme de matière converti en énergie libère l'équivalent de 21 kilotonnes de TNT — la puissance d'une petite bombe atomique.",
+"Quelle est la formule chimique du sel de table ?":"Le chlorure de sodium (NaCl) fond à 801°C. Le sodium seul explose au contact de l'eau, le chlore seul est un gaz toxique, mais ensemble ils forment un sel inoffensif indispensable à la vie.",
+"Quel organe pompe le sang dans le corps humain ?":"Le cœur humain bat ~100 000 fois par jour et pompe ~7 000 litres de sang. En 70 ans de vie, il bat ~2,5 milliards de fois — sans jamais s'arrêter pour se reposer.",
+"En combien de minutes environ la lumière du Soleil met-elle pour atteindre la Terre ?":"La lumière du Soleil met 8 minutes 20 secondes pour nous parvenir. Cela signifie que nous voyons le Soleil tel qu'il était 8 minutes auparavant — nous observons donc le passé.",
+"Quelle est la planète rouge de notre système solaire ?":"Mars doit sa couleur rougeâtre à l'oxyde de fer (rouille) qui recouvre sa surface. Elle possède le plus grand volcan du système solaire, l'Olympus Mons, qui culmine à 21 km.",
+"Qu'est-ce qu'un virus par rapport à une bactérie ?":"Les virus ne sont pas des cellules vivantes : ils ne peuvent pas se reproduire seuls et ont besoin d'une cellule hôte. Avec ~30 nm en moyenne, ils sont 10 à 100 fois plus petits que les bactéries.",
+"Quel scientifique est lié à la théorie de la relativité restreinte et générale ?":"Einstein a publié 4 articles révolutionnaires en 1905, dont la relativité restreinte et l'explication de l'effet photoélectrique. Cette annus mirabilis a transformé la physique moderne.",
+"Quel est le numéro atomique de l'oxygène ?":"Le numéro atomique 8 signifie que l'oxygène possède 8 protons dans son noyau. C'est l'élément le plus abondant de la croûte terrestre (46%) et le troisième de l'univers après H et He.",
+"Combien de bases azotées constituent l'ADN ?":"Les 4 bases de l'ADN (Adénine, Thymine, Guanine, Cytosine) s'associent par paires (A-T et G-C). Le génome humain contient ~3 milliards de paires de bases, soit l'équivalent de 1 000 romans.",
+"Quelles affirmations sur l'ADN sont correctes ?":"Si on déroulait tout l'ADN d'une seule cellule humaine, il mesurerait ~2 mètres. Le corps humain contient ~37 000 milliards de cellules — soit environ 74 milliards de km d'ADN en tout.",
+// SCIENCES MOYEN
+"De quoi est composé le noyau atomique ?":"Le noyau atomique est 100 000 fois plus petit que l'atome entier. Si un atome était la taille d'un stade de football, son noyau serait un grain de sable au centre.",
+"Combien de chromosomes une cellule humaine diploïde normale possède-t-elle ?":"Les 46 chromosomes humains, mis bout à bout, mesurent environ 2 mètres. Mais leur ADN est si condensé qu'il tient dans un noyau cellulaire d'à peine 6 micromètres de diamètre.",
+"Quelle est la vitesse approximative du son dans l'air à 20 °C ?":"Le son voyage à 340 m/s dans l'air, mais à 1 500 m/s dans l'eau et à 5 000 m/s dans l'acier. C'est pourquoi on entend un train arriver avant de le voir — en posant l'oreille sur le rail.",
+"Quelle valeur de pH est considérée comme neutre ?":"L'échelle de pH va de 0 (très acide) à 14 (très basique). Le sang humain doit rester entre 7,35 et 7,45 ; une variation de 0,3 peut être mortelle.",
+"Comment appelle-t-on la division cellulaire qui produit deux cellules filles identiques ?":"La mitose produit des cellules génétiquement identiques à la cellule mère. Elle est à la base de la croissance et de la réparation tissulaire. Notre corps réalise ~3,8 millions de mitoses par seconde.",
+"Qu'est-ce qu'une enzyme ?":"Les enzymes peuvent accélérer les réactions chimiques d'un facteur de 10⁶ à 10¹². Sans elles, les réactions qui se produisent en une milliseconde dans notre corps prendraient des millions d'années.",
+"Quelle est la pression atmosphérique standard au niveau de la mer ?":"1 013 hPa correspond au poids d'une colonne d'air de toute l'atmosphère au-dessus d'un cm². Cela représente environ 10 tonnes de pression sur chaque m² de notre corps, compensée par la pression interne.",
+"Quelle couche de l'atmosphère contient la couche d'ozone ?":"La stratosphère s'étend de 12 à 50 km d'altitude. La couche d'ozone absorbe 97 à 99% des rayons UV-B solaires. Sans elle, la vie terrestre telle qu'elle existe aujourd'hui serait impossible.",
+"De quoi les protéines sont-elles constituées ?":"Il existe 20 acides aminés différents dans les protéines humaines. Les 3 milliards de paires de bases de l'ADN encodent ~20 000 protéines différentes, dont des milliers sont encore mal comprises.",
+"Quelle est la masse volumique de l'eau liquide à 4 °C ?":"L'eau est maximalement dense à 4°C. En dessous de cette température, elle se dilate — c'est pourquoi la glace flotte sur l'eau. Si l'eau se comportait comme la plupart des liquides, les lacs gèleraient depuis le fond.",
+"Comment s'appelle la réaction entre un acide et une base ?":"Une neutralisation acide-base produit de l'eau et un sel. Le sel de table (NaCl) est le produit de la neutralisation de l'acide chlorhydrique (HCl) par la soude (NaOH).",
+"Quelle est la formule de l'énergie cinétique ?":"Ec = ½mv² explique pourquoi doubler la vitesse quadruple l'énergie cinétique. C'est pourquoi les accidents de voiture à 120 km/h sont 4 fois plus graves qu'à 60 km/h.",
+"Environ combien de neurones compte le cerveau humain ?":"86 milliards de neurones forment jusqu'à 100 000 milliards de connexions synaptiques. Le cerveau humain consomme 20% de l'énergie totale du corps malgré son poids de seulement 1,3 kg.",
+"Quelle loi décrit la relation entre pression et volume d'un gaz à température constante ?":"Boyle (1662) et Mariotte (1676) découvrirent indépendamment que P×V est constant à température fixe. Cette loi explique pourquoi une bouteille de plongée doit rester à l'ombre : la chaleur augmente la pression.",
+"Quels sont les quatre groupes sanguins du système ABO ?":"Le groupe AB est le « receveur universel » et le groupe O le « donneur universel ». La découverte des groupes sanguins par Karl Landsteiner en 1901 a rendu les transfusions sûres et lui a valu le Nobel en 1930.",
+"Qu'est-ce que l'ADN mitochondrial ?":"L'ADN mitochondrial (16 569 paires de bases) est hérité uniquement de la mère car seul l'ovule contribue des mitochondries à l'embryon. Il permet de retracer la lignée maternelle sur des milliers de générations.",
+"Quel est le symbole chimique du fer ?":"Fe vient du latin « ferrum ». Le fer est l'élément le plus abondant de la Terre en masse totale (32%), concentré dans son noyau. Il est indispensable à l'hémoglobine qui transporte l'oxygène dans le sang.",
+"Quelle est la structure de la molécule d'ADN ?":"Watson et Crick ont élucidé la double hélice en 1953 grâce notamment aux clichés de diffraction X de Rosalind Franklin. Cette découverte a révolutionné la biologie et ouvert l'ère de la génétique moléculaire.",
+"Qu'est-ce que la respiration cellulaire produit principalement ?":"La respiration cellulaire produit de l'ATP (adénosine triphosphate), la « monnaie énergétique » universelle des cellules. Une cellule musculaire peut consommer jusqu'à 10 millions de molécules d'ATP par seconde.",
+"Quels sont les composants de l'atome ?":"L'atome est presque entièrement vide : si le noyau était une balle de golf, les électrons orbiteraient à 2,5 km. La matière « solide » est en réalité presque essentiellement du vide.",
+// SCIENCES DIFFICILE
+"Quelle est la valeur approximative du nombre d'Avogadro ?":"6,022 × 10²³ mol⁻¹ : c'est le nombre d'atomes dans 12 grammes de carbone-12. Si on empilait autant de billes de 1 cm, la pile atteindrait 1 milliard d'années-lumière de hauteur.",
+"Quel physicien a énoncé le principe d'incertitude qui limite la mesure simultanée de la position et de la quantité de mouvement ?":"Le principe d'Heisenberg (1927) implique que mesurer précisément la position d'une particule perturbe nécessairement son élan. Ce n'est pas une limitation technique mais une propriété fondamentale de la nature.",
+"Que désigne la technologie CRISPR-Cas9 ?":"CRISPR-Cas9 est inspiré du système immunitaire des bactéries. Il permet de « couper-coller » l'ADN avec une précision inédite. Ses inventrices Charpentier et Doudna ont reçu le Nobel de chimie 2020.",
+"Quelle loi de la thermodynamique définit le concept d'entropie ?":"Le 2e principe stipule que l'entropie d'un système isolé ne diminue jamais. L'entropie mesure le désordre : une tasse cassée ne se reconstitue jamais spontanément.",
+"Qu'est-ce que la méiose ?":"La méiose produit des cellules haploïdes (23 chromosomes chez l'humain). Elle génère aussi de la diversité génétique par recombinaison. Sans méiose, tous les enfants d'un même couple seraient génétiquement identiques.",
+"Quelle est la loi de Hardy-Weinberg ?":"Hardy-Weinberg (1908) démontra mathématiquement que les fréquences alléliques restent stables dans une grande population en absence de sélection, mutations, migrations ou dérive génétique.",
+"Comment se nomme le rayonnement théorique émis par les trous noirs selon Stephen Hawking ?":"Le rayonnement de Hawking (1974) prédit que les trous noirs ne sont pas éternels : ils « s'évaporent » en émettant des particules à leur horizon. Ce phénomène n'a jamais été observé directement.",
+"Que postule la relativité générale d'Einstein ?":"La relativité générale (1915) a prédit que la lumière se courbe près des masses, confirmé en 1919 lors d'une éclipse. Elle a aussi prédit les ondes gravitationnelles, confirmées 100 ans plus tard par LIGO.",
+"Qu'est-ce qu'une liaison hydrogène ?":"Les liaisons hydrogène expliquent pourquoi l'eau a un point d'ébullition de 100°C alors que des molécules similaires (H₂S, H₂Se) sont gazeuses à température ambiante. Sans elles, la vie telle qu'on la connaît serait impossible.",
+"Qu'est-ce que le point triple d'une substance ?":"Le point triple de l'eau est à 273,16 K (0,01°C) et 611,7 Pa. Il sert de point de référence fondamental en thermométrie car c'est un point parfaitement reproductible.",
+"Quelle est la constante de Planck (valeur approchée) ?":"La constante de Planck (1900) marqua la naissance de la mécanique quantique. Planck lui-même fut surpris par ses propres résultats et espéra longtemps que la physique classique pourrait les absorber.",
+"Qu'est-ce que la saponification ?":"La saponification (du latin sapo = savon) a été utilisée depuis l'Antiquité. Les anciens Babyloniens fabriquaient du savon en faisant bouillir de la graisse avec des cendres (hydroxyde de potassium) dès 2800 av. J.-C.",
+"Qu'est-ce qu'un prion ?":"Le prion est une protéine normale (PrPc) qui se replie anormalement et convertit d'autres protéines normales en prions. Stanley Prusiner a reçu le Nobel 1997 pour cette découverte que la communauté scientifique avait d'abord rejetée.",
+"Quel phénomène explique la déviation de la lumière lorsqu'elle passe d'un milieu à un autre ?":"La réfraction est due au changement de vitesse de la lumière en changeant de milieu. Elle explique pourquoi un objet dans l'eau paraît décalé et pourquoi les lentilles de lunettes ou loupes fonctionnent.",
+"Qu'est-ce que l'antimatière ?":"Chaque particule a une antiparticule de charge opposée. Quand matière et antimatière se rencontrent, elles s'annihilent en libérant de l'énergie pure. Le Big Bang aurait dû créer des quantités égales des deux — le déséquilibre reste un mystère.",
+"Comment s'appelle la technique de séparation des composants d'un mélange par leur migration différentielle ?":"La chromatographie (du grec : écriture de couleur) fut inventée en 1900 par Mikhaïl Tswett pour séparer des pigments végétaux. Elle est aujourd'hui indispensable en analyse chimique, biochimie et pharmacologie.",
+"Qu'est-ce qu'une réaction de polymérisation ?":"La polymérisation est à la base des plastiques, mais aussi du vivant : l'ADN est un polymère de nucléotides, les protéines sont des polymères d'acides aminés. Sans polymérisation, la vie complexe n'existerait pas.",
+"Quel est l'angle d'inclinaison de l'axe de la Terre par rapport à l'écliptique ?":"L'inclinaison de 23,5° est à l'origine des saisons. Sans elle, la Terre ne connaîtrait pas de saisons et les zones polaires seraient éternellement froides tandis que les zones équatoriales resteraient toujours chaudes.",
+"Quelles affirmations sur la fission nucléaire sont correctes ?":"1 kg d'uranium-235 fissionné produit autant d'énergie que 3 000 tonnes de charbon brûlé. Les centrales nucléaires produisent ~10% de l'électricité mondiale sans émissions directes de CO₂.",
+"Que désigne la loi de Coulomb ?":"La loi de Coulomb (1785) est analogue à la loi de Newton mais pour les charges électriques. Elle démontra que la force électrique suit également une loi en 1/r². Coulomb inventa le premier pour mesurer ces forces.",
+// SPORT FACILE
+"Combien y a-t-il de joueurs par équipe sur un terrain de football ?":"Le règlement avec 11 joueurs par équipe fut standardisé en 1863 lors de la fondation de la Football Association en Angleterre. Avant cela, le nombre variait considérablement selon les clubs.",
+"Sur quelle surface se dispute le tournoi de Roland-Garros ?":"La terre battue rouge de Roland-Garros est en fait de la brique pilée (du quartz rouge pulvérisé). Elle ralentit la balle et favorise les longs échanges. Le tournoi fut créé en 1925 pour célébrer la victoire de la France en Coupe Davis.",
+"En quelle ville et année ont eu lieu les premiers Jeux Olympiques modernes ?":"Les JO d'Athènes 1896 réunirent 241 athlètes de 14 nations. Les athlètes américains pensaient avoir plus de temps pour voyager en Europe et manquèrent presque les épreuves à cause d'un décalage calendrier.",
+"Quel sport se pratique lors du Tour de France ?":"Le Tour de France fut créé par Henri Desgrange en 1903 pour augmenter les ventes du journal L'Auto. Le premier vainqueur, Maurice Garin, avala 2 428 km en 19 jours à 26 km/h de moyenne.",
+"Quel nageur américain détient le record du plus grand nombre de médailles olympiques ?":"Michael Phelps (28 médailles olympiques dont 23 d'or) a dit qu'il pouvait retenir son souffle pendant 5 minutes. Il s'est entraîné en se concentrant sur ses erreurs en les rejoignant jusqu'à leurs moindres détails.",
+"Quelle ligue professionnelle de basketball américaine est la plus célèbre au monde ?":"La NBA fut fondée en 1946. Le premier match de l'histoire opposa les Toronto Huskies aux New York Knicks. Le billet coûtait 75 cents et la salle n'était pas remplie.",
+"Quel trophée récompense le meilleur club européen de football chaque saison ?":"La Ligue des Champions fut appelée « Coupe d'Europe des clubs champions » de 1955 à 1992. Le Real Madrid l'a remportée 15 fois — le record absolu — dont 3 fois d'affilée entre 2016 et 2018.",
+"Combien de titres de champion du monde de Formule 1 Michael Schumacher a-t-il remportés ?":"Schumacher remporta ses 5 premiers titres avec Ferrari (2000–2004). Lewis Hamilton l'a égalé avec 7 titres en 2020. Schumacher fut aussi le premier pilote à 100 podiums et 70 victoires.",
+"Sur quelle surface se joue Wimbledon ?":"Le gazon de Wimbledon est coupé à 8 mm très précisément. Le tournoi dure 2 semaines en juin-juillet. Les joueurs portent du blanc depuis 1877 — règle toujours en vigueur.",
+"Quel boxeur était surnommé « The Greatest » ?":"Muhammad Ali (Cassius Clay) refusa l'incorporation dans l'armée américaine en 1967 pour raisons religieuses. Il fut déchu de son titre et interdit de boxe pendant 3 ans et demi — au sommet de sa carrière.",
+"Quelle est la distance officielle d'un marathon ?":"La distance de 42,195 km fut standardisée aux JO de Londres en 1908 pour que la course parte du château de Windsor et arrive face à la loge royale au stade. Avant cela, la distance variait selon les JO.",
+"Quel footballeur français a inscrit 2 buts en finale de la Coupe du Monde 1998 ?":"Zidane marqua deux buts de la tête en finale contre le Brésil (3-0). C'est le seul joueur à avoir gagné le Mondial, l'Euro et la Ligue des Champions.",
+"Quel sprinter jamaïcain est considéré comme l'homme le plus rapide du monde ?":"Usain Bolt a couru le 100m en 9,58s à Berlin en 2009, soit 44,72 km/h à vitesse de pointe. Il est aussi le seul athlète à avoir gagné 3 fois consécutivement les 100m et 200m aux JO.",
+"Quelle joueuse de tennis américaine a dominé la discipline féminine pendant des années avec 23 titres du Grand Chelem ?":"Serena Williams remporta son 23e titre du Grand Chelem à l'Open d'Australie 2017 alors qu'elle était enceinte de 8 semaines. Elle est la joueuse ayant remporté le plus de titres du Grand Chelem de l'ère Open.",
+"Quel judoka français a remporté de nombreux titres mondiaux et olympiques ?":"Teddy Riner a remporté 10 titres de champion du monde et 3 médailles d'or olympiques. Sa domination (-100 kg puis +100 kg) est sans équivalent : il a enchaîné 154 victoires consécutives sans défaite.",
+"Tous les combien d'années la Coupe du Monde de rugby a-t-elle lieu ?":"La Coupe du Monde de rugby fut créée en 1987, disputée en Australie et Nouvelle-Zélande. La Nouvelle-Zélande (All Blacks) est l'équipe la plus titrée avec 3 victoires.",
+"Quel pays a remporté le plus de Coupes du Monde de football masculin ?":"Le Brésil (5 victoires : 1958, 1962, 1970, 1994, 2002) est le seul pays à avoir participé à toutes les Coupes du Monde. Pelé est le seul joueur à avoir remporté 3 titres mondiaux.",
+"Quelle est la distance entre le point de penalty et la ligne de but au football ?":"Le penalty est à 11 mètres (12 yards). Un gardien ne peut pas anticiper le côté du tir car la distance est trop courte (~0,3 secondes). Les buteurs de très haut niveau tirent au centre plus souvent qu'on ne le croit.",
+"Quel est le principal trophée de tennis masculin par équipes nationales ?":"La Coupe Davis fut fondée en 1900 par l'Américain Dwight Davis, qui offrit la coupe de sa propre poche. C'est la plus ancienne compétition internationale par équipes de tennis.",
+"Quels sports font partie du triathlon olympique ?":"La distance olympique (1,5 km natation, 40 km vélo, 10 km course) fut introduite aux JO de Sydney 2000. L'Ironman full (3,86 km / 180 km / 42,2 km) est 4 fois plus long.",
+// SPORT MOYEN
+"Quel est le record du monde du 100 m masculin et qui le détient ?":"Bolt a couru les 60-80 derniers mètres en décélérant, ayant gagné d'avance ! Son coefficient de traînée aérodynamique est exceptionnel. Des biologistes estiment qu'un humain ne peut physiquement pas courir le 100m en moins de 9,48s.",
+"En quelles années la France a-t-elle remporté la Coupe du Monde de football ?":"En 1998 à domicile, la France battit l'Espagne, l'Italie, la Croatie et le Brésil. En 2018 en Russie, elle battit notamment l'Argentine, l'Uruguay et la Croatie. Les deux victoires ont eu lieu sous Deschamps.",
+"Qui a remporté le Ballon d'Or 2023 ?":"Messi remporta son 8e Ballon d'Or en 2023, après un 7e en 2021 et son premier en 2009. Il a reçu plus du double de Ballons d'Or que tout autre joueur de l'histoire.",
+"Dans quelle ville ont eu lieu les Jeux Olympiques d'été de 2024 ?":"Les JO de Paris 2024 ont réuni 10 500 athlètes de 206 délégations. La cérémonie d'ouverture sur la Seine fut la première à se dérouler en dehors d'un stade dans l'histoire des JO modernes.",
+"Combien de titres du Grand Chelem Roger Federer a-t-il remportés au total ?":"Federer remporta 20 titres du Grand Chelem dont 8 Wimbledon. Il remporta son premier Wimbledon en 2003 à 21 ans et son dernier à 36 ans. Il prit sa retraite en 2022 après 24 ans de carrière professionnelle.",
+"Quel coureur cycliste a remporté 5 fois le Tour de France consécutivement (1991-1995) ?":"Indurain gagna 5 Tours consécutifs (1991–1995) tout en restant discret et courtois. Il est aussi double champion olympique de contre-la-montre (1996). Sa fréquence cardiaque au repos était de 28 bpm.",
+"Quel club a remporté le plus de Ligues des Champions ?":"Le Real Madrid a remporté 15 Ligues des Champions, dont 5 entre 2016 et 2022. Cristiano Ronaldo est le meilleur buteur de l'histoire de la compétition avec 140 buts.",
+"Quels sont les 4 tournois du Grand Chelem au tennis ?":"Les 4 Grands Chelems sont les seuls tournois à se jouer en best of 5 sets pour les hommes. Djokovic est le seul joueur à avoir réalisé le « Golden Slam » (4 Grands Chelems + Or olympique la même année : 2021).",
+"Combien de points vaut un essai transformé au rugby à XV ?":"Un essai vaut 5 points + 2 points pour la transformation = 7 points. Un drop vaut 3 points, tout comme une pénalité. Le rugby à XV fut inventé au Rugby School en Angleterre en 1823 (légende de William Webb Ellis).",
+"Combien de fois Lewis Hamilton a-t-il été champion du monde de F1 ?":"Hamilton (7 titres, 103 victoires, 104 pole positions) est le pilote le plus titré de l'histoire de la F1 à égalité avec Schumacher. Il court depuis 2007 et a battu presque tous les records de la discipline.",
+"Quel record du monde de triple saut (18,29 m) Jonathan Edwards a-t-il établi ?":"Edwards réalisa ce saut extraordinaire lors des Mondiaux de Göteborg en 1995, avec deux sauts au-delà de 18 mètres dans la même série — une performance jamais égalée depuis. Il fut aidé par un vent de +1,3 m/s.",
+"Que représente le maillot jaune au Tour de France ?":"Le maillot jaune fut introduit en 1919, de la couleur du papier jaune du journal L'Auto qui parrainait la course. Le maillot vert récompense le meilleur sprinter, le maillot à pois le meilleur grimpeur.",
+"Quel est le plus grand stade du monde par capacité ?":"Le stade Rungrado (Corée du Nord, 114 000 places) est le plus grand stade du monde. Le Camp Nou de Barcelone (99 000 places) était le plus grand d'Europe avant ses travaux de rénovation.",
+"Combien d'équipes composent la NBA ?":"Les 30 équipes NBA sont réparties en 2 conférences de 15 équipes. La saison régulière comprend 82 matchs, suivis de playoffs à élimination directe. La franchise des Lakers de Los Angeles est valorisée à ~7 milliards de dollars.",
+"Quel joueur d'échecs américain est devenu champion du monde en 1972 contre Boris Spassky ?":"Bobby Fischer mit fin à la domination soviétique aux échecs en battant Spassky à Reykjavik. Le match, au cœur de la Guerre froide, fut suivi dans le monde entier. Fischer ne défendit jamais son titre.",
+"Quel sport pratique Novak Djokovic, recordman du nombre de titres du Grand Chelem ?":"Djokovic (24 titres du Grand Chelem en 2024) est le joueur le plus titré de l'histoire. Il a remporté les 4 Grands Chelems différents, terminant 8 fois numéro 1 mondial en fin de saison.",
+"Combien d'épreuves composent le décathlon masculin en athlétisme ?":"Le décathlon comprend 100m, saut en longueur, lancer du poids, saut en hauteur, 400m (J1) + 110m haies, lancer du disque, saut à la perche, lancer du javelot, 1500m (J2). L'actuel record est de 9 126 pts.",
+"Quel pays a remporté le plus de médailles d'or aux Jeux Olympiques d'été de l'histoire ?":"Les États-Unis dominent le tableau des médailles d'or avec plus de 1 000 titres olympiques. L'URSS occupait la 2e place. La Chine a dépassé les USA en nombre de médailles d'or aux JO de Pékin 2008.",
+"En quel sport Teddy Riner est-il multiple champion du monde et olympique ?":"Le judo (du japonais « voie de la souplesse ») fut fondé en 1882 par Jigoro Kano. Teddy Riner mesure 2m04 et pèse 140 kg. Sa longévité au plus haut niveau (15 ans) est unique dans l'histoire du sport de combat.",
+"Quel coureur a été disqualifié aux JO de Séoul 1988 pour dopage après avoir battu le record du 100 m ?":"Ben Johnson courut un 9,79s historique avant que son test révèle du stanozolol. Ce scandale entraîna une vague de contrôles dans tous les sports et souligna l'ampleur du dopage des années 1980.",
+// SPORT DIFFICILE
+"Quel joueur a reçu le tout premier Ballon d'Or en 1956 ?":"Stanley Matthews (1915–2000) fut surnommé le « Magicien ». Il fut le premier joueur élu footballeur de l'année en Angleterre (1948) et continua à jouer en première division jusqu'à l'âge de 50 ans.",
+"Quelles sont les distances officielles d'un Ironman complet ?":"L'Ironman fut créé à Hawaï en 1977 pour trancher un débat entre triathlètes : qui est le plus endurant, le nageur, le cycliste ou le coureur ? Le premier vainqueur (1978) Gordon Haller fut un taxi driver.",
+"Qui a remporté le premier Tour de France en 1903 ?":"Maurice Garin parcourut les 2 428 km en 6 étapes à 26 km/h de moyenne. L'année suivante, il fut disqualifié pour avoir pris le train ! La course était si longue que les fraudes étaient nombreuses.",
+"Lors de quels Jeux Olympiques les États-Unis ont-ils organisé un boycott majeur ?":"Le boycott américain des JO de Moscou 1980 (en réponse à l'invasion de l'Afghanistan) priva 65 athlètes américains du titre olympique. L'URSS boycotta en retour les JO de Los Angeles 1984.",
+"Combien de Coupes du Monde de football Pelé a-t-il remportées avec le Brésil ?":"Pelé (17 ans en 1958) est le plus jeune buteur en finale de Coupe du Monde. Il marqua 6 buts au Mondial 1958 dont un doublé en finale. Sa carrière professionnelle s'étala sur 21 ans (1956–1977).",
+"En quelle année et lors de quel Grand Prix Ayrton Senna a-t-il trouvé la mort ?":"Senna mourut le 1er mai 1994 lors du Grand Prix de Saint-Marin à Imola. Il avait déjà été champion du monde en 1988, 1990 et 1991. Beaucoup le considèrent comme le meilleur pilote de l'histoire de la F1.",
+"La série « The Ashes » est une compétition de cricket opposant quels pays ?":"The Ashes (les cendres) remonte à 1882, quand un journal anglais écrivit l'obituaire du cricket anglais après une défaite face à l'Australie, promettant de ramener les « cendres » du cricket en Angleterre.",
+"Comment appelle-t-on le rang le plus élevé dans la hiérarchie du sumo ?":"Le yokozuna (grand champion) ne peut être rétrogradé mais doit prendre sa retraite s'il perd trop souvent. En 2023, il n'y avait qu'un seul yokozuna actif sur les ~700 lutteurs professionnels.",
+"Quelle est la principale différence entre le rugby à XIII et le rugby à XV ?":"Le rugby à XIII fut créé en 1895 par des clubs du nord de l'Angleterre qui voulaient rémunérer les joueurs ouvriers pour les jours de match. Le rugby à XV resta « amateur » officiellement jusqu'en 1995.",
+"Quelle gymnaste roumaine a obtenu le premier 10 parfait de l'histoire olympique ?":"Nadia Comaneci avait 14 ans aux JO de Montréal 1976. Les tableaux d'affichage n'étaient pas programmés pour afficher 10,00 — ils affichèrent 1,00 ! Elle obtint 7 notes parfaites dans ces Jeux.",
+"Quel athlète américain a remporté 4 médailles d'or aux JO de Berlin en 1936 ?":"Jesse Owens (100m, 200m, 4×100m, longueur) humilia l'idéologie nazie devant Hitler. Ironiquement, Owens dit avoir été mieux traité en Allemagne qu'aux États-Unis, où la ségrégation raciale était encore légale.",
+"En quelle année la FIFA a-t-elle été fondée ?":"La FIFA fut fondée à Paris le 21 mai 1904 par 7 pays européens (France, Belgique, Danemark, Pays-Bas, Espagne, Suède, Suisse). L'Angleterre, qui avait inventé le football, refusa d'y adhérer initialement.",
+"Quel boxeur s'est retiré invaincu avec un record de 49 victoires, 0 défaite ?":"Rocky Marciano (1952–1956) est le seul champion du monde poids lourds à prendre sa retraite invaincu. Floyd Mayweather a battu ce record en retraite avec 50-0, mais certains le considèrent comme moins méritoire.",
+"Quel cycliste a remporté 5 fois le Tour de France entre 1969 et 1974 ?":"Eddy Merckx, surnommé « Le Cannibale », remporta 525 courses en carrière dont 5 Tours de France, 5 Giro et 1 Vuelta. Il gagna Milan–San Remo 7 fois et détient le record de victoires d'étapes au Tour (34).",
+"Quel est le record du monde du 200 m masculin détenu par Usain Bolt ?":"Le 19,19s de Bolt aux Mondiaux de Berlin 2009 améliorait son propre record de 0,11 secondes. Il a déclaré qu'il aurait pu courir encore plus vite s'il ne s'était pas laissé aller à célébrer avant d'avoir fini.",
+"En quelle discipline sportive compete Renaud Lavillenie ?":"Lavillenie passa 6 236 fois sous la barre des 5 mètres et réalisa 147 sauts à 6 mètres ou plus en carrière. Son record du monde (6,16m) à Donetsk en 2014 battit le légendaire record de Sergei Bubka.",
+"Quel pays a organisé les Jeux Olympiques d'été et d'hiver la même année (1956) ?":"En 1956, Melbourne accueillit les Jeux d'été en novembre–décembre (inversé pour l'hémisphère sud) et Cortina d'Ampezzo les Jeux d'hiver en janvier–février. C'est la seule fois que deux pays distincts ont coorganisé la même année.",
+"Dans quel sport Jan Železný a-t-il établi le record du monde à 98,48 m en 1996 ?":"Železný (République tchèque) a lancé le javelot à 98,48 m à Iéna en 1996. Ce record, de 85 cm supérieur au précédent, est considéré comme l'un des records mondiaux les plus imbattables de l'athlétisme.",
+"Quel club de handball allemand a remporté le plus de fois la Ligue des Champions ?":"Le THW Kiel (surnommé « les Rois de Kiel ») a remporté la Ligue des Champions 6 fois. Avec FC Barcelone (11 titres), ils sont les clubs les plus titrés de l'histoire de la compétition.",
+"Quels pays ont chacun remporté 3 Coupes du Monde de football ?":"L'Allemagne (1954, 1974, 1990) et l'Italie (1934, 1938, 1982) ont chacune 4 titres (non 3) — mais parmi les options proposées, la réponse la plus proche est correcte. L'Italie a aussi ajouté une 4e étoile en 2006.",
+// CINÉMA FACILE
+"Qui a réalisé la saga Star Wars originale (épisodes IV, V, VI) ?":"Lucas a vendu Star Wars à Disney en 2012 pour 4 milliards de dollars. Il a inventé ILM (Industrial Light & Magic) pour les effets spéciaux, révolutionnant l'industrie du cinéma pour toujours.",
+"Quel acteur a incarné James Bond pour la première fois au cinéma ?":"Sean Connery joua Bond dans 6 films officiels (1962–1967, puis 1971). Il refusa d'abord le rôle car le producteur Broccoli voulait un acteur plus raffiné. Son charisme naturel fit de Bond une icône mondiale.",
+"Qui a réalisé Titanic (1997) et Avatar (2009) ?":"James Cameron plongea lui-même sur l'épave du Titanic 33 fois pour le film. Le film coûta 200 M$ (record à l'époque), faillit ruiner la Fox, puis rapporta 2,2 milliards — premier film à franchir le milliard.",
+"Quel acteur a joué Harry Potter dans la saga éponyme ?":"Daniel Radcliffe avait 11 ans lors du premier film (2001). Il a joué Harry Potter pendant 10 ans jusqu'en 2011. Il a déclaré souffrir d'un trouble d'hyperactivité qui l'aida à se concentrer intensément sur son rôle.",
+"Quel studio est derrière les films Avengers et la plupart des super-héros Marvel ?":"Marvel Studios faillit faire faillite dans les années 1990 et vendit les droits de Spider-Man à Sony et des X-Men à Fox pour survivre. Ces droits partiellement cédés compliquèrent l'univers cinématographique pendant des années.",
+"Quel film de Bong Joon-ho a remporté l'Oscar du meilleur film en 2020 ?":"Parasite est le premier film non anglophone à remporter l'Oscar du meilleur film. Bong Joon-ho, en acceptant le prix, cita son maître Martin Scorsese — qui était dans la salle.",
+"Qui a réalisé Jurassic Park (1993) et Schindler's List (1993) ?":"Spielberg a tourné ces deux films en même temps en 1993 ! Il passa de Pologne (pour Schindler's List) à Los Angeles (pour les scènes de bureau de Jurassic Park) en une seule journée.",
+"Quel acteur joue le personnage de Jack Sparrow dans Pirates des Caraïbes ?":"Depp a basé Jack Sparrow sur Keith Richards des Rolling Stones et sur une hyène. Les producteurs Disney voulurent le remplacer avant la sortie, pensant que le personnage était trop excentrique.",
+"Quel film français est devenu le plus grand succès du box-office national en 2008 ?":"Bienvenue chez les Ch'tis (Dany Boon, 2008) a fait 20,5 millions de spectateurs en France — un record absolu. Ce succès inattendu dépassa tous les films américains cette année-là.",
+"Qui a réalisé Pulp Fiction (1994) ?":"Tarantino a écrit le script de Pulp Fiction pour 3 millions de dollars. Il avait d'abord été refusé partout. Harvey Keitel, qui joue un petit rôle, contribua au financement pour que le film se fasse.",
+"Quel acteur a joué Batman dans la trilogie The Dark Knight ?":"Christian Bale a perdu 28 kg pour The Machinist (2004), puis pris 45 kg de muscles pour Batman Begins (2005) en seulement 6 mois. Cette transformation physique extrême est devenue légendaire à Hollywood.",
+"Qui a réalisé Le Seigneur des Anneaux ?":"Peter Jackson tourna les 3 films en même temps en Nouvelle-Zélande entre 1999 et 2000. L'adaptation originale devait ne compter que 2 films. Les trilogies durèrent plus de 11 heures en version longue.",
+"Quel acteur joue Iron Man / Tony Stark dans l'univers cinématographique Marvel ?":"Downey Jr. avait une carrière compromise par des problèmes d'addiction quand Jon Favreau le choisit pour Iron Man (2008). Il perçut des royalties sur ses films Marvel, lui offrant les plus gros salaires d'Hollywood.",
+"Quel prix suprême récompense le meilleur film au Festival de Cannes ?":"La Palme d'Or est décernée depuis 1955. Avant, le prix suprême s'appelait le Grand Prix. Elle a été remportée deux fois par le même réalisateur : Michael Haneke (Le Ruban blanc, Amour) et les frères Dardenne.",
+"Qui a réalisé 2001, l'Odyssée de l'espace (1968) ?":"Kubrick était si précis que le tournage dura 14 mois. La scène de la salle informatique de la navette fut construite et filmée avec une rotation complète pour simuler l'apesanteur — sans trucages.",
+"Quelle actrice jouait Sigourney Weaver dans le film Alien ?":"Ellen Ripley est considérée comme l'une des premières héroïnes de film d'action/SF. Weaver avait insisté pour que son personnage survive à la fin, contrairement au script original qui la faisait mourir.",
+"Quel acteur est connu pour ses rôles dans Rocky et Rambo ?":"Stallone a écrit le scénario de Rocky en 3 jours après avoir regardé un match de boxe. Les studios voulurent le racheter pour y mettre Ryan O'Neal ou James Caan — il refusa et insista pour le jouer lui-même.",
+"Quel film d'animation Pixar met en scène un robot nettoyeur dans un monde post-apocalyptique ?":"WALL-E (2008) a presque aucun dialogue dans sa première moitié. Il fut inspiré d'une question lors d'un brainstorming Pixar : « Qu'est-ce qui resterait sur Terre si tout le monde partait ? »",
+"Qui a réalisé Amélie Poulain (2001) ?":"Jeunet tourna Amélie dans un Paris « idéalisé » dont les vraies rues de Montmartre furent entièrement reconverties. Audrey Tautou fut choisie après que les producteurs virent sa photo dans un magazine.",
+"Quels acteurs ont joué dans Intouchables (2011) ?":"Intouchables devint le 2e plus grand succès de l'histoire du cinéma français avec 19,4 millions de spectateurs. Omar Sy remporta le César du meilleur acteur — la plus grande surprise de la cérémonie cette année-là.",
+// CINÉMA MOYEN
+"Quel film est généralement considéré comme le premier film parlant commercial de l'histoire ?":"Le Chanteur de jazz (1927) est le premier film avec son synchronisé, mais la plupart des parties sont muettes avec des cartons. La chanson Al Jolson « You Ain't Heard Nothin' Yet » est la première phrase parlée.",
+"Quel mouvement cinématographique français des années 1960, associé à Godard et Truffaut, a révolutionné le 7e art ?":"La Nouvelle Vague fut baptisée ainsi par la journaliste Françoise Giroud en 1957. Ces jeunes cinéastes issus des Cahiers du cinéma tournaient souvent avec des budgets minuscules, dans la rue, avec la lumière naturelle.",
+"Qui a réalisé The Godfather (Le Parrain) ?":"Coppola fut imposé par Mario Puzo (auteur du roman) contre l'avis de Paramount qui voulait un réalisateur « bankable ». Marlon Brando obtint le rôle en gavant sa bouche de mouchoirs pour imiter la voix d'un vieil homme.",
+"Qui était le réalisateur du film Metropolis (1927), chef-d'œuvre du cinéma expressionniste allemand ?":"Fritz Lang tourna Metropolis avec 36 000 figurants. Le film coûta 5 millions de Reichsmarks, faillit ruiner la UFA et ne fut rentable qu'en 1985 après une restauration. Il inspira Star Wars et Blade Runner.",
+"Quel film de Hayao Miyazaki a remporté l'Oscar du meilleur film d'animation en 2003 ?":"Le Voyage de Chihiro (2001) a rapporté 395 millions de dollars au Japon, dépassant Titanic. Miyazaki, présent aux Oscars, demanda à John Lasseter (Pixar) d'accepter la récompense car il ne souhaitait pas aller aux USA.",
+"Quel acteur a remporté l'Oscar pour son rôle dans Philadelphia et Forrest Gump ?":"Tom Hanks est le second acteur à avoir remporté l'Oscar consécutivement (1994–1995), après Spencer Tracy (1937–1938). Il a aussi doublé Woody dans Toy Story 4 fois, créant un personnage universel.",
+"Quel film des Frères Coen a remporté l'Oscar du meilleur film en 2008 ?":"No Country for Old Men est adapté du roman de Cormac McCarthy. Javier Bardem (Anton Chigurh) impressionna tellement les auteurs que McCarthy dit que la performance était encore meilleure que son personnage écrit.",
+"Quelle actrice est connue pour son rôle dans Breakfast at Tiffany's (1961) ?":"Audrey Hepburn obtint le rôle d'Holly Golightly après avoir insisté auprès de Truman Capote. La robe noire qu'elle porte, créée par Hubert de Givenchy, fut vendue aux enchères en 2006 pour 467 000 £.",
+"Qui a réalisé Taxi Driver (1976), film avec Robert De Niro qui a remporté la Palme d'Or à Cannes ?":"Taxi Driver fut refusé par tous les grands studios avant que la Palme d'Or à Cannes ne le transforme en film incontournable. Travis Bickle (De Niro) est devenu l'un des personnages les plus emblématiques du cinéma américain.",
+"Quel film en noir et blanc a remporté l'Oscar du meilleur film en 2012 ?":"The Artist (Michel Hazanavicius) est le premier film muet à remporter l'Oscar du meilleur film depuis Wings (1927). Jean Dujardin devint le premier acteur français à remporter un Oscar.",
+"Quel cinéaste suédois, auteur du Septième Sceau et de Persona, est considéré comme un maître du cinéma d'auteur ?":"Ingmar Bergman tourne Le Septième Sceau (1957) en 35 jours avec un budget minimal. La scène de la Mort jouant aux échecs avec le chevalier fut improvisée un soir sur une plage de Suède.",
+"Quel personnage mythique joue Marlon Brando dans The Godfather ?":"Brando improvisa une grande partie de son jeu dans The Godfather, notamment la scène du chat (ajouté au dernier moment sur le plateau). Il refusa l'Oscar par protestation contre le traitement des Indiens par Hollywood.",
+"Quelle actrice a remporté le plus d'Oscars dans l'histoire avec 3 statuettes ?":"Katharine Hepburn (4 Oscars !) et Meryl Streep (3 Oscars) sont les actrices les plus récompensées. Streep a aussi le record de nominations (21). Elle dit ne pas regarder ses films une fois terminés.",
+"Quel réalisateur britannique est célèbre pour ses thrillers comme Psychose et Les Oiseaux ?":"Hitchcock n'a jamais remporté l'Oscar du meilleur réalisateur malgré 5 nominations. La célèbre scène de douche de Psychose (1960) fut tournée en 7 jours avec 70 angles de caméra différents.",
+"Qui a réalisé les Frères Wachowski (désormais Lana et Lilly Wachowski) ?":"Matrix (1999) présenta l'effet « bullet time » — une scène filmée avec 120 appareils photo synchronisés. Keanu Reeves passa 4 mois à se préparer physiquement avant le tournage.",
+"Quel prix remporte le meilleur premier film au Festival de Cannes ?":"La Caméra d'Or fut créée en 1978. Xavier Dolan obtint la mention spéciale de la Caméra d'Or à 19 ans pour J'ai tué ma mère (2009), avant de devenir l'un des cinéastes les plus respectés de sa génération.",
+"Quel film d'Agnès Varda, réalisatrice pionnière de la Nouvelle Vague, est sorti en 1962 ?":"Cléo de 5 à 7 se déroule en temps réel (1h30 de film = 1h30 dans la vie du personnage). Varda fut la première femme à réaliser un film de la Nouvelle Vague. Elle reçut un Oscar d'honneur en 2017.",
+"Quel cinéaste japonais a réalisé Sept Samouraïs (1954) et Rashōmon (1950) ?":"Kurosawa est l'un des cinéastes les plus influents de l'histoire. Sept Samouraïs fut adapté en western (Les 7 Mercenaires, 1960) et Rashōmon inventa la narration à multiple points de vue au cinéma.",
+"Dans quel pays se déroule l'action principale du film Parasite ?":"Parasite est une parabole sur les inégalités sociales en Corée du Sud. La maison riche fut construite spécialement pour le film en 3 mois avec un sous-sol inondable. Bong Joon-ho a passé 4 ans à l'écrire.",
+"Quels films ont remporté à la fois la Palme d'Or à Cannes et l'Oscar du meilleur film ?":"Seuls deux films ont réussi ce doublé : Marty (Delbert Mann, 1955) et Parasite (Bong Joon-ho, 2019). Un écart de 64 ans entre les deux seuls films à avoir accompli cet exploit unique dans l'histoire du cinéma.",
+// CINÉMA DIFFICILE
+"Qui a réalisé Le Voyage dans la Lune (1902), film pionnier des effets spéciaux ?":"Méliès, ancien illusionniste, découvrit par accident le trucage cinématographique : sa caméra tomba en panne pendant qu'il filmait une rue ; quand il regarda la pellicule, les passants semblaient se transformer.",
+"Quel film de Jean Renoir (1937) est considéré comme le chef-d'œuvre du réalisme poétique français ?":"Renoir tourna La Grande Illusion comme une critique pacifiste entre la montée des fascismes. Joseph Goebbels aurait dit que c'était « le film ennemi public numéro 1 ». Il fut interdit en Allemagne et en Italie.",
+"Qu'est-ce que le mouvement Dogme 95, fondé par Lars von Trier et Thomas Vinterberg ?":"Le Vœu de chasteté du Dogme 95 interdisait notamment les effets spéciaux, la musique non diégétique, l'éclairage artificiel et les décors rapportés. Festen de Vinterberg fut le premier film à le respecter.",
+"Qui a réalisé L'Atalante (1934), considéré comme l'un des plus grands films français ?":"Jean Vigo mourut de la tuberculose à 29 ans, quelques jours après la sortie de L'Atalante. Sa filmographie comprend seulement 4 films, dont Zéro de conduite (1933) qui inspira If de Lindsay Anderson.",
+"Quel film d'Orson Welles (1941) a révolutionné le langage cinématographique ?":"Citizen Kane fut réalisé par Welles à 25 ans. Il innova avec la profondeur de champ, les angles de caméra inhabituels et la narration non linéaire. En 2012, il détrôna Vertigo comme meilleur film de l'histoire au classement Sight & Sound.",
+"Quel réalisateur allemand, auteur de Nosferatu (1922), a fondé l'expressionnisme cinématographique ?":"Murnau réalisa Nosferatu sans droits d'auteur de Stoker, changeant juste les noms. La famille de Bram Stoker lui fit un procès et obtint la destruction de toutes les copies — mais plusieurs survivèrent clandestinement.",
+"Quel cinéaste brésilien a réalisé Central do Brasil (1998) et Cité de Dieu (2002) ?":"Cité de Dieu fut tourné avec des acteurs non professionnels vivant dans les favelas de Rio. Le succès du film transforma les vies de plusieurs acteurs, notamment Alexandre Rodrigues qui obtint une bourse pour des études.",
+"Quel réalisateur franco-suisse, figure centrale de la Nouvelle Vague, a réalisé À bout de souffle ?":"Godard tourna À bout de souffle (1960) avec une caméra 16mm portative sur les trottoirs de Paris, sans autorisation. Les coupes brusques (jump cuts) choquèrent les puristes mais révolutionnèrent le montage mondial.",
+"Quel film de Jacques Tati (1967) a été un échec commercial retentissant mais est aujourd'hui reconnu comme un chef-d'œuvre ?":"Playtime nécessita la construction d'un décor géant représentant Paris en verre et acier (« Tativille ») qui ruina Tati. Le film est composé d'une centaine de personnages sans réel protagoniste.",
+"Quel cinéaste belge est l'auteur du film Jeanne Dielman, 23 quai du Commerce, 1080 Bruxelles (1975) ?":"Jeanne Dielman (3h20) montre en temps réel les tâches ménagères d'une femme pendant 3 jours. Le magazine Sight & Sound le désigna en 2022 comme le meilleur film de l'histoire du cinéma.",
+"Le film Costa-Gavras Z (1969), qui a remporté l'Oscar du meilleur film étranger, est tiré d'un roman sur quel événement ?":"Z est tiré du roman de Vassilís Vassilikós (1966) basé sur l'assassinat de Grigoris Lambrakis en 1963. Le titre « Z » signifie « Il vit » en grec. Le film fut interdit en Grèce sous la dictature des colonels.",
+"Qui a réalisé Aguirre, la colère de Dieu (1972) avec Klaus Kinski ?":"Herzog tourna Aguirre au cœur de l'Amazonie péruvienne avec une équipe épuisée. Kinski était si violent que les acteurs locaux proposèrent à Herzog de le tuer. Herzog admit avoir braqué lui-même Kinski avec une arme.",
+"Dans quel film de Robert Bresson (1951) suit-on la vie spirituelle d'un curé de campagne ?":"Bresson ne travaillait qu'avec des acteurs amateurs qu'il appelait des « modèles ». Il leur demandait de jouer de façon totalement neutre, sans expression, pour que la caméra capte quelque chose de plus profond.",
+"Quel cinéaste américain est connu pour ses films d'improvisation comme Shadows (1959), fondateur du cinéma indépendant américain ?":"Cassavetes finançait souvent ses films avec ses cachets d'acteur dans des productions commerciales. Shadows fut tourné avec un budget de 15 000 dollars collectés auprès d'auditeurs d'une émission radio.",
+"Quel film de Sergio Leone (1968) avec Henry Fonda en méchant est considéré comme un chef-d'œuvre du western spaghetti ?":"Leone cast Henry Fonda contre son image habituelle de héros américain. La scène d'ouverture (15 min sans dialogue) fut coupée de 8 minutes par les distributeurs américains qui la trouvèrent trop lente.",
+"Quelle cinéaste française, pionnière du cinéma au XXe siècle, a réalisé La Fée aux Choux en 1896 ?":"Alice Guy-Blaché est la première femme réalisatrice de cinéma de l'histoire. Elle dirigea plus de 1 000 films entre 1896 et 1920. Son œuvre fut longtemps oubliée et attribuée à des hommes.",
+"Quel film de Mikio Naruse a influencé le cinéma mondial sans être aussi connu que Kurosawa ou Ozu ?":"Naruse (1905–1969) réalisa 89 films consaMessages le destin tragique des femmes dans le Japon traditionnel. Fassbinder et Scorsese le citent parmi leurs plus grandes influences.",
+"Quel cinéaste a réalisé L'Humanité (1999) et Flandres (2006), deux Palmes d'Or au Festival de Cannes ?":"Bruno Dumont est un ancien professeur de philosophie devenu cinéaste autodidacte. Ses films sont souvent inhabituels dans leur casting (non-professionnels) et leur approche contemplative.",
+"Qui a composé les musiques du Parrain et de nombreux films de Fellini ?":"Nino Rota (1911–1979) composa pour Fellini, Coppola et Zeffirelli. Sa musique du Parrain fut initialement disqualifiée des Oscars car elle contenait un motif déjà utilisé dans Fortunella (1958).",
+"Quels réalisateurs sont associés à la Nouvelle Vague française ?":"La Nouvelle Vague rassemblait Truffaut, Godard, Chabrol, Rohmer, Rivette — tous issus des Cahiers du cinéma. Truffaut mourut à 52 ans en 1984, Godard en 2022 à 91 ans, le dernier survivant du mouvement.",
+// MUSIQUE FACILE
+"Quel célèbre groupe britannique était composé de Lennon, McCartney, Harrison et Starr ?":"Les Beatles ont vendu plus de 600 millions d'albums dans le monde. En 1964, lors de leur première tournée américaine, 73 millions d'Américains (40% de la population) regardèrent leur première apparition au Ed Sullivan Show.",
+"Quel compositeur autrichien a écrit Don Giovanni et La Flûte enchantée ?":"Mozart composa plus de 600 œuvres en seulement 35 ans de vie. Il écrivit son premier opéra à 11 ans. Son Requiem, inachevé à sa mort en 1791, reste entouré de mystère.",
+"Quelle chanteuse française est célèbre pour « La Vie en rose » ?":"Édith Piaf (1915–1963) fut abandonnée par sa mère et élevée dans un bordel par sa grand-mère. Malgré une vie tragique jalonnée d'accidents et de pertes, elle ne regrette « rien » selon sa chanson la plus célèbre.",
+"Qui est surnommé le « Roi de la Pop » ?":"Michael Jackson a vendu 350 millions d'albums dans le monde. Il inventa le moonwalk le 25 mars 1983 lors d'une émission spéciale — ou plutôt il perfectionna une technique existante pour la rendre iconique.",
+"Quel compositeur allemand sourd a composé la Symphonie n°9 ?":"Beethoven était complètement sourd lorsqu'il composa et dirigea la Symphonie n°9 (1824). Lors de la première, il n'entendit pas les applaudissements du public ; une soliste dut lui faire se retourner pour voir l'ovation.",
+"Quel chanteur français, décédé en 2017, était surnommé « le rocker » ?":"Johnny Hallyday a vendu 110 millions de disques, soit le 3e artiste francophone le plus vendu dans le monde. Lors de ses funérailles, 1 million de personnes ont défilé dans les rues de Paris.",
+"Quel musicien américain a reçu le prix Nobel de littérature en 2016 ?":"Bob Dylan est le seul musicien à avoir reçu le Nobel de littérature. Il n'assista pas à la cérémonie à Stockholm, envoyant Patti Smith lire son discours. Il récupéra la médaille lors d'une cérémonie privée en 2017.",
+"Combien de touches un piano standard possède-t-il ?":"Le piano standard à 88 touches couvre 7 octaves + 3 notes supplémentaires. Les premières versions de Steinway & Sons (1853) n'avaient que 85 touches ; Bösendorfer proposa jusqu'à 97 touches sur ses grands modèles.",
+"Quel est le nom de l'hymne national français ?":"La Marseillaise fut composée en une nuit en 1792 par Claude Joseph Rouget de Lisle à Strasbourg. Elle devint hymne national en 1795. Son refrain contient les mots les plus violents de tout hymne national au monde.",
+"Quel duo électronique français est connu pour Get Lucky et Harder Better Faster Stronger ?":"Daft Punk (Thomas Bangalter et Guy-Manuel de Homem-Christo) portaient leurs casques de robots pour rester anonymes. Ils se sont séparés en février 2021 après 28 ans, dans une vidéo nommée « Épilogue ».",
+"Quel est le nom du chanteur principal des Rolling Stones ?":"Les Rolling Stones sont en activité depuis 1962 — l'un des plus longs carrières de l'histoire du rock. Mick Jagger fut étudiant à la London School of Economics avant de devenir rockstar.",
+"Quel chanteur était le leader du groupe Queen ?":"Freddie Mercury (1946–1991) naquit à Zanzibar sous le nom de Farrokh Bulsara. Malgré sa voix exceptionnelle couvrant 4 octaves, il n'a jamais suivi de cours de chant, craignant que cela altère sa technique naturelle.",
+"Quel compositeur baroque est l'auteur des Brandebourgeois et du Clavier bien tempéré ?":"Bach composa plus de 1 000 œuvres tout en élevant 20 enfants (dont 4 devinrent compositeurs importants). Ses œuvres furent presque oubliées après sa mort en 1750 avant d'être redécouvertes par Mendelssohn en 1829.",
+"Quelle chanteuse belge est connue pour « Formidable » et « Alors on danse » ?":"Stromae (Paul Van Haver) est d'origine belgo-rwandaise. Ses parents sont architecte et rwandaise. « Alors on danse » a été numéro 1 dans 19 pays européens, ce qui reste exceptionnel pour un artiste francophone.",
+"Combien de cordes possède une guitare classique standard ?":"La guitare à 6 cordes fut standardisée au XIXe siècle. Les cordes, tendues à une tension totale de ~70 kg, entrent en vibration à des fréquences de 82 Hz (Mi grave) à 1 175 Hz (Mi aigu).",
+"Quelle chanteuse québécoise a interprété My Heart Will Go On pour le film Titanic ?":"Céline Dion avait initialement refusé d'enregistrer My Heart Will Go On, la trouvant trop ordinaire. James Horner lui fit entendre la mélodie en secret et elle l'enregistra en 1 seule prise... à titre de démo.",
+"Quel musicien britannique est connu pour ses alter egos Ziggy Stardust et Aladdin Sane ?":"David Bowie (1947–2016) eut une hétérochromie — ses deux yeux de couleurs différentes — due à une bagarre d'adolescence qui dilata sa pupille gauche en permanence.",
+"Quel compositeur vénitien est l'auteur des Quatre Saisons ?":"Vivaldi (1678–1741) composa Les Quatre Saisons vers 1720 avec des sonnets descriptifs qu'il écrivit lui-même. Ordonné prêtre, il fut surnommé « le Prêtre Roux » en raison de sa chevelure rousse.",
+"Quel groupe de rock est à l'origine de la chanson Bohemian Rhapsody ?":"Bohemian Rhapsody (1975) fut initialement refusée par la maison de disques qui la trouvait trop longue (5m55). Freddie Mercury l'aurait composée en 3 semaines en s'inspirant de l'opéra. Elle est restée #1 au hit-parade pendant 9 semaines.",
+"Quels musiciens ont formé le groupe Daft Punk ?":"Bangalter et de Homem-Christo se rencontrèrent au lycée Carnot à Paris. Leur premier groupe s'appelait « Darlin' ». La revue britannique NME les qualifia de « daft punky thrash » — d'où le nom Daft Punk.",
+// MUSIQUE MOYEN
+"Quel luthier crémone est célèbre pour ses violons considérés comme les meilleurs jamais construits ?":"Les violons Stradivarius (1680–1720) sont estimés entre 1 et 16 millions de dollars pièce. Environ 650 survivent sur les ~1 200 qu'il fabriqua. Leur supériorité acoustique reste débattue par les scientifiques.",
+"Quelle ville américaine est considérée comme le berceau du jazz ?":"Le jazz naquit à La Nouvelle-Orléans vers 1900 dans le quartier de Storyville. Il fusionna le blues africain-américain, la musique classique européenne, le ragtime et le gospel. Louis Armstrong en fut le premier ambassadeur mondial.",
+"Quel compositeur polonais, virtuose du piano, a vécu en France et est connu pour ses nocturnes et mazurkas ?":"Chopin (1810–1849) quitta la Pologne à 20 ans pour ne jamais y revenir, toujours sous occupation russe. Il avait une si grande nostalgie de son pays qu'il demanda que son cœur soit enterré en Pologne — ce qui fut fait.",
+"Quel opéra de Georges Bizet met en scène une jeune femme travaillant dans une manufacture de tabac ?":"Bizet mourut en 1875, 3 mois après la première de Carmen, convaincu que l'opéra était un échec. Il ne sut jamais que Carmen deviendrait l'opéra le plus joué du répertoire mondial.",
+"Quel style musical brésilien, né à Rio dans les années 1950, mêle samba et jazz ?":"La Bossa Nova naquit dans les appartements de Copacabana et d'Ipanema. João Gilberto, Tom Jobim et Vinicius de Moraes en furent les pères fondateurs. La Garota de Ipanema fut la 2e chanson la plus enregistrée de l'histoire.",
+"Quel groupe de heavy metal américain est connu pour Enter Sandman et Master of Puppets ?":"Metallica a vendu plus de 125 millions d'albums, ce qui en fait le groupe de heavy metal le plus vendu de l'histoire. Master of Puppets (1986) fut le premier album metal à être inscrit au Registre national d'enregistrements.",
+"Quel compositeur français est l'auteur du Boléro ?":"Le Boléro de Ravel (1928) est une seule mélodie répétée 18 fois en croissendo. Ravel lui-même disait que c'était « une œuvre sans musique ». C'est pourtant l'une des pièces orchestrales les plus jouées du monde.",
+"Quel festival de musique, tenu en 1969 dans l'État de New York, est devenu un symbole de la culture hippie ?":"Woodstock (15–18 août 1969) réunit 400 000 personnes sur une ferme de Max Yasgur à Bethel. Il était initialement prévu pour 50 000 personnes. Joan Baez, Jimi Hendrix et Janis Joplin y jouèrent.",
+"Quel album de Pink Floyd (1979) raconte l'histoire d'un rockstar qui construit un mur autour de lui ?":"The Wall (1979) fut en partie inspiré par Roger Waters qui avait craché sur un fan lors d'un concert. Il vendit 23 millions d'exemplaires. Le spectacle live (1980–81) coûtait 1 million de dollars par représentation.",
+"Quel compositeur français est associé à l'impressionnisme musical et a composé La Mer et Clair de lune ?":"Debussy refusait le terme « impressionniste ». Il fut influencé par la musique javanaise (gamelan) qu'il découvrit à l'Exposition universelle de 1889. Cette révélation transforma son approche harmonique.",
+"Quelle chanteuse britannique, décédée en 2011, a sorti l'album Back to Black ?":"Amy Winehouse (1983–2011) mourut à 27 ans d'intoxication à l'alcool. Elle avait refusé d'aller en cure de désintoxication — réponse immortalisée dans sa chanson Rehab. Back to Black remporta 5 Grammys en 2008.",
+"Quel groupe de Seattle a popularisé le grunge avec l'album Nevermind ?":"Nevermind de Nirvana (1991) détrôna Dangerous de Michael Jackson de la première place du Billboard. Kurt Cobain était mal à l'aise avec le succès commercial et ses tensions avec la maison de disques s'accrurent.",
+"Quel compositeur français est l'auteur des Gymnopédies ?":"Erik Satie (1866–1925) inventa la musique d'ambiance : ses pièces pour piano « Vexations » (840 répétitions) ont influencé Brian Eno et le minimalisme. Il vivait dans une chambre si petite qu'on ne pouvait l'ouvrir qu'à moitié.",
+"Quel rappeur américain, décédé en 1996, est l'auteur des albums All Eyez on Me et Me Against the World ?":"Tupac Shakur (1971–1996) fut tué lors d'une fusillade à Las Vegas à 25 ans. Malgré sa courte vie, il a sorti 14 albums (studio + posthumes). All Eyez on Me reste l'album de rap le plus vendu de l'histoire.",
+"Quel duo français (Air) est connu pour l'album Moon Safari et la B.O. du film Virgin Suicides ?":"Air (Nicolas Godin et Jean-Benoît Dunckel) est de Versailles. Moon Safari (1998) fut enregistré dans le studio de leur ami Étienne Daho. La B.O. de Virgin Suicides (Sofia Coppola, 1999) les révéla à l'international.",
+"Quel chanteur auteur-compositeur français, surnommé le « Rebelle », est connu pour En cloque et Mistral Gagnant ?":"Renaud (Renaud Séchan) est l'archétype du chanteur engagé à la française. Mistral Gagnant (1985), lettre à sa fille, est considérée comme sa plus belle chanson. Il souffre d'alcoolisme depuis les années 1990.",
+"Quel compositeur hongrois a synthétisé musique folklorique et avant-garde dans Microcosmos et le Mandarin merveilleux ?":"Bartók (1881–1945) parcourut la Roumanie, la Bulgarie, l'Algérie et la Turquie pour enregistrer des milliers de chants folkloriques, jetant les bases de l'ethnomusicologie moderne.",
+"Quel album de Miles Davis (1959) est considéré comme le chef-d'œuvre du jazz modal ?":"Kind of Blue (1959) se vendit à 4 millions d'exemplaires aux USA — le disque de jazz le plus vendu de l'histoire. Il fut enregistré en seulement 2 sessions d'une journée, avec peu de répétitions.",
+"Quel rappeur américain est l'auteur des albums The Blueprint et 4:44 ?":"Jay-Z (Shawn Carter) est passé de dealer de drogue à milliardaire. The Blueprint (2001) sortit le 11 septembre 2001 et fut d'abord une catastrophe commerciale à cause des attentats, avant de devenir un classique.",
+"Quels compositeurs sont associés à la période baroque ?":"Bach, Haendel et Vivaldi sont les trois géants du baroque tardif. Haendel et Bach naquirent la même année (1685) et moururent à la même époque sans jamais se rencontrer, malgré un déplacement spécial de Bach pour voir Haendel.",
+// MUSIQUE DIFFICILE
+"Quel compositeur américain est l'auteur de 4'33\", une pièce de silence composé ?":"4'33\" de John Cage (1952) dure 4 minutes et 33 secondes de silence apparent. Cage soutenait que les sons ambiants (toux, chaises, vent) composent la véritable musique. C'est l'œuvre la plus discutée du XXe siècle.",
+"Quel compositeur autrichien a développé le système dodécaphonique (musique sérielle) ?":"Schoenberg (1874–1951) abandonna la tonalité dans ses Trois Pièces pour piano op.11 (1909). Son dodécaphonisme (1921) organise les 12 sons de l'octave en « séries ». Il dut fuir le nazisme et mourut à Los Angeles.",
+"Quel compositeur français, mort en 1992, a écrit le Quatuor pour la fin du Temps lors de sa captivité en 1941 ?":"Messiaen composa le Quatuor dans un camp de prisonniers en Silésie (Görlitz). La première eut lieu le 15 janvier 1941 devant 400 prisonniers et gardiens dans le froid. Les instruments étaient délabrés et faux.",
+"Quel musicien de jazz américain est considéré comme le père du free jazz, notamment avec l'album The Shape of Jazz to Come ?":"Ornette Coleman (1930–2015) fut sifflé et insulté lors de ses premières performances à New York en 1959. Aujourd'hui, The Shape of Jazz to Come est considéré comme l'un des disques les plus importants du XXe siècle.",
+"Quel compositeur d'origine grecque, naturalisé français, a développé la musique stochastique (compositions probabilistes) ?":"Xenakis (1922–2001) était ingénieur avant d'être compositeur. Il travailla avec Le Corbusier sur le Pavillon Philips (1958) où il présenta Poème électronique. Ses œuvres utilisent les probabilités pour générer les structures musicales.",
+"Qui est considéré comme l'auteur du premier opéra de l'histoire avec L'Orfeo (1607) ?":"L'Orfeo de Monteverdi fut joué pour la première fois à Mantoue devant la cour des Gonzague. Il combina musique polyphonique Renaissance et nouveau style monodie — la naissance de l'opéra. La partition est miraculeusement intacte.",
+"Quelle est la durée approximative du cycle Der Ring des Nibelungen de Richard Wagner ?":"Le Ring (L'Or du Rhin, La Walkyrie, Siegfried, Le Crépuscule des dieux) dure ~15 heures sur 4 soirées. Wagner mit 26 ans à le composer (1848–1874). Le festival de Bayreuth, qu'il fonda, lui est encore dédié.",
+"Quel compositeur et chef d'orchestre français, fondateur de l'IRCAM, a dominé la musique contemporaine des années 1970-2000 ?":"Pierre Boulez (1925–2016) dirige les orchestres les plus prestigieux et compose avec une rigueur sérielle absolue. En fondant l'IRCAM (1977) à Paris, il créa un des centres mondiaux de recherche musicale.",
+"Quel bassiste de jazz est l'auteur de Goodbye Pork Pie Hat et de l'album Mingus Ah Um ?":"Charles Mingus (1922–1979) était aussi compositeur, arrangeur et leader de groupes. Goodbye Pork Pie Hat fut composé en hommage à Lester Young le jour de sa mort (1959). Mingus était connu pour ses explosions de colère sur scène.",
+"Qu'est-ce que le khoomei (chant diphonique) pratiqué notamment en Tuvie (Sibérie) ?":"Le chanteur diphonique produit simultanément deux sons : un bourdon grave et une mélodie de partiels (harmoniques) très aigus. Cette technique, pratiquée en Mongolie et en Tuva, est considérée comme l'une des plus complexes au monde.",
+"Quel artiste est à l'origine du concept de la musique ambiante avec des albums comme Discreet Music ?":"Brian Eno inventa le terme « ambient music » en 1978 après s'être retrouvé alité avec de la musique jouant trop doucement pour être bien entendue. Il décida que cette façon d'entendre la musique était une expérience en soi.",
+"Qui était Thelonious Monk dans l'histoire du jazz ?":"Monk (1917–1982) est le 2e compositeur de jazz le plus enregistré de l'histoire (après Duke Ellington). Ses harmonies « fausses » volontaires et ses silences rythmiques le rendirent incompris jusqu'au milieu des années 1950.",
+"Quel compositeur, auteur des Études symphoniques, est associé au romantisme allemand et a fondé une revue musicale influente ?":"Schumann (1810–1856) fonda la Neue Zeitschrift für Musik (1834) et révéla Chopin et Brahms au grand public. Il perdit la raison en 1854, tenta de se noyer dans le Rhin et mourut en asile 2 ans plus tard.",
+"Dans quel style musical le Charango, instrument à cordes andins à 10 cordes, est-il utilisé traditionnellement ?":"Le charango, développé après la colonisation espagnole, fut d'abord construit avec la carapace d'un tatou comme caisse de résonance. Il est désormais interdit d'utiliser des tatous et les instruments sont en bois.",
+"Quel compositeur autrichien est l'auteur de 9 symphonies monumentales connues pour leur durée exceptionnelle ?":"Anton Bruckner (1824–1896) était un organiste virtuose, profondément croyant. Ses symphonies durent entre 65 et 80 minutes. Il les révisa obsessionnellement : la 8e existe en au moins 3 versions distinctes.",
+"Quel compositeur est à l'origine du concept de Gesamtkunstwerk (œuvre d'art total) ?":"Wagner voulait fusionner musique, poésie, décor, scénographie et geste dans une œuvre unifiée. Il construisit le Festspielhaus de Bayreuth (1876) spécifiquement pour ses opéras, avec une fosse d'orchestre invisible.",
+"Quelle compositrice du XIIe siècle, abbesse rhénane, est l'autrice de pièces liturgiques comme la Symphonia ?":"Hildegard von Bingen (1098–1179) était aussi philosophe, médecin, botaniste et prophétesse. Sa musique est parmi la plus ancienne dont nous connaissons avec certitude l'auteur et les œuvres ont été enregistrées de nombreuses fois.",
+"Quel musicien, auteur de l'album Trout Mask Replica, incarne l'avant-garde rock américaine ?":"Captain Beefheart (Don Van Vliet) enregistra Trout Mask Replica (1969) en 8h après 8 mois de répétitions dans une maison isolée. Certains membres du groupe n'avaient jamais joué d'instrument avant de rejoindre le band.",
+"Quel est le style musical de l'album Pet Sounds des Beach Boys (1966), considéré comme l'un des plus influents de l'histoire ?":"Pet Sounds inspira directement Sgt. Pepper's de McCartney qui avoua : « J'ai été tellement bouleversé que je pleurais. » Brian Wilson s'isola dans son studio pendant des mois et fit mettre un bac à sable sous son piano.",
+"Quels compositeurs sont associés à la Seconde École de Vienne et au sérialisme ?":"Schoenberg, Berg et Webern forment la Seconde École de Vienne. Webern réduisit le sérialisme à son extrême avec des pièces de quelques secondes. Il mourut tragiquement en 1945, abattu par erreur par un soldat américain.",
+// LITTÉRATURE FACILE
+"Quel auteur français a écrit Les Misérables ?":"Victor Hugo a mis 17 ans à écrire Les Misérables (1862). La lettre la plus courte de l'histoire littéraire est attribuée à Hugo : il envoya « ? » à son éditeur pour demander comment le livre se vendait. La réponse fut « ! ».",
+"Qui a écrit Hamlet, Roméo et Juliette et Macbeth ?":"Shakespeare (1564–1616) aurait écrit 37 pièces et 154 sonnets. Certains doutent qu'il en soit l'auteur unique. Son vocabulaire est estimé à 20 000 mots — contre 2 000 pour un anglophone moyen aujourd'hui.",
+"Quel dramaturge français est l'auteur de L'Avare et du Malade imaginaire ?":"Molière (Jean-Baptiste Poquelin) mourut sur scène le 17 février 1673, lors de la 4e représentation du Malade imaginaire — dans le rôle d'un malade imaginaire. Ironie suprême de l'histoire littéraire.",
+"Qui a écrit la saga Harry Potter ?":"J.K. Rowling eut l'idée de Harry Potter en 1990 dans un train retardé entre Manchester et Londres. Elle écrivit les premières notes sur des serviettes de café. Le 1er tome fut refusé par 12 éditeurs avant Bloomsbury.",
+"Qui a écrit Le Petit Prince ?":"Saint-Exupéry (1900–1944) disparut lors d'une mission de reconnaissance au-dessus de la Méditerranée. Son avion fut retrouvé en 2003 près de Marseille. Le Petit Prince (1943) est le livre français le plus traduit.",
+"Quel auteur espagnol a écrit Don Quichotte de la Manche ?":"Cervantes écrivit Don Quichotte (1605–1615) en prison pour une histoire de dettes. Le roman, souvent qualifié de premier roman moderne, est l'œuvre de fiction la plus vendue de l'histoire après la Bible.",
+"Quel auteur français de science-fiction est l'auteur de 20 000 lieues sous les mers ?":"Verne décrivit dans ses romans la télévision, l'astronautique et internet avant leur invention. Il écrivit 54 romans en 40 ans tout en travaillant comme agent de change. Il n'aimait pourtant pas voyager.",
+"Qui a écrit Madame Bovary ?":"Gustave Flaubert fut poursuivi en justice pour atteinte aux mœurs à la publication de Madame Bovary (1857). Il fut acquitté. Flaubert était célèbre pour son perfectionnisme : il travaillait parfois une semaine entière sur un seul paragraphe.",
+"Qui a créé les personnages d'Astérix et Obélix ?":"René Goscinny (scénario) et Albert Uderzo (dessin) créèrent Astérix en 1959 dans le journal Pilote. La série (38 albums) est la bande dessinée française la plus traduite, présente dans 111 langues.",
+"Qui a écrit Crime et Châtiment ?":"Dostoïevski écrivit Crime et Châtiment (1866) à toute vitesse pour rembourser ses dettes de jeu. Il dicta les derniers chapitres à sa secrétaire Anna Snitkina, qu'il épousa ensuite. Ce roman reste l'un des sommets de la littérature mondiale.",
+"Quel auteur belge a créé le reporter Tintin ?":"Hergé (Georges Remi) publia Tintin pour la première fois en 1929 dans un supplément catholique pour enfants. Son trait « ligne claire » influença la bande dessinée mondiale. Les albums Tintin se sont vendus à 230 millions d'exemplaires.",
+"Quel auteur algérien-français a écrit L'Étranger et La Peste ?":"Camus reçut le Nobel de littérature en 1957, à 44 ans (l'un des plus jeunes lauréats). Il mourut en 1960 dans un accident de voiture. Dans sa serviette on retrouva le manuscrit inachevé du Premier Homme.",
+"Quel auteur britannique a écrit Le Seigneur des Anneaux ?":"Tolkien inventa des langues elfiques (le quenya et le sindarin) avant même d'écrire l'histoire. Il travailla sur son monde tolkienien pendant 50 ans. La trilogie du Seigneur des Anneaux a vendu plus de 150 millions d'exemplaires.",
+"Quel auteur français est connu pour son roman-fleuve À la recherche du temps perdu ?":"Proust (1871–1922) passa les 14 dernières années de sa vie dans une chambre capitonnée de liège pour se protéger du bruit et des allergies. Les 7 tomes de la Recherche totalisent ~4 000 pages et 1,5 million de mots.",
+"Quelle romancière britannique est l'auteur de Dix Petits Nègres avec le personnage Hercule Poirot ?":"Agatha Christie est l'auteur le plus vendu de tous les temps après Shakespeare. Elle vendit 2 milliards de livres. En 1926, elle disparut pendant 11 jours dans des circonstances mystérieuses — l'affaire ne fut jamais élucidée.",
+"Quel auteur français naturaliste est connu pour sa lettre J'accuse dans l'affaire Dreyfus ?":"J'accuse...! de Zola (1898) fut publiée en une du journal L'Aurore à 300 000 exemplaires. Zola fut condamné pour diffamation et dut fuir en Angleterre. L'affaire Dreyfus divisa profondément la France.",
+"Qui a écrit Les Fleurs du mal ?":"Baudelaire (1821–1867) fut condamné pour « outrage à la morale publique » à la publication des Fleurs du mal (1857). 6 poèmes furent censurés. Ces mêmes poèmes sont aujourd'hui au programme de l'Éducation nationale.",
+"Quel auteur britannique a écrit 1984 et La Ferme des animaux ?":"George Orwell écrivit 1984 (1949) alors qu'il était mourant de tuberculose sur l'île de Jura en Écosse. Le ministère de l'Amour, la Novlangue et Big Brother sont entrés dans le vocabulaire politique mondial.",
+"Qui a écrit Le Rouge et le Noir ?":"Stendhal (Henri Beyle) inventa le concept de « beylisme » — poursuivre le bonheur avec passion. Il prédit que ses œuvres ne seraient comprises qu'en 1880, puis 1900, puis... il avait raison. Il fut pleinement reconnu après sa mort.",
+"Quels auteurs français ont écrit des romans du XIXe siècle devenus des classiques ?":"Le XIXe siècle français est un âge d'or du roman : Balzac (La Comédie humaine, 90 romans), Zola (Les Rougon-Macquart, 20 romans), Hugo, Flaubert et Maupassant ont dominé la littérature mondiale de leur époque.",
+// LITTÉRATURE MOYEN
+"Qui a écrit La Métamorphose, roman où un homme se transforme en insecte ?":"Kafka (1883–1924) écrivit La Métamorphose (1915) en quelques semaines. Il demanda à son ami Max Brod de brûler ses manuscrits après sa mort. Brod n'obéit pas et publia Le Procès, Le Château et L'Amérique.",
+"Quel essai de Simone de Beauvoir, paru en 1949, a fondé le féminisme moderne ?":"« On ne naît pas femme, on le devient » est la phrase la plus célèbre du Deuxième Sexe. L'ouvrage fut mis à l'Index par le Vatican. Il est considéré comme l'acte fondateur du féminisme de la 2e vague.",
+"Qui a reçu le prix Nobel de littérature en 2022 ?":"Annie Ernaux (née 1940) est la 17e femme à recevoir ce prix. Elle reçut le Nobel pour « le courage et l'acuité clinique avec lesquels elle découvre les racines, les aliénations et les contraintes collectives de la mémoire personnelle ».",
+"Quel auteur français est l'auteur de Voyage au bout de la nuit, roman publié en 1932 ?":"Céline (Louis-Ferdinand Destouches) révolutionna la langue française avec un style populaire, argotique et elliptique. Antisémite notoire, il fut condamné pour collaboration après la guerre mais amnistié en 1951.",
+"Qui a écrit La Nausée et L'Être et le Néant ?":"Sartre refusa le prix Nobel de littérature en 1964, déclarant : « Un écrivain ne doit pas se laisser transformer en institution. » C'est la seule fois qu'un auteur a refusé ce prix de plein gré.",
+"Quel auteur français est l'auteur du Comte de Monte-Cristo et des Trois Mousquetaires ?":"Alexandre Dumas père travailla avec des « nègres littéraires » — notamment Auguste Maquet pour Monte-Cristo. Son fils Alexandre Dumas (fils) écrivit La Dame aux camélias. Père et fils eurent tous deux des vies romanesques.",
+"Qui a écrit la pièce de théâtre Phèdre ?":"Racine (1639–1699) s'est retiré du théâtre à 37 ans après Phèdre (1677), suite à une cabale orchestrée par ses rivaux qui placèrent en même temps une pièce concurrente médiocre sur le même sujet.",
+"Quelle pièce de Corneille du XVIIe siècle est à l'origine de la querelle littéraire du même nom ?":"La querelle du Cid (1637) opposa Corneille à l'Académie française qui critiqua sa pièce pour ses irrégularités dramatiques. L'Académie dut cependant reconnaître son succès populaire extraordinaire.",
+"Quel auteur français des Lumières a écrit Candide ?":"Voltaire écrivit Candide (1759) en 3 jours pour répondre à l'optimisme de Leibniz après le tremblement de terre de Lisbonne (1755). La conclusion « il faut cultiver notre jardin » reste une des phrases les plus citées du français.",
+"Quelle auteure franco-belge a été la première femme élue à l'Académie française en 1980 ?":"Marguerite Yourcenar (1903–1987) vécut aux États-Unis à partir de 1939 avec Grace Frick, sa compagne. Son élection à l'Académie française fit scandale mais fut imposée par André Frossard et Jean d'Ormesson.",
+"Quel auteur russe est l'auteur de Lolita ?":"Nabokov (1899–1977) écrivit Lolita (1955) en anglais, sa troisième langue, après le russe et le français. Il fut refusé par 5 éditeurs américains avant une publication en France. Le roman est une étude du mal, pas une apologie.",
+"Qui a écrit Cent ans de solitude, roman fondateur du réalisme magique ?":"Gabriel García Márquez (1927–2014) eut l'idée de Cent ans de solitude (1967) en conduisant vers la mer. Il fit demi-tour, rentra, et écrivit pendant 18 mois en ne mangeant que grâce aux bijoux que sa femme vendait.",
+"Quel poète français est l'auteur de Paroles, recueil comprenant « Barbara » et « Le cancre » ?":"Jacques Prévert (1900–1977) était aussi scénariste : il écrivit Les Enfants du paradis (Marcel Carné, 1945). « Les feuilles mortes » (Autumn Leaves), paroles de Prévert, reste l'une des chansons françaises les plus reprises.",
+"Quel poète français surréaliste est l'auteur des Yeux d'Elsa ?":"Louis Aragon (1897–1982) dédia Les Yeux d'Elsa (1942) à sa compagne Elsa Triolet. Résistant, il écrivit sous occupation. Sa conversion du surréalisme au communisme puis sa rupture avec le Parti après 1968 marquèrent son parcours.",
+"Quel poète français est l'auteur de Calligrammes, poèmes mêlant typographie et image ?":"Guillaume Apollinaire (1880–1918) inventa le mot « surréalisme » dans ses notes de programme. Ses Calligrammes (1918) mêlent textes et formes visuelles — précurseurs de la poésie concrète. Il mourut de la grippe espagnole à 38 ans.",
+"Quel auteur colombien a fondé le mouvement du réalisme magique en littérature hispanique ?":"García Márquez s'inspirait des histoires de sa grand-mère : « Elle me racontait les choses les plus fantastiques avec la plus grande désinvolture, comme si elles étaient vraies. C'est ce que j'ai voulu faire. »",
+"Qui a écrit La Chartreuse de Parme ?":"Stendhal écrivit La Chartreuse de Parme (1839) en seulement 52 jours, en dictant à un secrétaire. Son style « stendhalien » (psychologie fine, ironie) influença Tolstoï, Proust et de nombreux romanciers modernes.",
+"Quel auteur irlandais, auteur de Molloy et Malone meurt, a reçu le Nobel de littérature en 1969 ?":"Beckett (1906–1989) reçut le Nobel mais refusa les interviews et la célébrité. Il avait risqué sa vie dans la Résistance française. En attendant Godot (1952) fut d'abord refusé partout avant de devenir la pièce du siècle.",
+"Quel mouvement littéraire est associé à Zola, Maupassant et Daudet ?":"Le Naturalisme applique les méthodes scientifiques à la littérature : Zola se documenta dans les mines, les halles et les maisons closes avant d'écrire. Il possédait une énorme bibliothèque de documents sociaux.",
+"Quels auteurs sont associés au roman policier français ou à la littérature noire ?":"San-Antonio (Frédéric Dard) a vendu 200 millions de livres avec ses aventures parodiques. Léo Malet inventa Nestor Burma à Paris en 1943. Jean-Patrick Manchette modifia le genre avec un regard politique et social acéré.",
+// LITTÉRATURE DIFFICILE
+"Quel auteur du XVIe siècle est l'auteur de Gargantua et Pantagruel, œuvres humanistes et satiriques ?":"Rabelais était médecin, moine franciscain puis bénédictin avant d'être écrivain. Ses œuvres, condamnées par la Sorbonne, mêlent érudition humaniste et humour scatologique dans un français populaire et savant.",
+"Quel groupe de poètes du XVIe siècle, comprenant Ronsard et Du Bellay, a voulu renouveler la poésie française ?":"La Pléiade publia en 1549 la Défense et illustration de la langue française de Du Bellay, manifeste fondateur. Elle défendait l'usage du français plutôt du latin pour la grande poésie, révolution culturelle décisive.",
+"En quelle année le Prix Goncourt a-t-il été décerné pour la première fois ?":"Le Prix Goncourt, instauré par le testament d'Edmond de Goncourt, fut décerné pour la première fois en 1903 à John-Antoine Nau pour Force ennemie. La dotation actuelle est symbolique : 10 euros.",
+"Quel auteur irlandais, auteur d'Ulysse, a révolutionné le roman avec le flux de conscience ?":"Ulysse de Joyce (1922) fut publié par Sylvia Beach dans sa librairie parisienne Shakespeare and Company, après avoir été refusé partout. Il se passe en une seule journée (le 16 juin 1904) et contient ~265 000 mots.",
+"Quel roman de William Faulkner (1929) raconte l'histoire de la famille Compson depuis plusieurs points de vue ?":"Le Bruit et la Fureur utilise 3 narrateurs internes puis un narrateur omniscient. Le premier narrateur est Benjy, un adulte ayant une déficience mentale. Faulkner avouait avoir essayé 4 fois de raconter la même histoire.",
+"Combien de tomes compte À la recherche du temps perdu de Marcel Proust ?":"Les 7 tomes de la Recherche (1913–1927) contiennent ~4 000 pages et ~1,5 million de mots. Une seule phrase peut dépasser 100 lignes. Le dernier tome parut après la mort de Proust qui corrigeait encore ses épreuves dans son lit.",
+"Quel auteur humaniste du XVIe siècle a inventé le genre de l'essai avec ses Essais publiés en 1580 ?":"Montaigne (1533–1592) inventa le mot « essai » pour désigner des tentatives de réflexion sur soi. Sa tour de Bordeaux où il écrivit est encore visible. Pascal, Rousseau et Nietzsche le lisaient avec admiration.",
+"Quel poète de la Pléiade est l'auteur des Amours et des Odes, considéré comme le « Prince des poètes » ?":"Ronsard (1524–1585) était sourd de l'oreille gauche depuis l'adolescence. Il fut le poète officiel de la cour de France et inspira des générations de poètes. Verlaine lui redonna ses lettres de noblesse au XIXe siècle.",
+"Quel auteur romantique a écrit les Mémoires d'outre-tombe, autobiographie monumentale ?":"Chateaubriand (1768–1848) travailla aux Mémoires d'outre-tombe pendant 40 ans (1809–1849). Publiées après sa mort, elles couvrent ses voyages, sa vie politique et ses amours. Proust les considérait comme le plus grand texte français.",
+"Quel mouvement littéraire Queneau, Perec, Calvino et Roubaud ont-ils fondé en 1960 ?":"L'OuLiPo (Ouvroir de littérature potentielle) produit de la littérature sous contraintes formelles. Perec écrivit La Disparition (1969) sans utiliser la lettre E — la plus fréquente du français — sur 300 pages.",
+"Quel est le premier vers de la Chanson de Roland, épopée médiévale du XIe siècle ?":"La Chanson de Roland (XIe s.) est la plus ancienne chanson de geste française. Elle raconte la bataille de Roncevaux (778) et la mort du paladin Roland. Son auteur est inconnu — peut-être Turold, mentionné à la fin.",
+"Quel est le vrai nom de Stendhal ?":"Henri Beyle choisit le pseudonyme « Stendhal » du nom d'une petite ville allemande où naquit le critique d'art Winckelmann qu'il admirait. Il utilisait plus de 200 pseudonymes dans sa correspondance.",
+"Quel poète symboliste est l'auteur de l'Art poétique et des Poèmes saturniens ?":"Verlaine (1844–1896) mena une vie chaotique marquée par l'alcool et sa relation passionnée avec Rimbaud. Il finit ses jours dans la misère mais reçu des funérailles nationales. Son vers « De la musique avant toute chose » est fondateur.",
+"Quel poète est l'auteur d'Un Coup de dés jamais n'abolira le hasard (1897), œuvre révolutionnaire de la typographie ?":"Mallarmé (1842–1898) distribua les mots sur la page de façon à ce que l'espace blanc soit aussi signifiant que le texte. Cette œuvre, publiée 2 ans avant sa mort, préfigura la poésie concrète et l'art visuel du XXe siècle.",
+"Quel auteur suisse-française a écrit L'Amant, Prix Goncourt 1984 ?":"Marguerite Duras (1914–1996) est née en Indochine française (Gia Dinh, Vietnam actuel). L'Amant, récit autobiographique de ses amours avec un riche Chinois à 15 ans, vendit 2 millions d'exemplaires en 3 mois.",
+"Quel auteur-poète du XIXe siècle est l'auteur de La Prose du Transsibérien ?":"Blaise Cendrars (1887–1961) était un aventurier autant qu'un poète. La Prose du Transsibérien (1913), imprimée sur un accordéon d'1m80, est considérée comme le premier livre simultané — texte et peinture de Sonia Delaunay.",
+"Quel auteur français a reçu le Prix Nobel de littérature en 1947 pour ses œuvres incluant La Porte étroite ?":"André Gide (1869–1951) fut l'une des figures les plus controversées de la littérature française. Son Journal (tenu 60 ans) est un document exceptionnel. Il cofonda la NRF (Nouvelle Revue Française) en 1909.",
+"Quel roman de Marguerite Yourcenar, paru en 1951, raconte la vie de l'empereur Hadrien à la première personne ?":"Yourcenar travailla 20 ans sur les Mémoires d'Hadrien. Elle dit avoir découvert l'ouverture (« Animula vagula blandula... ») sur un morceau de papier retrouvé dans le fond d'une boîte — et que tout le roman était là.",
+"Quel auteur de la littérature médiévale française est l'auteur des Lais, dont le Lai de Lanval ?":"Marie de France est la première femme connue de la littérature française. On sait peu d'elle sinon qu'elle dédiait ses œuvres à un « noble roi ». Ses 12 Lais (XIIe s.) sont des récits fantastiques inspirés des légendes celtiques.",
+"Quels auteurs sont associés au Nouveau Roman français des années 1950-1970 ?":"Le Nouveau Roman (Robbe-Grillet, Sarraute, Butor, Simon) déconstruisit la psychologie des personnages, les intrigues et la chronologie. Claude Simon reçut le Nobel en 1985. Alain Robbe-Grillet écrivit le script de L'Année dernière à Marienbad.",
+// PEINTURE FACILE
+"Qui a peint la Joconde (Mona Lisa) ?":"La Joconde mesure seulement 77 × 53 cm — beaucoup visiteurs sont surpris par sa petite taille. Léonard la porta avec lui en France où elle fut achetée par François Ier. Elle fut volée au Louvre en 1911 et retrouvée 2 ans plus tard.",
+"Qui a peint La Nuit étoilée ?":"Van Gogh peignit La Nuit étoilée (1889) depuis sa chambre dans l'asile de Saint-Rémy-de-Provence, où il s'était volontairement interné. Il créa plus de 300 œuvres pendant cette année d'internement.",
+"Qui a peint Guernica, représentant les horreurs de la guerre civile espagnole ?":"Guernica fut peint en seulement 5 semaines en 1937, pour l'Exposition universelle de Paris. Picasso refusa que le tableau retourne en Espagne jusqu'à la mort de Franco. Il y revint en 1981.",
+"Qui a peint Le Cri ?":"Munch peignit 4 versions du Cri (1893–1910). L'inspiration lui vint lors d'une promenade au coucher du soleil : « J'ai senti un cri infini traverser la nature. » Le ciel rouge serait dû à l'éruption du Krakatoa en 1883.",
+"Quel peintre est connu pour sa série des Tournesols et des Autoportraits à l'oreille coupée ?":"Van Gogh ne vendit qu'un seul tableau de son vivant : La Vigne rouge (1888). Il créa plus de 900 peintures et 1 100 dessins en seulement 10 ans. Son œuvre se vend aujourd'hui à plusieurs dizaines de millions de dollars.",
+"Qui a peint La Persistance de la mémoire avec ses montres molles ?":"Dalí dit avoir eu l'idée des montres molles en regardant fondre du camembert. L'image de La Persistance de la mémoire (1931) lui vint en quelques heures, et il peignit la toile en deux heures après que Gala l'eut validée.",
+"Quel peintre impressionniste est célèbre pour sa série des Nymphéas ?":"Monet peignit ses Nymphéas dans son jardin de Giverny qu'il aménagea lui-même. La grande série (200 m de peintures) fut offerte à l'État français après la Première Guerre mondiale et est exposée à l'Orangerie.",
+"Qui a peint La Création d'Adam sur la voûte de la Chapelle Sixtine ?":"Michel-Ange peignit la voûte de la Sixtine (1508–1512) en 4 ans, debout sur un échafaudage (et non allongé, contrairement au mythe). Il perdit temporairement la vue à force de regarder vers le haut.",
+"Qui a peint La Naissance de Vénus ?":"Botticelli peignit La Naissance de Vénus (1485) pour Laurent de Médicis. Le tableau mesure 172 × 278 cm. Vénus n'est pas idéalement proportionnée selon les canons classiques — son cou est trop long, son épaule gauche inclinée.",
+"Quel peintre hollandais du XVIIe siècle a peint La Jeune Fille à la perle ?":"Vermeer (1632–1675) n'a laissé que 34–37 tableaux authentifiés. Il vivait très pauvrement et mourut criblé de dettes à 43 ans. Son œuvre fut redécouverte au XIXe siècle par le critique Thoré-Bürger.",
+"Dans quel musée parisien est conservée la Joconde ?":"Le Louvre est le musée le plus visité du monde avec ~9 millions de visiteurs par an. La Joconde est exposée derrière un vitrage anti-reflet dans une salle climatisée. En 2009, une visitrice russe lui lança une tasse.",
+"Quel peintre impressionniste est célèbre pour ses tableaux de danseuses ?":"Degas préférait se qualifier de « réaliste » plutôt qu'impressionniste. Il utilisait le pastel plus que la peinture. Ses danseuses sont souvent vues de dessous, depuis la fosse d'orchestre où il avait accès.",
+"Quel peintre mexicaine est connue pour ses autoportraits et sa vie tumultueuse ?":"Frida Kahlo réalisa 55 autoportraits sur 143 peintures. Elle commença à peindre à 18 ans, alitée après un accident de bus. Elle et Diego Rivera se marièrent, divorcèrent et se remarièrent. Elle est devenue une icône féministe mondiale.",
+"Quel peintre flamand baroque est connu pour ses scènes mythologiques et ses portraits opulents ?":"Rubens (1577–1640) était aussi diplomate : il négocia un traité de paix entre l'Espagne et l'Angleterre en 1630, ce qui lui valut un titre de chevalier. Son atelier de 100 assistants permettait une production industrielle.",
+"Quel peintre belge a peint Le Fils de l'homme, un homme au chapeau melon avec une pomme devant le visage ?":"Magritte (1898–1967) peignit Le Fils de l'homme (1964) comme un autoportrait. L'homme en chapeau melon apparaît dans plus de 40 de ses tableaux. Il s'habillait lui-même en costume et chapeau melon tous les jours.",
+"Quel artiste français est le chef de file du Fauvisme ?":"Matisse (1869–1954) fut profondément influencé par la lumière de la Méditerranée lors d'un séjour à Collioure avec Derain en 1905. Le terme « fauves » (bêtes sauvages) fut utilisé par le critique Louis Vauxcelles pour moquer leurs couleurs criardes.",
+"Quel peintre post-impressionniste est surtout connu pour ses paysages de la Montagne Sainte-Victoire ?":"Cézanne peignit la Sainte-Victoire plus de 80 fois depuis les environs d'Aix-en-Provence. Picasso le considérait comme « le père de nous tous ». Il mourut d'une pneumonie en peignant dans son jardin en plein orage.",
+"Quel peintre autrichien est l'auteur du tableau Le Baiser ?":"Klimt (1862–1918) utilisa des feuilles d'or véritable dans Le Baiser (1908). Il fut associé à la Sécession viennoise, mouvement contre l'académisme. Il refusa tous les titres et distinctions officiels de son vivant.",
+"Quel peintre toulousain est connu pour ses affiches du Moulin Rouge ?":"Toulouse-Lautrec (1864–1901) mesurait seulement 1m54 en raison d'une maladie osseuse. Il passa ses soirées dans les cabarets et les maisons closes, capturant la vie nocturne parisienne avec un trait acéré.",
+"Quels peintres sont associés au mouvement impressionniste ?":"Le terme « impressionniste » fut inventé par le critique Louis Leroy pour se moquer du tableau Impression, soleil levant de Monet (1872). Les impressionnistes peignaient en plein air et cherchaient à capturer la lumière instantanée.",
+// PEINTURE MOYEN
+"Qui a fondé le cubisme avec Pablo Picasso ?":"Georges Braque et Picasso développèrent le cubisme entre 1908 et 1914 dans un dialogue si étroit que même leurs amis proches confondaient leurs tableaux. Ils échangeaient quotidiennement travaux et idées.",
+"Quel artiste dadaïste est connu pour avoir ajouté des moustaches à la Joconde dans l'œuvre L.H.O.O.Q. ?":"Duchamp créa L.H.O.O.Q. (1919) en dessinant moustaches et bouc sur une carte postale. Le titre, lu en français lettre par lettre, forme une phrase vulgaire. Duchamp est aussi l'inventeur du readymade (Fontaine, 1917).",
+"Quels artistes sont associés au mouvement surréaliste en peinture ?":"Le Surréalisme fut fondé par André Breton avec le Manifeste surréaliste (1924). Les peintres voulaient libérer l'inconscient et le rêve. Dalí fut finalement exclu du mouvement par Breton qui l'appelait « Avida Dollars ».",
+"Quel peintre espagnol du Siècle d'Or est l'auteur du tableau Las Meninas ?":"Las Meninas (1656) est considérée comme la première œuvre à réfléchir sur la nature de la peinture. Velázquez y intègre son propre portrait (il tient un pinceau) et le reflet du roi dans un miroir en fond de tableau.",
+"Quel peintre espagnol a représenté les horreurs de la guerre dans Le 3 mai 1808 à Madrid ?":"Goya peignit Le 3 mai 1808 (1814) pour commémorer la répression napoléonienne. Ce tableau influença directement Édouard Manet (L'Exécution de Maximilien) et Pablo Picasso (Guernica).",
+"Qui a peint le tableau Nighthawks (1942), scène nocturne dans un diner américain ?":"Edward Hopper (1882–1967) est le peintre de la solitude américaine. Nighthawks est le tableau américain le plus reproduit. Le diner est inspiré d'un restaurant de Greenwich Village, à New York, qui a été démoli.",
+"Quel artiste américain est le chef de file du Pop Art ?":"Andy Warhol (1928–1987) dit : « À l'avenir, tout le monde aura son quart d'heure de célébrité. » Il transforma Campbell's Soup et Marilyn Monroe en icônes. Sa Factory était à la fois atelier, club et espace de performance.",
+"Quel peintre américain est connu pour sa technique de dripping (action painting) ?":"Jackson Pollock (1912–1956) posait ses toiles au sol et dansait autour en laissant dégouliner la peinture. Il mourut dans un accident de voiture à 44 ans. Ses œuvres se vendent aujourd'hui jusqu'à 200 millions de dollars.",
+"Quel peintre baroque est célèbre pour son utilisation du clair-obscur (chiaroscuro) dans des scènes violentes ?":"Le Caravage (1571–1610) vécut une vie violente : il tua un homme en 1606 et dut fuir Rome. Sa technique du clair-obscur radical (ténébrisme) révolutionna la peinture européenne du XVIIe siècle.",
+"Dans quel musée parisien se trouvent principalement les œuvres du XIXe siècle français ?":"Le musée d'Orsay, ancienne gare (1900), fut transformé en musée en 1986. Il abrite notamment les grandes collections impressionnistes et post-impressionnistes. La gare devait être démolie en 1970 mais fut sauvée par un mouvement populaire.",
+"Quel peintre romantique britannique est célèbre pour ses paysages atmosphériques, notamment avec The Fighting Temeraire ?":"Turner (1775–1851) anticipa l'impressionnisme d'un demi-siècle. Il demanda à être attaché au mât d'un navire dans une tempête pour peindre Tempête de neige (1842). Le critique Ruskin défendit son œuvre avec passion.",
+"Quel peintre néoclassique français est l'auteur du Serment des Horaces (1784) ?":"David (1748–1825) fut le peintre officiel de la Révolution et de Napoléon. Il organisa les fêtes révolutionnaires et vota la mort de Louis XVI. Après la chute de Napoléon, il s'exila à Bruxelles où il mourut.",
+"Quel peintre expressionniste allemand a fondé le mouvement Die Brücke ?":"Ernst Ludwig Kirchner (1880–1938) et le groupe Die Brücke (Le Pont) cherchaient à créer un pont entre l'art ancien et futur. Persécutés par les nazis comme « dégénérés », leurs œuvres furent confisquées ou brûlées.",
+"Quel artiste de l'École de Paris, d'origine modiglianesque, est connu pour ses nus allongés ?":"Amedeo Modigliani (1884–1920) vécut dans la misère à Montparnasse et mourut à 35 ans de méningite tuberculeuse. Sa compagne Jeanne Hébuterne se jeta par une fenêtre le lendemain, enceinte de 9 mois.",
+"Quel mouvement artistique est associé à Mark Rothko et ses grands aplats de couleur ?":"Mark Rothko (1903–1970) voulait que ses tableaux gigantesques enveloppent le spectateur et provoquent des émotions profondes. Il refusa une commande pour le restaurant Four Seasons, estimant que le cadre n'était pas digne de son art.",
+"Quel peintre symboliste français est l'auteur de L'Apparition et Jupiter et Sémélé ?":"Gustave Moreau (1826–1898) fut longtemps incompris de son vivant. Il légua son atelier à l'État qui en fit un musée. Matisse et Rouault furent ses élèves. Huysmans lui consacra un chapitre entier dans À rebours (1884).",
+"Quel peintre des primitifs flamands est l'auteur du Retable de l'Agneau mystique ?":"Jan van Eyck (v.1390–1441) est le maître de la peinture flamande. Le Retable de Gand (1432) fut fragmenté, volé par les nazis (Opération Monuments Men) et partiellement récupéré après la guerre.",
+"Quel peintre post-impressionniste français partageait la vie des Tahitiens et peignait leurs couleurs vives ?":"Gauguin (1848–1903) abandonna sa femme, ses 5 enfants et sa carrière d'agent de change pour aller peindre en Bretagne, puis à Tahiti. Ses couleurs vives et ses formes simplifiées influencèrent le fauvisme et l'expressionnisme.",
+"Quel peintre français du XVIIe siècle, fondateur du classicisme français, a vécu longtemps à Rome ?":"Nicolas Poussin (1594–1665) vécut presque toute sa vie à Rome. Ses tableaux sont construits comme des dissertations philosophiques. Il est le peintre préféré de Cézanne qui le voulait « refaire sur nature ».",
+"Quels peintres sont associés au mouvement Art Nouveau ?":"L'Art Nouveau (1890–1910) cherchait à intégrer l'art dans tous les aspects de la vie quotidienne. Klimt, Mucha, Toorop et Gaudi s'inspiraient des formes organiques de la nature. Le style mourut avec la Première Guerre mondiale.",
+// PEINTURE DIFFICILE
+"Quel peintre maniériste florentin est l'auteur de la Déposition de croix à Santa Felicita de Florence ?":"Pontormo (1494–1557) peignit la Déposition (1525–1528) avec des couleurs acides et irréelles et une composition sans gravité, comme si les personnages flottaient. C'est l'une des premières œuvres maniéristes.",
+"Quel artiste du Bauhaus, auteur de Autour du poisson, est connu pour ses compositions géométriques colorées ?":"Paul Klee (1879–1940) enseigna au Bauhaus de 1921 à 1931. Il fut persécuté par les nazis et s'exila en Suisse. Ses œuvres mêlent éléments enfantins, mystiques et architecturaux dans un style unique et poétique.",
+"Quel peintre est à l'origine du mouvement De Stijl et du néoplasticisme, avec ses grilles de lignes noires et couleurs primaires ?":"Mondrian (1872–1944) fut d'abord peintre symboliste et paysagiste avant d'arriver à l'abstraction radicale en 1920. Il aimait le jazz et la danse. Ses œuvres inspirèrent la mode (Yves Saint Laurent, 1965), le design et l'architecture.",
+"Quel peintre britannique d'origine irlandaise est connu pour ses triptiques de corps humains déformés ?":"Francis Bacon (1909–1992) avait un atelier si chaotique que le musée de Dublin a reconstitué 7 700 objets retrouvés dans la pièce. Ses triptiques, inspirés de photos médicales et de Velázquez, explorent la condition humaine.",
+"Quel peintre américain, décédé en 1988 à 27 ans, a mêlé street art et néo-expressionnisme ?":"Jean-Michel Basquiat (1960–1988) commença comme graffeur à New York sous le pseudonyme SAMO. Découvert par Andy Warhol, il devint la star du marché de l'art en quelques années. Ses toiles se vendent jusqu'à 110 millions de dollars.",
+"Qu'est-ce que l'Arte Povera, mouvement artistique italien des années 1960 ?":"Arte Povera (art pauvre) utilisait des matériaux bruts : charbon, terre, végétaux, acier, feu. Jannis Kounellis exposa 12 chevaux vivants dans une galerie en 1969. Le mouvement dénonçait la marchandisation de l'art.",
+"Quel peintre allemand néo-expressionniste est connu pour ses grandes toiles évoquant la mythologie et l'histoire allemande ?":"Anselm Kiefer (né 1945) travaille avec du plomb, de la paille, du sable et des cendres. Ses œuvres monumentales affrontent directement la culpabilité allemande pour la Seconde Guerre mondiale et l'Holocauste.",
+"Qui a réalisé le tableau Las Hilanderas (Les Fileuses) conservé au Prado, souvent considéré comme une des œuvres les plus complexes de Velázquez ?":"Las Hilanderas (1657) est une mise en abyme de la peinture dans la peinture. L'arrière-plan montrerait une tapisserie représentant un mythe d'Ovide. Velázquez y réfléchit sur la dignité du travail artistique.",
+"Quel peintre français post-impressionniste est connu pour ses scènes intimistes et sa palette chaude, parfois comparé à Bonnard ?":"Pierre Bonnard (1867–1947) peignit sa compagne Marthe dans sa baignoire des centaines de fois pendant 25 ans. Ses couleurs vibrantes et ses compositions décentrées préfigurent l'art contemporain.",
+"Qui était le maître de Léonard de Vinci ?":"Andrea del Verrocchio (1435–1488) était sculpteur, orfèvre et peintre. La légende veut que Léonard ait peint un ange si parfait dans le Baptême du Christ (v.1475) que Verrocchio, écrasé, aurait renoncé à peindre.",
+"Quel peintre symboliste belge est l'auteur de La Femme en bleu et de ses tableaux énigmatiques à l'atmosphère onirique ?":"Fernand Khnopff (1858–1921) était un solitaire reclus dans une maison qu'il avait lui-même conçue. Il représentait souvent le même visage — celui de sa sœur Marguerite — dans ses œuvres chargées d'érotisme sublimé.",
+"Quel peintre hollandais a peint La Ronde de nuit, conservée au Rijksmuseum d'Amsterdam ?":"La Ronde de nuit (1642) fut coupée sur ses bords pour tenir dans un couloir au XVIIIe siècle. Rembrandt (1606–1669) y peignit des personnages de tailles différentes selon leur rang social — rupture avec la convention.",
+"Quel courant artistique abstrait américain des années 1950 regroupe Rothko, Newman et Still dans leur approche méditative de la couleur ?":"Le Color Field painting s'opposa à l'action painting de Pollock. Rothko voulait que ses toiles induisent des émotions religieuses. Barnett Newman déclara : « L'esthétique pour les artistes, c'est comme l'ornithologie pour les oiseaux. »",
+"Quel peintre de la Renaissance allemande est l'auteur des célèbres gravures du Chevalier, la Mort et le Diable ?":"Dürer (1471–1528) fut le premier artiste allemand à être reconnu en Italie de son vivant. Il théorisa les proportions du corps humain en s'inspirant de Vitruve. Il est aussi le premier à avoir réalisé un autoportrait en pied.",
+"Quel artiste français d'origine ukrainienne est connu pour ses grandes peintures aux couleurs vives et ses thèmes bibliques ou du shtetl ?":"Marc Chagall (1887–1985) vécut 98 ans et fut témoin de toute l'histoire moderne. Il réalisa les vitraux de la cathédrale de Reims (1974), de la synagogue de Jérusalem et du plafond de l'Opéra de Paris.",
+"Quel peintre flamand du XVe siècle, auteur du Triptyque de l'Annonciation, est associé au Retable de Mérode ?":"Robert Campin (Maître de Flémalle) fut le premier à peindre des scènes religieuses dans des intérieurs bourgeois contemporains, rompant avec le fond doré byzantin. Il est le maître de Rogier van der Weyden.",
+"Quel artiste abstrait français, influencé par Mondrian, a développé une peinture totalement non figurative dès 1910 ?":"Robert Delaunay (1885–1941) créa l'orphisme, variante du cubisme utilisant des couleurs pures juxtaposées. Le poète Guillaume Apollinaire nomma ce courant « simultanéisme ». Ses œuvres influencèrent l'art abstrait mondial.",
+"Quel artiste américain minimaliste est connu pour ses cubes et volumes géométriques en acier inoxydable ?":"Donald Judd (1928–1994) affirma que ses objets n'étaient ni peinture ni sculpture : de simples « objets spécifiques ». Il acquit une ville fantôme au Texas (Marfa) pour créer une fondation d'art contemporain dans le désert.",
+"Quel peintre espagnol du XVIIe siècle est connu pour ses moines capucins aux blancs éclatants ?":"Francisco de Zurbarán (1598–1664) est surnommé le « Caravage espagnol ». Ses représentations de moines en prière capturent une spiritualité austère et intense. Il mourut dans la pauvreté malgré son talent.",
+"Quels peintres sont associés au mouvement expressionniste allemand Der Blaue Reiter ?":"Der Blaue Reiter (Le Cavalier bleu, 1911) réunit Kandinsky, Marc, Macke, Klee et d'autres. Franz Marc mourut à Verdun en 1916. Kandinsky avait vu un tableau de Monet qui lui révéla que « l'objet nuisait à la peinture ».",
+// ASTRONOMIE FACILE
+"Quelle est la planète la plus proche du Soleil ?":"Mercure n'est pas la planète la plus chaude du système solaire — c'est Vénus, avec ~465°C. Mercure a une amplitude thermique de plus de 600°C entre le jour (+430°C) et la nuit (-180°C).",
+"Comment appelle-t-on la planète rouge de notre système solaire ?":"Mars doit sa couleur rougeâtre à l'oxyde de fer (rouille) en surface. Elle possède Olympus Mons, le plus grand volcan du système solaire (21 km de haut) et Valles Marineris, un canyon long de 4 000 km.",
+"Quel est le satellite naturel de la Terre ?":"La Lune est le 5e plus grand satellite du système solaire. Elle s'éloigne de la Terre de ~3,8 cm par an. Son influence gravitationnelle stabilise l'axe de rotation terrestre, rendant les saisons stables.",
+"Quelle est l'étoile la plus proche du système solaire ?":"Proxima Centauri, à 4,22 années-lumière, est une naine rouge qui orbite autour du système Alpha Centauri. En 2016, on a découvert une exoplanète dans sa zone habitable : Proxima b.",
+"Dans quelle galaxie se trouve notre système solaire ?":"La Voie Lactée contient entre 100 et 400 milliards d'étoiles. Notre Soleil se trouve dans un bras périphérique (bras d'Orion). La Voie Lactée fait ~100 000 années-lumière de diamètre.",
+"Quel astronaute américain a été le premier à marcher sur la Lune en 1969 ?":"Neil Armstrong posa le pied sur la Lune le 21 juillet 1969 à 02h56 UTC. Ses premières paroles furent : « C'est un petit pas pour l'homme, un grand bond pour l'humanité. » Il y eut en tout 12 hommes sur la Lune.",
+"Quelle est la plus grande planète de notre système solaire ?":"Jupiter est si massif qu'il pourrait contenir 1 300 Terres. Sa Grande Tache Rouge est une tempête qui dure depuis au moins 350 ans, bien qu'elle rétrécisse depuis les années 1970.",
+"Quel est le type d'étoile de notre Soleil ?":"Le Soleil est une naine jaune de type G, en milieu de vie (~4,6 milliards d'années). Dans ~5 milliards d'années, il deviendra une géante rouge, engloutissant Mercure et Vénus avant de finir en naine blanche.",
+"Quelle comète passe près de la Terre tous les 75-76 ans environ ?":"La comète de Halley fut observée en 1066 (tapisserie de Bayeux) et identifiée par Edmond Halley en 1705 comme étant toujours la même. Sa prochaine apparition est prévue pour 2061.",
+"Lors d'une éclipse solaire totale, quel astre cache le Soleil ?":"La Lune est 400 fois plus petite que le Soleil mais aussi 400 fois plus proche — ce qui fait qu'ils paraissent la même taille vue de la Terre. Cette coïncidence extraordinaire permet les éclipses totales.",
+"Quelle planète du système solaire est connue pour ses spectaculaires anneaux ?":"Les anneaux de Saturne ont un diamètre de 282 000 km mais seulement 10 à 1 000 mètres d'épaisseur. Ils sont composés de glace et de roche et pourraient disparaître dans ~100 millions d'années.",
+"Quel fut le nom du premier satellite artificiel lancé en 1957 ?":"Spoutnik 1 (4 octobre 1957) pesait 84 kg et transmettait un simple bip radio. Son lancement par l'URSS provoqua un choc aux USA (« Sputnik shock ») et fut à l'origine de la création de la NASA.",
+"Quel cosmonaute soviétique a été le premier humain dans l'espace en 1961 ?":"Gagarine orbita la Terre pendant 108 minutes le 12 avril 1961. Sa phrase « La Terre est bleue » est restée célèbre. Il mourut en 1968 lors d'un vol d'entraînement à 34 ans, devenant une légende soviétique.",
+"Combien de temps met la lumière du Soleil pour parvenir jusqu'à la Terre ?":"La lumière met 8 minutes 20 secondes à parcourir les 150 millions de km Soleil-Terre. Quand on observe une étoile distante, on voit son passé — certaines étoiles visibles à l'œil nu sont mortes depuis longtemps.",
+"Quel est le statut actuel de Pluton dans la classification de l'Union Astronomique Internationale ?":"Pluton fut déclassée en planète naine en 2006 lors de l'assemblée de l'UAI à Prague. Cette décision, très controversée, avait notamment pour cause la découverte d'Éris (2005), encore plus massif que Pluton.",
+"Quelle constellation contient l'étoile Bételgeuse, une supergéante rouge ?":"Bételgeuse est ~1 400 fois plus grande que le Soleil. En décembre 2019, elle s'assombrit brusquement (« le Grand Assombrissement »), faisant craindre une supernova imminente. Elle devrait exploser dans ~100 000 ans.",
+"Qu'est-ce qu'une année-lumière ?":"Une année-lumière = 9,46 × 10¹² km. L'étoile la plus proche de nous (Proxima Centauri) est à 4,22 années-lumière. Il faudrait ~70 000 ans avec notre vaisseau spatial le plus rapide pour l'atteindre.",
+"Quel télescope spatial célèbre, lancé en 1990, a révolutionné notre vision de l'univers ?":"Hubble fut lancé avec un miroir défectueux, corrigé lors d'une mission en 1993. Il a fourni des images de galaxies à milliards d'années-lumière et contribué à la découverte de l'accélération de l'expansion de l'univers.",
+"Quelles planètes du système solaire ont des anneaux visibles ?":"Les 4 planètes géantes ont des anneaux. Ceux de Saturne sont de loin les plus visibles. Les anneaux d'Uranus furent découverts en 1977 lors d'une occultation stellaire, et ceux de Neptune en 1989 par Voyager 2.",
+"En quelle décennie l'Homme a-t-il marché sur la Lune pour la première fois ?":"Apollo 11 se posa sur la Mer de la Tranquillité le 20 juillet 1969. La course à la Lune (1961–1969) mobilisa 400 000 personnes aux USA. Le programme Apollo coûta l'équivalent de 250 milliards de dollars actuels.",
+// ASTRONOMIE MOYEN
+"Qu'est-ce qu'un trou noir ?":"À l'horizon des événements d'un trou noir, même la lumière ne peut s'échapper. La première image d'un trou noir (M87, 6,5 milliards de masses solaires) fut publiée le 10 avril 2019 par l'Event Horizon Telescope.",
+"Quelle est la théorie sur l'origine de l'univers, selon laquelle tout aurait commencé il y a environ 13,8 milliards d'années ?":"Les 380 000 premières années après le Big Bang, l'univers était opaque. C'est seulement après que la lumière put se propager librement — ce « rayonnement fossile » est encore détectable aujourd'hui.",
+"Que devient généralement une étoile similaire au Soleil en fin de vie ?":"En fin de vie, le Soleil grossira pour devenir une géante rouge avant de rejeter ses couches externes en nébuleuse planétaire, laissant un noyau dense : une naine blanche de la taille de la Terre.",
+"Quel phénomène astronomique se produit lorsqu'une étoile massive explose en fin de vie ?":"Une supernova peut briller autant qu'une galaxie entière pendant quelques semaines. La supernova de 1987 dans le Grand Nuage de Magellan (à 168 000 années-lumière) est la plus proche observée à l'ère moderne.",
+"Quelle particularité a la planète Uranus par rapport aux autres planètes ?":"L'axe d'Uranus est incliné à 97,77° — elle « roule » sur son orbite comme une bille. Ses saisons durent 21 ans chacune. Cela pourrait être dû à une collision avec une planète de la taille de la Terre dans le passé.",
+"Où se situe la ceinture d'astéroïdes principale de notre système solaire ?":"La ceinture d'astéroïdes contient des millions de corps mais leur masse totale est environ 4% de la masse de la Lune. Jupiter empêche ces débris de s'agglomérer en planète par son attraction gravitationnelle.",
+"Quel nouveau télescope spatial, successeur de Hubble, a été lancé fin 2021 ?":"Le JWST observe l'infrarouge thermique depuis le point de Lagrange L2, à 1,5 million de km de la Terre. En 2022, il fournit les images les plus profondes jamais obtenues, montrant des galaxies formées 300 millions d'années après le Big Bang.",
+"Quelle est la distance approximative entre la Terre et le Soleil ?":"L'unité astronomique (UA = 150 millions km) est la base des mesures dans le système solaire. La lumière met 8'20\" pour la franchir. Neptune est à 30 UA du Soleil.",
+"Comment s'appelle la zone au-delà de Neptune contenant des corps glacés dont proviennent de nombreuses comètes ?":"La ceinture de Kuiper (30–50 UA) contient Pluton, Éris et des milliers d'objets glacés. Au-delà se trouve le nuage d'Oort (jusqu'à 100 000 UA), réservoir des comètes à longue période.",
+"Qu'est-ce que la précession des équinoxes ?":"La précession de l'axe terrestre (26 000 ans) déplace lentement les constellations du zodiaque. Dans 14 000 ans, l'étoile polaire sera Véga, non l'Étoile du Nord. Cette précession était connue des anciens Grecs.",
+"Quelle est la distance approximative entre la Terre et la Lune ?":"La distance Terre-Lune varie de 356 500 km (périgée) à 406 700 km (apogée). Les astronautes d'Apollo mirent environ 3 jours pour l'atteindre. Un laser envoyé vers les rétroréflecteurs laissés sur la Lune revient en ~2,5 secondes.",
+"Quelle est la dernière planète (la plus éloignée) de notre système solaire ?":"Neptune fut découverte en 1846 par calcul mathématique avant d'être observée. Sa couleur bleue est due au méthane atmosphérique. Ses vents atteignent 2 100 km/h — les plus rapides du système solaire.",
+"Que recherche le programme SETI ?":"SETI (Search for Extraterrestrial Intelligence) analyse les ondes radio depuis les années 1960. En 1977, le signal « Wow! » fut détecté mais jamais reproductible. Avec des milliards de planètes dans la Voie Lactée, la probabilité de vie extraterrestre paraît élevée.",
+"Quelle est la composition principale de l'atmosphère de Mars ?":"L'atmosphère martienne (CO₂ à 95%) est 100 fois moins dense que sur Terre. La pression atmosphérique à la surface est de 600 Pa (vs 101 325 Pa sur Terre). Des tempêtes de poussière globales peuvent durer des mois.",
+"Combien de fois le Soleil est-il plus grand que la Terre en diamètre ?":"Le diamètre du Soleil (~1,4 million km) est 109 fois celui de la Terre. En volume, le Soleil pourrait contenir 1,3 million de Terres. Sa masse représente 99,86% de toute la masse du système solaire.",
+"Comment appelle-t-on les rayonnements très énergétiques provenant de l'espace interstellaire ?":"Les rayons cosmiques sont des protons et noyaux atomiques voyageant à ~99,99% de la vitesse de la lumière. Ils provoquent des aurores boréales et peuvent endommager les satellites et les astronautes en orbite.",
+"Que désigne le terme « exoplanète » ?":"La première exoplanète fut confirmée en 1992 (autour d'un pulsar). En 2024, plus de 5 700 exoplanètes sont connues. Le télescope Kepler en découvrit des milliers. Certaines sont dans la zone habitable de leur étoile.",
+"Quelle est l'origine de la lumière des étoiles ?":"Dans le noyau du Soleil, 4 protons fusionnent en un noyau d'hélium, libérant 0,7% de leur masse en énergie (E=mc²). Le Soleil convertit 600 millions de tonnes d'hydrogène en hélium chaque seconde.",
+"Quelles caractéristiques distinguent une nébuleuse d'une galaxie ?":"Les nébuleuses (nuages de gaz et poussière) sont les « pépinières » des étoiles. La nébuleuse d'Orion, visible à l'œil nu, se trouve dans notre galaxie. Les galaxies au contraire sont des systèmes stellaires entiers.",
+"Qu'est-ce qu'une éclipse lunaire ?":"Lors d'une éclipse lunaire totale, la Lune prend une teinte rouge-orangée (« Lune de sang ») car la lumière solaire réfractée par l'atmosphère terrestre baigne la Lune d'une lumière filtrée de toutes ses longueurs d'onde sauf le rouge.",
+// ASTRONOMIE DIFFICILE
+"Qu'est-ce que la constante de Hubble ?":"La constante de Hubble (H₀ ≈ 70 km/s/Mpc) mesure la vitesse d'expansion de l'univers. Sa valeur précise est encore débattue (tension de Hubble) : différentes méthodes donnent des résultats légèrement incohérents.",
+"Quelle fraction approximative de l'univers l'énergie sombre représente-t-elle ?":"L'énergie sombre (~68%) est une force inconnue qui accélère l'expansion de l'univers. Elle fut découverte en 1998 (Nobel 2011 pour Perlmutter, Schmidt et Riess). Sa nature profonde reste le grand mystère de la cosmologie.",
+"Quelle fraction approximative de l'univers la matière sombre représente-t-elle ?":"La matière sombre (~27%) n'émet ni n'absorbe de lumière mais révèle sa présence par son influence gravitationnelle. Elle maintient les galaxies unies et est 5 fois plus abondante que la matière ordinaire.",
+"Comment appelle-t-on le rayonnement fossile, vestige du Big Bang, qui baigne uniformément l'univers ?":"Le CMB (Fond Diffus Cosmologique) fut découvert par accident en 1965 par Penzias et Wilson (Nobel 1978) qui croyaient avoir affaire à des parasites radio dus à des fientes de pigeon dans leur antenne.",
+"Quel est le type stellaire le plus commun dans l'univers ?":"Les naines rouges (type M) représentent ~70-75% de toutes les étoiles. Elles brûlent si lentement qu'elles peuvent vivre des dizaines à des centaines de milliards d'années — bien plus que l'âge actuel de l'univers.",
+"Que désigne la magnitude absolue d'une étoile ?":"La magnitude absolue mesure la luminosité intrinsèque d'une étoile si elle était à 10 parsecs (32,6 années-lumière). Le Soleil a une magnitude absolue de +4,83 — une étoile de luminosité ordinaire.",
+"Quelle est la période de rotation de Mercure sur elle-même en jours terrestres ?":"La résonance orbitale de Mercure (3:2) signifie qu'elle fait 3 rotations pour 2 révolutions autour du Soleil. Un jour solaire sur Mercure (lever à coucher du soleil) dure 176 jours terrestres.",
+"Qu'est-ce que la parallaxe stellaire ?":"La parallaxe stellaire permet de mesurer les distances jusqu'à ~10 000 années-lumière. Pour les distances plus grandes, on utilise les céphéides (variable standard de luminosité connue) puis les supernovae de type Ia.",
+"Qu'est-ce qu'un pulsar ?":"Les pulsars émettent des impulsions radio si régulières que Jocelyn Bell Burnell et Anthony Hewish (qui reçut le Nobel) les surnommèrent d'abord « LGM-1 » (Little Green Men) en pensant à une balise extraterrestre.",
+"Quelle observation a fourni la première preuve directe de l'existence des ondes gravitationnelles, en 2015 ?":"LIGO détecta le 14 septembre 2015 la fusion de deux trous noirs de 29 et 36 masses solaires, à 1,3 milliard d'années-lumière. Le signal fut une distorsion spatiale de 1/1000ème du diamètre d'un proton.",
+"Comment appelle-t-on l'hypothétique tunnel reliant deux points distincts de l'espace-temps ?":"Le trou de ver (wormhole ou pont d'Einstein-Rosen) est une solution mathématique de la relativité générale mais aucun n'a jamais été observé. Même si il existait, le traverser exigerait de la matière exotique à énergie négative.",
+"Qu'est-ce qu'une lentille gravitationnelle ?":"Einstein prédit la lentille gravitationnelle dans sa théorie. En 1979, le premier doublet de quasar gravitationnel fut observé. Aujourd'hui, les lentilles gravitationnelles permettent d'observer des galaxies autrement inaccessibles.",
+"Quel est l'horizon des événements d'un trou noir ?":"Au-delà de l'horizon des événements, la courbure de l'espace-temps est telle que toutes les trajectoires possibles (même celles de la lumière) pointent vers la singularité. C'est une frontière d'où rien ne revient.",
+"Que désigne le terme « chromosphère » ?":"La chromosphère (épaisseur ~2 000 km) est visible comme un fin anneau rouge lors des éclipses totales. La couronne solaire au-delà atteint plusieurs millions de degrés — paradoxalement plus chaude que la surface (~5 500°C).",
+"Qu'est-ce qu'un quasar ?":"Les quasars (quasi-stellar objects) sont parmi les objets les plus lumineux de l'univers. Ils alimentent en énergie des trous noirs supermassifs qui accrètent de la matière. Les plus lointains sont vus à plus de 13 milliards d'années-lumière.",
+"Dans quel groupe local de galaxies se trouve la Voie Lactée ?":"Le Groupe Local comprend ~80 galaxies dont la Voie Lactée et Andromède (les deux plus massives). Andromède se rapproche de nous à 120 km/s et entrera en collision dans ~4,5 milliards d'années.",
+"Qu'est-ce que le catalogue Messier ?":"Charles Messier (1730–1817) dressa son catalogue pour ne pas confondre ces « nébuleuses fixes » avec les comètes qu'il cherchait. L'objet M1 est le rémanent de la supernova de 1054 observée par les astronomes chinois.",
+"Comment appelle-t-on le point d'espace où la gravité est nulle entre deux corps en orbite mutuelle, permettant à un troisième corps d'y rester stable ?":"Les 5 points de Lagrange furent calculés par Lagrange en 1772. Le JWST orbite autour du point L2 du système Terre-Soleil. Les astéroïdes troyens de Jupiter occupent les points L4 et L5.",
+"Que signifie le terme « magnitude apparente » d'un astre ?":"L'échelle de magnitude remonte à l'astronome grec Hipparque (IIe s. av. J.-C.) qui classa les étoiles de 1 (plus brillantes) à 6 (à la limite de l'œil nu). Les valeurs négatives furent ajoutées pour les corps très brillants.",
+"Quels phénomènes sont liés aux étoiles à neutrons ?":"Les étoiles à neutrons (masse ~1,4 solaire, rayon ~10 km) ont une densité telle qu'une cuillère à café de leur matière pèse un milliard de tonnes. Certaines (magnétars) ont les champs magnétiques les plus intenses connus.",
+// POLITIQUE FACILE
+"En quelle année l'ONU (Organisation des Nations Unies) a-t-elle été fondée ?":"L'ONU fut fondée le 24 octobre 1945 à San Francisco, avec 51 États membres fondateurs. Elle remplaçait la Société des Nations (SDN, 1920) qui n'avait pas empêché la Seconde Guerre mondiale.",
+"Quel est le rôle principal du Parlement dans une démocratie ?":"Le rôle des parlements remonte aux assemblées médiévales. Le Parlement anglais (XIIIe s.) fut le premier à contraindre le roi. En France, l'Assemblée nationale hérite de la Révolution de 1789.",
+"Qu'est-ce qu'une démocratie ?":"Le mot « démocratie » vient du grec demos (peuple) et kratos (pouvoir). Elle fut inventée à Athènes au Ve s. av. J.-C. par Clisthène et Périclès — mais excluait femmes, esclaves et étrangers.",
+"Quelles sont les deux chambres du Parlement français ?":"Le bicamérisme français (Assemblée nationale + Sénat) date de la IIIe République (1875). En cas de désaccord entre les deux chambres, l'Assemblée nationale a le dernier mot.",
+"En quelle année la Constitution de la Ve République française a-t-elle été adoptée ?":"La Constitution du 4 octobre 1958 fut rédigée sous l'influence de De Gaulle par Michel Debré. Elle renforce l'exécutif face au Parlement, rompant avec les traditions des IIIe et IVe Républiques.",
+"En quelle année les femmes ont-elles obtenu le droit de vote en France ?":"Les Françaises obtinrent le droit de vote par l'ordonnance du GPRF du 21 avril 1944 — sur proposition du Comité français de la Libération nationale. Les premières élections avec ce droit eurent lieu en avril 1945.",
+"Quelle alliance militaire occidentale, fondée en 1949, regroupe de nombreux pays d'Europe et d'Amérique du Nord ?":"L'OTAN (Organisation du traité de l'Atlantique Nord) fut fondée le 4 avril 1949 pour contenir l'URSS. Article 5 : une attaque contre un membre est une attaque contre tous. Il ne fut invoqué qu'une seule fois — après le 11 septembre 2001.",
+"Quel traité a fondé l'Union européenne (UE) en 1992 ?":"Le traité de Maastricht (7 février 1992) créa l'Union européenne, la citoyenneté européenne et posa les bases de l'euro. En France, il fut approuvé par référendum avec seulement 51,05% des voix.",
+"Combien d'années dure un mandat présidentiel en France ?":"Le quinquennat fut instauré en 2002 pour remplacer le septennat de De Gaulle. Le premier président à bénéficier de ce mandat fut Jacques Chirac. La coïncidence avec les mandats législatifs (5 ans) réduit le risque de cohabitation.",
+"Qu'est-ce qu'un référendum ?":"Le référendum est un outil de démocratie directe. En France, il peut être convoqué par le Président (art. 11) ou dans le cadre d'une révision constitutionnelle (art. 89). De Gaulle en fit sa marque politique — et démissionna en 1969 suite à un échec.",
+"Quelle est la différence entre une République et une Monarchie ?":"Il existe des monarchies constitutionnelles démocratiques (Suède, Norvège, Pays-Bas) plus démocratiques que certaines républiques. La forme du régime (roi/président) importe moins que l'état de droit et les libertés.",
+"Quelle organisation internationale défend les droits de l'homme à travers le monde ?":"Amnesty International fut fondée en 1961 par l'avocat Peter Benenson suite à un article dans The Observer sur des étudiants portugais emprisonnés. Elle compte aujourd'hui 8 millions de membres dans 150 pays.",
+"Qu'est-ce que le suffrage universel ?":"La France instaura le suffrage universel masculin en 1848 sous la IIe République. Le suffrage universel féminin ne fut accordé qu'en 1944. Plus de la moitié de la population mondiale vit aujourd'hui dans des démocraties électorales.",
+"Quel est le siège de l'ONU ?":"Le siège de l'ONU à New York fut construit entre 1948 et 1952 sur un terrain acheté à John D. Rockefeller Jr. Il est extraterritorial : les 65 000 m² sont sous juridiction internationale.",
+"Comment appelle-t-on le chef du gouvernement en France ?":"Le Premier ministre est nommé par le Président qui peut le révoquer quand il le souhaite. La cohabitation — quand Président et Premier ministre sont de partis opposés — est un phénomène spécifique à la Ve République.",
+"Qu'est-ce qu'une monarchie constitutionnelle ?":"Le Royaume-Uni, la Belgique, les Pays-Bas, la Suède, la Norvège, le Danemark, l'Espagne et le Japon sont des monarchies constitutionnelles parmi les plus démocratiques du monde.",
+"Qu'est-ce qu'un droit de veto ?":"Au Conseil de sécurité de l'ONU, les 5 membres permanents (USA, Russie, Chine, France, Royaume-Uni) disposent d'un veto. Ce droit a été utilisé des centaines de fois, souvent par l'URSS/Russie et les USA.",
+"Que signifie « gauche » et « droite » en politique ?":"La distinction gauche/droite vient de l'Assemblée nationale de 1789 où les partisans du roi s'asseyaient à droite de l'orateur et les révolutionnaires à gauche. 235 ans plus tard, ces termes restent les repères centraux du débat politique.",
+"En combien d'États membres l'Union européenne comptait-elle en 2024 ?":"L'UE compte 27 membres depuis le Brexit (2020) par lequel le Royaume-Uni la quitta. L'UE est passée de 6 membres fondateurs (1957) à 28 avant le Brexit. Plusieurs pays sont candidats à l'adhésion.",
+"Quels pouvoirs sont traditionnellement séparés dans une démocratie libérale ?":"La séparation des pouvoirs fut théorisée par Montesquieu dans De l'esprit des lois (1748). Il s'inspirait du système politique anglais. Sans cette séparation, « tout serait perdu » selon lui.",
+// POLITIQUE MOYEN
+"Quel traité a fondé la Communauté Économique Européenne (CEE) en 1957 ?":"Le traité de Rome (25 mars 1957) fut signé par 6 pays : France, RFA, Italie, Belgique, Pays-Bas, Luxembourg. Il créa un marché commun. Le Royaume-Uni avait refusé d'y participer et ne rejoignit l'UE qu'en 1973.",
+"Qui sont les 5 membres permanents du Conseil de sécurité de l'ONU, disposant du droit de veto ?":"Les 5 membres permanents (P5) correspondent aux vainqueurs de 1945. Leur veto a été utilisé plus de 250 fois depuis 1946. La France l'a utilisé 18 fois, bien moins que les USA (86) et l'URSS/Russie (122).",
+"Comment appelle-t-on la situation en France où le Président et le Premier ministre appartiennent à des partis opposés ?":"Il y eut 3 cohabitations en France : 1986–1988 (Mitterrand/Chirac), 1993–1995 (Mitterrand/Balladur) et 1997–2002 (Chirac/Jospin). Le passage au quinquennat en 2002 a rendu ce scénario moins probable.",
+"Dans quelle(s) ville(s) le Parlement européen siège-t-il ?":"Le siège officiel du Parlement européen est à Strasbourg (12 sessions plénières/an). Les commissions travaillent à Bruxelles. Le Secrétariat général est au Luxembourg. Ce fonctionnement trisite est coûteux et souvent critiqué.",
+"Que désigne le FMI ?":"Le FMI (Fonds Monétaire International) fut créé à Bretton Woods en 1944. Il accorde des prêts aux pays en difficulté, souvent assortis de conditions (« plans d'ajustement structurel ») très contestées socialement.",
+"Quel groupe de 7 pays industrialisés se réunit annuellement pour discuter des grandes questions mondiales ?":"Le G7 (USA, Japon, Allemagne, France, Royaume-Uni, Italie, Canada + UE) représente ~40% du PIB mondial. La Russie en fut exclue en 2014 suite à l'annexion de la Crimée.",
+"Qu'est-ce que le GIEC ?":"Le GIEC (Groupe d'experts intergouvernemental sur l'évolution du climat) fut créé en 1988. Ses rapports synthétisent les publications scientifiques mondiales sur le climat. Il a partagé le Nobel de la Paix en 2007 avec Al Gore.",
+"Qu'est-ce que le lobbying ?":"Le terme « lobby » vient du hall (lobby) du Parlement britannique où les représentants d'intérêts attendaient les parlementaires. Aux USA, c'est une activité légale et très organisée. En Europe, elle est de plus en plus réglementée.",
+"Quelle est la durée d'un mandat présidentiel aux États-Unis ?":"Le 22e amendement (1951) limite les présidents américains à 2 mandats, suite aux 4 mandats de Franklin Roosevelt (1933–1945). Un président peut donc exercer au maximum 10 ans si sa première entrée en fonction était à mi-mandat.",
+"Devant quelle juridiction internationale peuvent être jugés les crimes de guerre ?":"La CPI (Cour Pénale Internationale), créée en 2002 à Rome, peut juger génocide, crimes contre l'humanité et crimes de guerre. Les USA, la Russie et la Chine n'ont pas ratifié le Statut de Rome.",
+"Qu'est-ce que le BRICS ?":"BRICS (2006) = Brésil, Russie, Inde, Chine, Afrique du Sud. Depuis 2023, l'organisation s'est élargie à 10 membres. Ce bloc représente ~40% de la population mondiale et cherche à contrebalancer l'influence occidentale.",
+"Comment s'appelle le phénomène par lequel une armée ou un pouvoir conserve son influence en dehors des gouvernements ?":"L'État profond (deep state) désigne les structures permanentes de l'État (armée, renseignement, haute fonction publique) qui persistent au-delà des alternances politiques. Ce concept est aussi souvent instrumentalisé par des théoriciens du complot.",
+"Qu'est-ce que la proportionnelle dans un système électoral ?":"La représentation proportionnelle (RP) favorise le pluralisme politique mais peut créer des assemblées fragmentées et instables. La France utilise un système majoritaire à 2 tours pour les législatives et présidentielles.",
+"Qu'est-ce que le « soft power » dans les relations internationales ?":"Le soft power fut théorisé par Joseph Nye (Harvard) en 1990. Les USA exercent un soft power considérable via Hollywood, les universités, les marques. La France le fait via la langue française et la diplomatie culturelle.",
+"Quel régime politique caractérise la Chine depuis 1949 ?":"La Chine est gouvernée par le Parti communiste chinois (PCC) depuis 1949. Xi Jinping, secrétaire général depuis 2012, a fait modifier la Constitution pour supprimer la limite de 2 mandats présidentiels en 2018.",
+"Qu'est-ce qu'une oligarchie ?":"L'oligarchie (du grec oligos = peu nombreux) peut être économique (les riches gouvernent) ou politique. Le terme est souvent utilisé pour désigner les milliardaires russes proches du Kremlin issus des privatisations post-soviétiques.",
+"Que désigne le terme « séparation des pouvoirs » ?":"La séparation des pouvoirs de Montesquieu (1748) inspira la Constitution américaine de 1787 et les démocraties modernes. Elle cherche à éviter la tyrannie en faisant en sorte que « le pouvoir arrête le pouvoir ».",
+"Qui est nommé Premier ministre en France et par qui ?":"Depuis la pratique de la Ve République, le Président nomme un Premier ministre qui dispose d'une majorité à l'Assemblée nationale. En période de cohabitation, il peut nommer un PM de l'opposition pour éviter la crise institutionnelle.",
+"Quelle a été la première présidente d'un grand pays démocratique en Europe ?":"Vigdís Finnbogadóttir fut élue présidente d'Islande en 1980 et réélue jusqu'en 1996. Elle était directrice d'un théâtre et défenseure de la culture islandaise. Elle fut la première femme au monde élue chef d'État.",
+"Quelles institutions composent l'Union européenne (principaux organes) ?":"Le Parlement européen est élu au suffrage universel depuis 1979. Le Conseil de l'UE représente les États membres. La Commission est l'exécutif de l'UE. La CJUE garantit le droit de l'UE sur tout le territoire.",
+// POLITIQUE DIFFICILE
+"Comment Montesquieu a-t-il théorisé la séparation des pouvoirs dans De l'esprit des lois (1748) ?":"Montesquieu (1689–1755) s'inspirait de la constitution anglaise (Bill of Rights, 1689). Sa théorie des 3 pouvoirs influença directement la Constitution américaine de 1787 et la Déclaration des droits de l'homme de 1789.",
+"Qui est l'auteur du Prince (1532), manuel de politique réaliste ?":"Machiavel (1469–1527) écrivit Le Prince après avoir été torturé et exilé par les Médicis. Il voulait offrir un guide à un prince capable de réunifier l'Italie. Le terme « machiavélique » est devenu synonyme de cynisme politique.",
+"Comment Thomas Hobbes justifie-t-il l'État dans le Léviathan (1651) ?":"Hobbes (1588–1679) écrivit le Léviathan pendant la guerre civile anglaise. Son « état de nature » (« guerre de tous contre tous ») justifie un État autoritaire fort. John Locke lui répondit avec un contrat social plus libéral.",
+"Qu'est-ce que le système de Bretton Woods mis en place en 1944 ?":"Bretton Woods (1944) établit le dollar comme monnaie de réserve mondiale (indexé sur l'or). Ce système s'effondra en 1971 quand Nixon suspendit la convertibilité dollar-or. Nous vivons encore dans les institutions qu'il créa.",
+"Que désignent la glasnost et la perestroïka ?":"Gorbatchev lança la glasnost (transparence) et la perestroïka (restructuration) à partir de 1985. Ces réformes, destinées à moderniser l'URSS, déclenchèrent des forces centrifuges qui menèrent à la dissolution de l'URSS en 1991.",
+"Qu'est-ce que le réalisme en relations internationales ?":"Le réalisme (Morgenthau, Waltz) considère que les États sont des acteurs rationnels dans un système anarchique. Hans Morgenthau, juif allemand fuyant le nazisme, développa sa théorie à l'Université de Chicago après 1945.",
+"Qu'est-ce que l'équilibre de Nash en théorie des jeux ?":"John Nash (1928–2015) développa cet équilibre dans sa thèse de 27 pages en 1950. Il reçut le Nobel d'économie en 1994. Sa vie avec la schizophrénie fut racontée dans le film A Beautiful Mind (2001).",
+"Quelle était la position de John Maynard Keynes concernant la politique économique ?":"Keynes (1883–1946) théorisa l'interventionnisme dans La Théorie générale (1936), réponse à la Grande Dépression. Il représenta la Grande-Bretagne à Bretton Woods en 1944. Le « New Deal » de Roosevelt fut keynésien avant la lettre.",
+"Qu'est-ce que l'Habeas Corpus ?":"L'Habeas Corpus Act (1679) consolida un principe issu de la Magna Carta (1215). Il protège contre la détention arbitraire. Sa suspension dans les démocraties est considérée comme un signe de dérive autoritaire.",
+"Qu'est-ce que le suffrage censitaire ?":"En France, le suffrage censitaire (1815–1848) limitait le vote à ceux payant plus de 300 francs d'impôt direct — soit 100 000 personnes sur 30 millions. Le suffrage universel masculin fut instauré en 1848.",
+"Qu'est-ce que le Komintern (IIIe Internationale) fondé en 1919 ?":"Le Komintern (1919–1943) imposait aux partis communistes du monde entier de suivre la ligne de Moscou. Staline le dissout en 1943 pour rassurer ses alliés occidentaux. Il fut remplacé par le Kominform (1947–1956).",
+"Que désigne le concept de « spoils system » aux États-Unis ?":"Le « spoils system » (système des dépouilles) fut popularisé par Andrew Jackson après 1829 : « To the victor belong the spoils. » Il fut partiellement réformé par les lois Pendleton (1883) créant une fonction publique non partisane.",
+"Qu'est-ce que le constructivisme en relations internationales ?":"Le constructivisme (Wendt, Finnemore) s'opposa au réalisme en soulignant le rôle des idées, normes et identités. Alexander Wendt formula cette idée dans sa phrase célèbre : « L'anarchie est ce que les États en font. »",
+"Quelle est la différence entre un État fédéral et un État unitaire ?":"Les États-Unis, l'Allemagne, la Suisse et l'Australie sont fédéraux. La France est unitaire (centralisé), bien que décentralisée depuis 1982. Dans un État fédéral, les entités fédérées ont leurs propres constitutions et lois.",
+"Qu'est-ce que la doctrine Monroe (1823) ?":"Le président James Monroe affirma en 1823 que l'Amérique était fermée aux nouvelles colonisations européennes. Cette doctrine justifiera des interventions américaines en Amérique latine au XXe siècle.",
+"Que désigne le terme « État de droit » ?":"L'État de droit (Rechtsstaat) implique que la loi s'applique à tous — gouvernants et gouvernés. C'est le fondement des démocraties libérales. Son opposé est l'État discrétionnaire où le pouvoir agit sans cadre légal.",
+"Qu'est-ce que le dilemme du prisonnier en théorie des jeux appliquée à la politique internationale ?":"Ce modèle s'applique aux courses aux armements : deux pays préfèrent ne pas s'armer mais s'arment tous deux par crainte de l'autre, finissant dans une situation sous-optimale. La coopération internationale cherche à sortir de ce piège.",
+"Qu'est-ce que la Convention citoyenne pour le climat, mise en place en France en 2019 ?":"La CCC réunit 150 citoyens de tous horizons tirés au sort en 2019. Elle produisit 149 propositions dont certaines furent intégrées à la loi Climat et Résilience (2021). C'est l'une des plus grandes expériences de démocratie délibérative.",
+"Quelle théorie politique, associée à Friedrich Hayek, soutient que les marchés libres sont plus efficaces que la planification centrale ?":"Hayek (1899–1992) publia La Route de la servitude (1944), avertissement contre le collectivisme. Marguerite Thatcher le lisait et brandissait son œuvre. Il reçut le Nobel d'économie en 1974 qu'il partagea avec Myrdal.",
+"Quels penseurs sont associés à la théorie du contrat social ?":"Hobbes (État autoritaire), Locke (État libéral protecteur des droits) et Rousseau (volonté générale) ont chacun proposé une version différente du contrat social. Ces 3 penseurs ont fondé la théorie politique moderne.",
+};
+
+// ============================================================
+// INIT UPDATES
+// ============================================================
+function showView(v) {
+  ['themes','setup','quiz','results','duel-setup','duel-quiz','duel-results'].forEach(n => {
+    const el = document.getElementById('view-'+n);
+    if (el) el.classList.toggle('hidden', n !== v);
+  });
 }
 
 // ============================================================
