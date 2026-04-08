@@ -1229,8 +1229,24 @@ function startQuiz() {
 // ============================================================
 // RENDER QUESTION
 // ============================================================
+function shuffleOptions(q) {
+  const n = q.o.length;
+  const order = Array.from({length: n}, (_, i) => i);
+  for (let i = n - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  const oldC = q.c.slice();
+  q.o = order.map(i => q.o[i]);
+  q.c = order.reduce((acc, oldIdx, newIdx) => {
+    if (oldC.includes(oldIdx)) acc.push(newIdx);
+    return acc;
+  }, []);
+}
+
 function renderQ() {
   const q = G.questions[G.qIdx];
+  shuffleOptions(q);
   G.selected = [];
 
   document.getElementById('q-counter').textContent = `Q ${G.qIdx+1}/10`;
@@ -1746,6 +1762,7 @@ function startDuel() {
 }
 function renderDuelQ() {
   const q = D.questions[D.qIdx];
+  if (D.turn === 0) shuffleOptions(q);
   D.selected = [];
   document.getElementById('duel-q-counter').textContent = `Q ${D.qIdx+1}/10`;
   document.getElementById('duel-prog-fill').style.width = `${D.qIdx * 10}%`;
